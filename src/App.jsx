@@ -42,6 +42,8 @@ function App() {
         "Spearow",
         "Meowth",
         "Jigglypuff",
+        "Magikarp",
+        "Zubat",
       ];
       const fetchData = async (pokemonName) => {
         try {
