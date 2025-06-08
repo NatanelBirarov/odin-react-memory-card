@@ -1,12 +1,95 @@
-export default function Card({ name, image, index, onClick }) {
+import { useRef } from "react";
+
+function shuffle(array) {
+  const shuffledArray = [...array];
+  let currentIndex = shuffledArray.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [shuffledArray[currentIndex], shuffledArray[randomIndex]] = [
+      shuffledArray[randomIndex],
+      shuffledArray[currentIndex],
+    ];
+  }
+
+  return shuffledArray;
+}
+
+export default function Card({
+  name,
+  image,
+  isShuffling,
+  setIsShuffling,
+  currentScore,
+  setCurrentScore,
+  highScore,
+  setHighScore,
+  currentLevelCards,
+  setCurrentLevelCards,
+}) {
+  function handleClick(e) {
+    const clickedCard = currentLevelCards.find((card) => card.name === name);
+    if (clickedCard.clicked) {
+      setCurrentScore(0);
+      if (currentScore > highScore) {
+        setHighScore(currentScore);
+      }
+      document.body.style.pointerEvents = "none";
+      const selected = e.target.closest(".flip-card");
+      selected.classList.add("shake");
+      setTimeout(() => {
+        setIsShuffling(true);
+      }, 800);
+      setTimeout(() => {
+        selected.classList.remove("shake");
+        const shuffledCards = shuffle(
+          currentLevelCards.map((card) => {
+            return { ...card, clicked: false };
+          })
+        );
+        setCurrentLevelCards(shuffledCards);
+      }, 1500);
+      setTimeout(() => {
+        setIsShuffling(false);
+        document.body.style.pointerEvents = "";
+      }, 1900);
+    } else {
+      setCurrentScore(currentScore + 1);
+      document.body.style.pointerEvents = "none";
+      setIsShuffling(true);
+      setTimeout(() => {
+        const shuffledCards = shuffle(
+          currentLevelCards.map((card) => {
+            if (card.name === clickedCard.name) {
+              return { ...card, clicked: true };
+            } else {
+              return card;
+            }
+          })
+        );
+        setCurrentLevelCards(shuffledCards);
+      }, 400);
+      setTimeout(() => {
+        setIsShuffling(false);
+        document.body.style.pointerEvents = "";
+      }, 1500);
+    }
+  }
+
   return (
-    <div className="card" onClick={(e) => onClick(e, index)}>
-      <div className="card-image-container">
-        <img className="card-image" src={image} alt={name} />
-      </div>
-      {/* <div className="card-name">
+    <div className="flip-card" onClick={handleClick}>
+      <div className={`flip-card-inner ${isShuffling ? "flip" : ""}`}>
+        <img className="card-front" src={image} alt={name} />
+        <img className="card-back" src="/card-back.png" alt={name + "-back"} />
+        {/* <div className="card-name">
         <span>{name}</span>
       </div> */}
+      </div>
     </div>
   );
 }

@@ -8,39 +8,18 @@ import pokemon from "pokemontcgsdk";
 
 pokemon.configure({ apiKey: "a087390f-8839-444e-90b6-b09b9ecb6699" });
 
-function shuffle(array) {
-  const shuffledArray = [...array];
-  let currentIndex = shuffledArray.length;
-
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
-    // Pick a remaining element...
-    let randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [shuffledArray[currentIndex], shuffledArray[randomIndex]] = [
-      shuffledArray[randomIndex],
-      shuffledArray[currentIndex],
-    ];
-  }
-
-  return shuffledArray;
-}
-
 function App() {
   const [currentLevel, setCurrentLevel] = useState(0);
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [pokemonSetCards, setPokemonSetCards] = useState([]);
   const [currentLevelCards, setCurrentLevelCards] = useState([]);
+  const [isShuffling, setIsShuffling] = useState(false);
 
   useEffect(() => {
     const createNewCards = async () => {
       const pokemonSet = await pokemon.card.all({
         q: "set.name:Prismatic supertype:Pokémon",
-        // pageSize: 10,
-        // page: 16,
         orderBy: "-tcgplayer.prices.holofoil.mid",
       });
       console.log(pokemonSet);
@@ -68,55 +47,6 @@ function App() {
     createNewCards();
   }, []);
 
-  function handleClick(e, index) {
-    const clickedCard = currentLevelCards[index];
-    if (clickedCard.clicked) {
-      setCurrentScore(0);
-      if (currentScore > highScore) {
-        setHighScore(currentScore);
-      }
-      const selected = e.target.closest(".card");
-      selected.classList.add("shake");
-      setTimeout(() => selected.classList.remove("shake"), 400);
-      setTimeout(() => {
-        setCurrentLevelCards(
-          shuffle(
-            currentLevelCards.map((card) => {
-              return { ...card, clicked: false };
-            })
-          )
-        );
-        // setCards(
-        //   cards.map((card) => {
-        //     return { ...card, clicked: false };
-        //   })
-        // );
-      }, 1000);
-    } else {
-      setCurrentScore(currentScore + 1);
-      setCurrentLevelCards(
-        shuffle(
-          currentLevelCards.map((card) => {
-            if (card.name === clickedCard.name) {
-              return { ...card, clicked: true };
-            } else {
-              return card;
-            }
-          })
-        )
-      );
-      // setCards(
-      //   cards.map((card) => {
-      //     if (card.name === clickedCard.name) {
-      //       return { ...card, clicked: true };
-      //     } else {
-      //       return card;
-      //     }
-      //   })
-      // );
-    }
-  }
-
   return (
     <>
       <div className="header">
@@ -141,8 +71,14 @@ function App() {
               key={card.name}
               name={card.name}
               image={card.image}
-              index={index}
-              onClick={handleClick}
+              isShuffling={isShuffling}
+              setIsShuffling={setIsShuffling}
+              currentScore={currentScore}
+              setCurrentScore={setCurrentScore}
+              highScore={highScore}
+              setHighScore={setHighScore}
+              currentLevelCards={currentLevelCards}
+              setCurrentLevelCards={setCurrentLevelCards}
             />
           ))}
         </div>
