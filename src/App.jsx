@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useEffect } from "react";
 import Card from "./Card";
 import Score from "./Score";
 import "./styles.css";
+
+import pokemon from "pokemontcgsdk";
+
+pokemon.configure({ apiKey: "a087390f-8839-444e-90b6-b09b9ecb6699" });
 
 function shuffle(array) {
   const shuffledArray = [...array];
@@ -25,87 +29,91 @@ function shuffle(array) {
 }
 
 function App() {
-  const [cards, setCards] = useState([]);
+  const [currentLevel, setCurrentLevel] = useState(0);
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+  const [pokemonSetCards, setPokemonSetCards] = useState([]);
+  const [currentLevelCards, setCurrentLevelCards] = useState([]);
 
   useEffect(() => {
     const createNewCards = async () => {
-      const pokemon = [
-        "Bulbasaur",
-        "Charmander",
-        "Squirtle",
-        "Pikachu",
-        "Eevee",
-        "Pidgey",
-        "Rattata",
-        "Spearow",
-        "Meowth",
-        "Jigglypuff",
-        "Magikarp",
-        "Zubat",
-      ];
-      const fetchData = async (pokemonName) => {
-        try {
-          const response = await fetch(
-            `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
-          );
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
+      const pokemonSet = await pokemon.card.all({
+        q: "set.name:Prismatic supertype:Pokémon",
+        // pageSize: 10,
+        // page: 16,
+        orderBy: "-tcgplayer.prices.holofoil.mid",
+      });
+      console.log(pokemonSet);
+      setPokemonSetCards(
+        pokemonSet.map((card) => {
           return {
-            name: data.name,
-            image: data.sprites.front_default,
+            name: card.name,
+            image: card.images.large,
             clicked: false,
           };
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      const newCardsPromises = pokemon.map(async (pokemonName) => {
-        const newPokemon = await fetchData(pokemonName);
-        return newPokemon;
-      });
-      const newCards = await Promise.all(newCardsPromises);
-      setCards(newCards);
+        })
+      );
+      setCurrentLevelCards(
+        pokemonSet
+          .slice(currentLevel * 10, currentLevel * 10 + 10)
+          .map((card) => {
+            return {
+              name: card.name,
+              image: card.images.large,
+              clicked: false,
+            };
+          })
+      );
     };
     createNewCards();
   }, []);
 
   function handleClick(e, index) {
-    const clickedCard = cards[index];
+    const clickedCard = currentLevelCards[index];
     if (clickedCard.clicked) {
       setCurrentScore(0);
       if (currentScore > highScore) {
         setHighScore(currentScore);
-        clickedCard.clicked = !clickedCard.clicked;
       }
       const selected = e.target.closest(".card");
       selected.classList.add("shake");
       setTimeout(() => selected.classList.remove("shake"), 400);
       setTimeout(() => {
-        setCards([
-          ...shuffle(
-            cards.map((card) => {
+        setCurrentLevelCards(
+          shuffle(
+            currentLevelCards.map((card) => {
               return { ...card, clicked: false };
             })
-          ),
-        ]);
+          )
+        );
+        // setCards(
+        //   cards.map((card) => {
+        //     return { ...card, clicked: false };
+        //   })
+        // );
       }, 1000);
     } else {
-      setCurrentScore((prevScore) => prevScore + 1);
-      setCards([
-        ...shuffle(
-          cards.map((card) => {
+      setCurrentScore(currentScore + 1);
+      setCurrentLevelCards(
+        shuffle(
+          currentLevelCards.map((card) => {
             if (card.name === clickedCard.name) {
               return { ...card, clicked: true };
             } else {
               return card;
             }
           })
-        ),
-      ]);
+        )
+      );
+      // setCards(
+      //   cards.map((card) => {
+      //     if (card.name === clickedCard.name) {
+      //       return { ...card, clicked: true };
+      //     } else {
+      //       return card;
+      //     }
+      //   })
+      // );
     }
   }
 
@@ -128,10 +136,11 @@ function App() {
       </div>
       <div className="container">
         <div className="cards-container">
-          {cards.map((card, index) => (
+          {currentLevelCards.map((card, index) => (
             <Card
               key={card.name}
-              card={card}
+              name={card.name}
+              image={card.image}
               index={index}
               onClick={handleClick}
             />
