@@ -89,8 +89,7 @@ body {
 
 .flip-card {
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
-  width: 85%;
-  min-width: 250px;
+  width: 250px;
   /* border: 2px solid #000; */
   margin: 10px 0;
   transition: all 0.3s ease-in-out;
@@ -187,6 +186,10 @@ body {
 
   .cards-container {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .flip-card {
+    width: 120px;
   }
 }
 
