@@ -20,34 +20,6 @@ function shuffle(array) {
   return shuffledArray;
 }
 
-function rotateElement(event) {
-  const elWrap = event.target.closest(".flip-card");
-  const elTilt = event.target.closest(".flip-card-inner");
-
-  const boundingRect = elWrap.getBoundingClientRect();
-  const x = Math.min(
-    1,
-    Math.max(0, (event.clientX - boundingRect.left) / boundingRect.width)
-  );
-  const y = Math.min(
-    1,
-    Math.max(0, (event.clientY - boundingRect.top) / boundingRect.height)
-  );
-  const offsetX = -1 * (45 / 2 - x * 45);
-  const offsetY = y * 45 - 45 / 2;
-  // console.log(offsetX, offsetY);
-
-  // set rotation
-  elTilt.style.setProperty("--rotateX", offsetX + "deg");
-  elTilt.style.setProperty("--rotateY", -1 * offsetY + "deg");
-}
-
-function resetElement(event) {
-  const element = event.target.closest(".flip-card-inner");
-  element.style.setProperty("--rotateX", "0deg");
-  element.style.setProperty("--rotateY", "0deg");
-}
-
 export default function Card({
   name,
   image,

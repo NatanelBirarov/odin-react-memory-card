@@ -8,6 +8,12 @@ html {
   font-size: 62.5%;
 }
 
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   margin: 0;
   font-family: "Pokemon Solid", sans-serif;
@@ -47,6 +53,11 @@ body {
 
 .logo2 {
   width: 40%;
+  height: auto;
+}
+
+.logo-large {
+  width: 100%;
   height: auto;
 }
 
@@ -153,6 +164,94 @@ body {
 
 .shake {
   animation: shake 0.4s ease;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loader-img {
+  width: 15%;
+  height: auto;
+  animation: spin 2s linear infinite;
+}
+
+.title-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.title-screen-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title-screen-logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.title-screen-border {
+  width: 33%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  overflow: hidden;
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 -10000000px;
+  }
+}
+
+.title-screen-border-inner {
+  width: 40%;
+  height: 100%;
+  background: url("/pokeball-loader.png") repeat-y;
+  background-size: contain;
+}
+
+.border-left {
+  border-right: 10px solid black;
+}
+
+.border-right {
+  border-left: 10px solid black;
+}
+
+.border-left .title-screen-border-inner {
+  animation: move 100000s linear infinite;
+}
+
+.border-right .title-screen-border-inner {
+  animation: move 100000s linear infinite;
+  animation-direction: reverse;
 }
 
 @media screen and (max-width: 768px) {
