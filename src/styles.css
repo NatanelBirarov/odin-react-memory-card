@@ -81,7 +81,7 @@ body {
 
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   justify-items: center;
   margin: 0 10px;
   gap: 10px;
@@ -90,16 +90,17 @@ body {
 .flip-card {
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
   width: 85%;
+  min-width: 250px;
   /* border: 2px solid #000; */
   margin: 10px 0;
   transition: all 0.3s ease-in-out;
   aspect-ratio: 733 / 1024;
 }
 
-.flip-card:hover {
+/* .flip-card:hover {
   cursor: pointer;
   transform: scale(1.03);
-}
+} */
 
 .flip-card-inner {
   position: relative;
@@ -107,8 +108,9 @@ body {
   height: 100%;
   border-radius: 13px;
   box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.6);
-  transition: transform 0.8s;
+  transition: transform 0.5s;
   transform-style: preserve-3d;
+  transform: rotateY(var(--rotateX)) rotateX(var(--rotateY));
 }
 
 .card-front,
@@ -174,7 +176,7 @@ body {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
   .instructions {
     text-align: center;
   }

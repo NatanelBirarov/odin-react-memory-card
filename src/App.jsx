@@ -66,7 +66,7 @@ function App() {
       </div>
       <div className="container">
         <div className="cards-container">
-          {currentLevelCards.map((card, index) => (
+          {currentLevelCards.map((card) => (
             <Card
               key={card.name}
               name={card.name}

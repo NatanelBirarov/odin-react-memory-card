@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import Tilt from "react-parallax-tilt";
 
 function shuffle(array) {
   const shuffledArray = [...array];
@@ -18,6 +18,34 @@ function shuffle(array) {
   }
 
   return shuffledArray;
+}
+
+function rotateElement(event) {
+  const elWrap = event.target.closest(".flip-card");
+  const elTilt = event.target.closest(".flip-card-inner");
+
+  const boundingRect = elWrap.getBoundingClientRect();
+  const x = Math.min(
+    1,
+    Math.max(0, (event.clientX - boundingRect.left) / boundingRect.width)
+  );
+  const y = Math.min(
+    1,
+    Math.max(0, (event.clientY - boundingRect.top) / boundingRect.height)
+  );
+  const offsetX = -1 * (45 / 2 - x * 45);
+  const offsetY = y * 45 - 45 / 2;
+  // console.log(offsetX, offsetY);
+
+  // set rotation
+  elTilt.style.setProperty("--rotateX", offsetX + "deg");
+  elTilt.style.setProperty("--rotateY", -1 * offsetY + "deg");
+}
+
+function resetElement(event) {
+  const element = event.target.closest(".flip-card-inner");
+  element.style.setProperty("--rotateX", "0deg");
+  element.style.setProperty("--rotateY", "0deg");
 }
 
 export default function Card({
@@ -53,11 +81,11 @@ export default function Card({
           })
         );
         setCurrentLevelCards(shuffledCards);
-      }, 1500);
+      }, 1100);
       setTimeout(() => {
         setIsShuffling(false);
         document.body.style.pointerEvents = "";
-      }, 1900);
+      }, 1500);
     } else {
       setCurrentScore(currentScore + 1);
       document.body.style.pointerEvents = "none";
@@ -77,19 +105,38 @@ export default function Card({
       setTimeout(() => {
         setIsShuffling(false);
         document.body.style.pointerEvents = "";
-      }, 1500);
+      }, 800);
     }
   }
 
   return (
-    <div className="flip-card" onClick={handleClick}>
-      <div className={`flip-card-inner ${isShuffling ? "flip" : ""}`}>
-        <img className="card-front" src={image} alt={name} />
-        <img className="card-back" src="/card-back.png" alt={name + "-back"} />
-        {/* <div className="card-name">
+    <Tilt
+      glareEnable={true}
+      glareMaxOpacity={0.35}
+      glareColor="white"
+      glarePosition="all"
+      glareBorderRadius="5px"
+      // scale={2}
+      transitionSpeed={1500}
+      tiltReverse={true}
+    >
+      <div className="flip-card" onClick={handleClick}>
+        <div
+          className={`flip-card-inner ${isShuffling ? "flip" : ""}`}
+          // onPointerMove={rotateElement}
+          // onPointerLeave={resetElement}
+        >
+          <img className="card-front" src={image} alt={name} />
+          <img
+            className="card-back"
+            src="/card-back.png"
+            alt={name + "-back"}
+          />
+          {/* <div className="card-name">
         <span>{name}</span>
       </div> */}
+        </div>
       </div>
-    </div>
+    </Tilt>
   );
 }
