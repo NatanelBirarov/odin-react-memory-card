@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import Tilt from "react-parallax-tilt";
 
-export default function TitleScreen({ cards }) {
+export default function TitleScreen({ cards, onClick }) {
   return (
     <div className="title-screen">
       {/* <div className="title-screen-border border-left">
@@ -31,21 +31,23 @@ export default function TitleScreen({ cards }) {
             />
           </Tilt>
         ))}
-        <div className="title-screen-container">
-          <div className="title-screen-logo">
-            <img src="/logo1.png" alt="Logo" className="logo1 logo-large" />
-            <img src="/logo2.png" alt="Logo" className="logo2 logo-large" />
-          </div>
-          <div className="title-screen-buttons">
-            <button className="title-screen-button">
-              <div className="title-screen-button-text">Play Game</div>
-            </button>
-            <button className="title-screen-button">
-              <div className="title-screen-button-text">How to Play</div>
-            </button>
-            <button className="title-screen-button">
-              <div className="title-screen-button-text">Settings</div>
-            </button>
+        <div className="title-screen-text">
+          <div className="title-screen-container">
+            <div className="title-screen-logo">
+              <img src="/logo1.png" alt="Logo" className="logo1 logo-large" />
+              <img src="/logo2.png" alt="Logo" className="logo2 logo-large" />
+            </div>
+            <div className="title-screen-buttons">
+              <button className="title-screen-button" onClick={onClick}>
+                <div className="title-screen-button-text">Play Game</div>
+              </button>
+              <button className="title-screen-button">
+                <div className="title-screen-button-text">How to Play</div>
+              </button>
+              <button className="title-screen-button">
+                <div className="title-screen-button-text">Settings</div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
