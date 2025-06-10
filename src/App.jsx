@@ -19,6 +19,23 @@ function App() {
   const [isShuffling, setIsShuffling] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  let pokemonSetCardsImages = pokemonSetCards.map((card) => {
+    return { image: card.image, id: card.id };
+  });
+  let backgroundCards = [];
+  if (pokemonSetCards.length > 0) {
+    backgroundCards = Array.from(Array(52).keys()).map(() => {
+      const randomCard =
+        pokemonSetCardsImages[
+          Math.floor(Math.random() * pokemonSetCardsImages.length)
+        ];
+      pokemonSetCardsImages = pokemonSetCardsImages.filter(
+        (card) => card.id !== randomCard.id
+      );
+      return randomCard;
+    });
+  }
+
   useEffect(() => {
     const createNewCards = async () => {
       setIsLoading(true);
@@ -26,10 +43,10 @@ function App() {
         q: "set.name:Prismatic supertype:Pokémon",
         orderBy: "-tcgplayer.prices.holofoil.mid",
       });
-      console.log(pokemonSet);
       setPokemonSetCards(
         pokemonSet.map((card) => {
           return {
+            id: card.id,
             name: card.name,
             image: card.images.large,
             clicked: false,
@@ -41,6 +58,7 @@ function App() {
           .slice(currentLevel * 10, currentLevel * 10 + 10)
           .map((card) => {
             return {
+              id: card.id,
               name: card.name,
               image: card.images.large,
               clicked: false,
@@ -53,9 +71,9 @@ function App() {
   }, []);
 
   return (
-    <TitleScreen />
-    // <>
-    //   <div className="header">
+    <>
+      {!isLoading ? <TitleScreen cards={backgroundCards} /> : <Loader />}
+      {/* //   <div className="header">
     //     <img className="header-img" src="/pokeball-main.png" alt="Logo" />
     //     <div className="logo-container">
     //       <img src="/logo1.png" alt="Logo" className="logo1" />
@@ -63,39 +81,39 @@ function App() {
     //     </div>
     //     <img className="header-img" src="/pokeball-main.png" alt="Logo" />
     //   </div>
-    //   {isLoading ? (
-    //     <Loader />
-    //   ) : (
-    //     <>
-    //       <div className="main-text">
-    //         <div className="instructions">
-    //           <p>Try to click on all the cards without</p>
-    //           <p>clicking on the same card twice!</p>
-    //         </div>
-    //         <Score currentScore={currentScore} highScore={highScore} />
-    //       </div>
-    //       <div className="container">
-    //         <div className="cards-container">
-    //           {currentLevelCards.map((card) => (
-    //             <Card
-    //               key={card.name}
-    //               name={card.name}
-    //               image={card.image}
-    //               isShuffling={isShuffling}
-    //               setIsShuffling={setIsShuffling}
-    //               currentScore={currentScore}
-    //               setCurrentScore={setCurrentScore}
-    //               highScore={highScore}
-    //               setHighScore={setHighScore}
-    //               currentLevelCards={currentLevelCards}
-    //               setCurrentLevelCards={setCurrentLevelCards}
-    //             />
-    //           ))}
-    //         </div>
-    //       </div>
-    //     </>
-    //   )}
-    // </>
+    //   {isLoading ? ( */}
+      {/* <Loader />
+      ) : (
+        <>
+          <div className="main-text">
+            <div className="instructions">
+              <p>Try to click on all the cards without</p>
+              <p>clicking on the same card twice!</p>
+            </div>
+            <Score currentScore={currentScore} highScore={highScore} />
+          </div>
+          <div className="container">
+            <div className="cards-container">
+              {currentLevelCards.map((card) => (
+                <Card
+                  key={card.name}
+                  name={card.name}
+                  image={card.image}
+                  isShuffling={isShuffling}
+                  setIsShuffling={setIsShuffling}
+                  currentScore={currentScore}
+                  setCurrentScore={setCurrentScore}
+                  highScore={highScore}
+                  setHighScore={setHighScore}
+                  currentLevelCards={currentLevelCards}
+                  setCurrentLevelCards={setCurrentLevelCards}
+                />
+              ))}
+            </div>
+          </div>
+        </>
+      )} */}
+    </>
   );
 }
 

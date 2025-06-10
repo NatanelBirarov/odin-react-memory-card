@@ -19,9 +19,18 @@ body {
   font-family: "Pokemon Solid", sans-serif;
   color: #f9c932;
   text-shadow: -2px 2px 1px #000;
-  -webkit-text-stroke: 2px #345ca1;
+  -webkit-text-stroke: 1.5px #345ca1;
   letter-spacing: 2px;
   background-color: #e7e7e7;
+}
+
+button {
+  cursor: pointer;
+  font-family: "Pokemon Solid", sans-serif;
+  color: #f9c932;
+  text-shadow: -2px 2px 1px #000;
+  -webkit-text-stroke: 1.5px #345ca1;
+  letter-spacing: 3px;
 }
 
 .header {
@@ -49,6 +58,7 @@ body {
 .logo1 {
   width: 50%;
   height: auto;
+  margin-bottom: -30px;
 }
 
 .logo2 {
@@ -57,7 +67,7 @@ body {
 }
 
 .logo-large {
-  width: 100%;
+  width: 90%;
   height: auto;
 }
 
@@ -195,12 +205,47 @@ body {
   height: 100vh;
 }
 
-.title-screen-container {
+.title-screen-background {
+  display: grid;
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+  /* grid-template-columns: repeat(6, minmax(0, 1fr)); */
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.title-screen-background-card {
+  width: 100%;
+}
+
+.title-screen-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(50%, 35%);
+  width: 40dvw;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-screen-container {
+  /* display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 10px;
+  grid-row: 2 / 4;
+  grid-column: 2 / 6; */
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  grid-row: 2 / 5;
+  grid-column: 5 / 11;
 }
 
 .title-screen-logo {
@@ -208,11 +253,10 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
 }
 
 .title-screen-border {
-  width: 33%;
+  width: 20%;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -246,12 +290,43 @@ body {
 }
 
 .border-left .title-screen-border-inner {
-  animation: move 100000s linear infinite;
+  animation: move 500000s linear infinite;
 }
 
 .border-right .title-screen-border-inner {
-  animation: move 100000s linear infinite;
+  animation: move 500000s linear infinite;
   animation-direction: reverse;
+}
+
+.title-screen-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 50%;
+}
+
+.title-screen-button {
+  background-color: red;
+  padding: 0;
+  border: 3px solid black;
+  border-radius: 10px;
+  font-size: 2rem;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.title-screen-button-text {
+  width: 100%;
+  padding: 10px 20px;
+  border: 2.5px solid #ffffff;
+  border-radius: 6px;
+}
+
+.title-screen-button:hover {
+  transform: rotateZ(-1.2deg);
+  transform-origin: top left;
 }
 
 @media screen and (max-width: 768px) {
