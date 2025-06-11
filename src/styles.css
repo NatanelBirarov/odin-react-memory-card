@@ -224,7 +224,7 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40dvw;
+  width: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -358,6 +358,10 @@ button {
     width: 100%;
     justify-content: space-around;
   }
+
+  .title-screen-text {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 650px) {
@@ -385,5 +389,9 @@ button {
 
   .card-name {
     font-size: 1.5rem;
+  }
+
+  .title-screen-buttons {
+    width: 70%;
   }
 }
