@@ -117,10 +117,9 @@ button {
   aspect-ratio: 733 / 1024;
 }
 
-/* .flip-card:hover {
+.flip-card:hover {
   cursor: pointer;
-  transform: scale(1.03);
-} */
+}
 
 .flip-card-inner {
   position: relative;
@@ -380,11 +379,19 @@ button {
   .flip-card {
     width: 120px;
   }
+
+  .title-screen-background {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
 }
 
 @media screen and (max-width: 400px) {
   body {
     -webkit-text-stroke: 1px #345ca1;
+  }
+
+  .title-screen-background {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .card-name {

@@ -7,32 +7,14 @@ import Loader from "./Loader";
 import TitleScreen from "./TitleScreen";
 
 import pokemon from "pokemontcgsdk";
+import GameScreen from "./GameScreen";
 
 pokemon.configure({ apiKey: "a087390f-8839-444e-90b6-b09b9ecb6699" });
 
 function App() {
-  const [currentLevel, setCurrentLevel] = useState(0);
   const [pokemonSetCards, setPokemonSetCards] = useState([]);
-  const [currentLevelCards, setCurrentLevelCards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isGameStarted, setIsGameStarted] = useState(false);
-
-  let pokemonSetCardsImages = pokemonSetCards.map((card) => {
-    return { image: card.image, id: card.id };
-  });
-  let backgroundCards = [];
-  if (pokemonSetCards.length > 0) {
-    backgroundCards = Array.from(Array(52).keys()).map(() => {
-      const randomCard =
-        pokemonSetCardsImages[
-          Math.floor(Math.random() * pokemonSetCardsImages.length)
-        ];
-      pokemonSetCardsImages = pokemonSetCardsImages.filter(
-        (card) => card.id !== randomCard.id
-      );
-      return randomCard;
-    });
-  }
 
   useEffect(() => {
     const createNewCards = async () => {
@@ -51,18 +33,6 @@ function App() {
           };
         })
       );
-      setCurrentLevelCards(
-        pokemonSet
-          .slice(currentLevel * 10, currentLevel * 10 + 10)
-          .map((card) => {
-            return {
-              id: card.id,
-              name: card.name,
-              image: card.images.large,
-              clicked: false,
-            };
-          })
-      );
       setIsLoading(false);
     };
     createNewCards();
@@ -77,46 +47,13 @@ function App() {
       {isLoading ? (
         <Loader />
       ) : isGameStarted ? (
-        <>
-          <div className="header">
-            <img className="header-img" src="/pokeball-main.png" alt="Logo" />
-            <div className="logo-container">
-              <img src="/logo1.png" alt="Logo" className="logo1" />
-              <img src="/logo2.png" alt="Logo" className="logo2" />
-            </div>
-            <img className="header-img" src="/pokeball-main.png" alt="Logo" />
-          </div>
-          <>
-            <div className="main-text">
-              <div className="instructions">
-                <p>Try to click on all the cards without</p>
-                <p>clicking on the same card twice!</p>
-              </div>
-              <Score currentScore={currentScore} highScore={highScore} />
-            </div>
-            <div className="container">
-              <div className="cards-container">
-                {currentLevelCards.map((card) => (
-                  <Card
-                    key={card.name}
-                    name={card.name}
-                    image={card.image}
-                    isShuffling={isShuffling}
-                    setIsShuffling={setIsShuffling}
-                    currentScore={currentScore}
-                    setCurrentScore={setCurrentScore}
-                    highScore={highScore}
-                    setHighScore={setHighScore}
-                    currentLevelCards={currentLevelCards}
-                    setCurrentLevelCards={setCurrentLevelCards}
-                  />
-                ))}
-              </div>
-            </div>
-          </>
-        </>
+        <GameScreen currentSetCards={pokemonSetCards} startingLevel={0} />
       ) : (
-        <TitleScreen cards={backgroundCards} onClick={handleGameStart} />
+        <TitleScreen
+          cards={pokemonSetCards}
+          onClick={handleGameStart}
+          pokemonApi={pokemon}
+        />
       )}
     </>
   );
