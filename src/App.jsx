@@ -12,11 +12,8 @@ pokemon.configure({ apiKey: "a087390f-8839-444e-90b6-b09b9ecb6699" });
 
 function App() {
   const [currentLevel, setCurrentLevel] = useState(0);
-  const [currentScore, setCurrentScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
   const [pokemonSetCards, setPokemonSetCards] = useState([]);
   const [currentLevelCards, setCurrentLevelCards] = useState([]);
-  const [isShuffling, setIsShuffling] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isGameStarted, setIsGameStarted] = useState(false);
 
