@@ -265,7 +265,7 @@ button {
   gap: 10px;
 }
 
-.title-screen-border {
+.pokeball-border {
   width: 33%;
   height: 100%;
   display: flex;
@@ -284,7 +284,7 @@ button {
   }
 }
 
-.title-screen-border-inner {
+.pokeball-border-inner {
   width: 40%;
   height: 100%;
   background: url("/pokeball-loader.png") repeat-y;
@@ -299,11 +299,11 @@ button {
   border-left: 10px solid black;
 }
 
-.border-left .title-screen-border-inner {
+.border-left .pokeball-border-inner {
   animation: move 500000s linear infinite;
 }
 
-.border-right .title-screen-border-inner {
+.border-right .pokeball-border-inner {
   animation: move 500000s linear infinite;
   animation-direction: reverse;
 }
@@ -337,6 +337,46 @@ button {
 .title-screen-button:hover {
   transform: rotateZ(-1.2deg);
   transform-origin: top left;
+}
+
+.selection-screen {
+  background-image: linear-gradient(to bottom right, #e7e7e7 0%, #ffa1a1 100%);
+}
+
+.selections {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.selection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.selection-name {
+  font-size: 2rem;
+}
+
+.selection-image {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100px;
+}
+
+.selection-level {
+  font-size: 1.5rem;
+}
+
+.hidden {
+  display: none;
 }
 
 @media screen and (max-width: 768px) {
