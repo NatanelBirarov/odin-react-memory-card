@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Tilt from "react-parallax-tilt";
 import Loader from "./Loader";
 
-export default function TitleScreen({ onClick, pokemonApi }) {
+export default function TitleScreen({ pokemonApi, onShowSelectionScreen }) {
   const [isLoading, setIsLoading] = useState(true);
   const backgroundCards = useRef([]);
 
@@ -78,7 +78,10 @@ export default function TitleScreen({ onClick, pokemonApi }) {
                   />
                 </div>
                 <div className="title-screen-buttons">
-                  <button className="title-screen-button" onClick={onClick}>
+                  <button
+                    className="title-screen-button"
+                    onClick={onShowSelectionScreen}
+                  >
                     <div className="title-screen-button-text">Play Game</div>
                   </button>
                   <button className="title-screen-button">

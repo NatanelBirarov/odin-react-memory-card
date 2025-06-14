@@ -12,17 +12,21 @@ import "./styles.css";
 pokemon.configure({ apiKey: "a087390f-8839-444e-90b6-b09b9ecb6699" });
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isGameStarted, setIsGameStarted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showTitleScreen, setShowTitleScreen] = useState(true);
+  const [showSelectionScreen, setShowSelectionScreen] = useState(false);
+  const [showGameScreen, setShowGameScreen] = useState(false);
 
   const pokemonSetCards = useRef([]);
 
-  useEffect(() => {
-    const createNewCards = async () => {
+  async function handleSelectSet(setId) {
+    setShowTitleScreen(false);
+    setShowSelectionScreen(false);
+    try {
       setIsLoading(true);
       const pokemonSet = await pokemon.card.all({
-        q: "set.name:Prismatic supertype:Pokémon",
-        orderBy: "-tcgplayer.prices.holofoil.mid",
+        q: `set.id:${setId} supertype:Pokémon`,
+        orderBy: "tcgplayer.prices.holofoil.mid",
       });
       pokemonSetCards.current = pokemonSet.map((card) => {
         return {
@@ -33,31 +37,36 @@ function App() {
         };
       });
       setIsLoading(false);
-    };
-    createNewCards();
-  }, []);
+      setShowGameScreen(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  function handleGameStart() {
-    setIsGameStarted(true);
+  function handleShowSelectionScreen() {
+    setShowTitleScreen(false);
+    setShowSelectionScreen(true);
   }
 
   return (
     <>
-      <SelectionScreen pokemonApi={pokemon} />
-      {/* {isLoading ? (
-        <Loader />
-      ) : isGameStarted ? (
+      {isLoading && <Loader />}
+      {showTitleScreen && (
+        <TitleScreen
+          pokemonApi={pokemon}
+          cards={pokemonSetCards.current}
+          onShowSelectionScreen={handleShowSelectionScreen}
+        />
+      )}
+      {showSelectionScreen && (
+        <SelectionScreen pokemonApi={pokemon} onSelectSet={handleSelectSet} />
+      )}
+      {showGameScreen && (
         <GameScreen
           currentSetCards={pokemonSetCards.current}
           startingLevel={0}
         />
-      ) : (
-        <TitleScreen
-          cards={pokemonSetCards.current}
-          onClick={handleGameStart}
-          pokemonApi={pokemon}
-        />
-      )} */}
+      )}
     </>
   );
 }
