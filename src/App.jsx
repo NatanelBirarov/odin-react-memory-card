@@ -44,6 +44,7 @@ function App() {
   }
 
   function handleShowSelectionScreen() {
+    setShowGameScreen(false);
     setShowTitleScreen(false);
     setShowSelectionScreen(true);
   }
@@ -65,6 +66,7 @@ function App() {
         <GameScreen
           currentSetCards={pokemonSetCards.current}
           startingLevel={0}
+          onShowSelectionScreen={handleShowSelectionScreen}
         />
       )}
     </>
