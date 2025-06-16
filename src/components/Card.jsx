@@ -29,7 +29,6 @@ export default function Card({
   setCurrentScore,
   highScore,
   setHighScore,
-  setCurrentLevel,
   currentLevelCards,
   setCurrentLevelCards,
   setShowModal,
@@ -50,11 +49,12 @@ export default function Card({
       }, 800);
       setTimeout(() => {
         selected.classList.remove("shake");
-        const shuffledCards = shuffle(
+        const shuffledCards =
+          // shuffle(
           currentLevelCards.map((card) => {
             return { ...card, clicked: false };
-          })
-        );
+          });
+        // );
         setCurrentLevelCards(shuffledCards);
       }, 1100);
       setTimeout(() => {
@@ -69,15 +69,16 @@ export default function Card({
         document.body.style.pointerEvents = "none";
         setIsShuffling(true);
         setTimeout(() => {
-          const shuffledCards = shuffle(
+          const shuffledCards =
+            // shuffle(
             currentLevelCards.map((card) => {
               if (card.name === clickedCard.name) {
                 return { ...card, clicked: true };
               } else {
                 return card;
               }
-            })
-          );
+            });
+          // );
           setCurrentLevelCards(shuffledCards);
         }, 400);
         setTimeout(() => {

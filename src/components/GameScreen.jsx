@@ -3,11 +3,13 @@ import Loader from "./Loader";
 import Card from "./Card";
 import Score from "./Score";
 import Modal from "./Modal";
+import { getLocalStorage, setLocalStorage } from "../js/localStorageFactory";
 
 export default function GameScreen({
   currentSetCards,
   startingLevel,
   onShowSelectionScreen,
+  gameData,
 }) {
   const [currentLevel, setCurrentLevel] = useState(startingLevel);
   const [currentScore, setCurrentScore] = useState(0);
@@ -30,6 +32,11 @@ export default function GameScreen({
     updateLevel();
     setCurrentScore(0);
     setHighScore(0);
+    const setId = currentLevelCards[0].id.split("-")[0];
+    setLocalStorage("gameData", {
+      ...JSON.parse(getLocalStorage("gameData")),
+      [gameData[setId]]: currentLevel,
+    });
     setIsLoading(false);
   }, [currentLevel]);
 
@@ -37,6 +44,9 @@ export default function GameScreen({
     setShowModal(0);
     if (state === 1) {
       setCurrentLevel((curr) => curr + 1);
+      if (currentLevel === 10) {
+        setShowModal(2);
+      }
     } else if (state === 0) {
       updateLevel();
     } else {
@@ -67,26 +77,43 @@ export default function GameScreen({
           </div>
         </Modal>
       ) : showModal === 1 ? (
-        <Modal>
-          <div className="modal-text">
-            <p>You have completed the set!</p>
-            <p>Congratulations!</p>
-          </div>
-          <div className="modal-buttons">
-            <button
-              className="modal-button"
-              onClick={() => handleEndLevelScreen(1)}
-            >
-              <div className="modal-button-text">Next level</div>
-            </button>
-            <button
-              className="modal-button"
-              onClick={() => handleEndLevelScreen(-1)}
-            >
-              <div className="modal-button-text">Select set</div>
-            </button>
-          </div>
-        </Modal>
+        currentLevel + 1 === 2 ? (
+          <Modal>
+            <div className="modal-text">
+              <p>You have completed the set!</p>
+              <p>Congratulations!</p>
+            </div>
+            <div className="modal-buttons">
+              <button
+                className="modal-button"
+                onClick={() => handleEndLevelScreen(-1)}
+              >
+                <div className="modal-button-text">Select next set</div>
+              </button>
+            </div>
+          </Modal>
+        ) : (
+          <Modal>
+            <div className="modal-text">
+              <p>You have completed the level!</p>
+              <p>Congratulations!</p>
+            </div>
+            <div className="modal-buttons">
+              <button
+                className="modal-button"
+                onClick={() => handleEndLevelScreen(1)}
+              >
+                <div className="modal-button-text">Next level</div>
+              </button>
+              <button
+                className="modal-button"
+                onClick={() => handleEndLevelScreen(-1)}
+              >
+                <div className="modal-button-text">Select set</div>
+              </button>
+            </div>
+          </Modal>
+        )
       ) : (
         ""
       )}
@@ -105,8 +132,9 @@ export default function GameScreen({
           <>
             <div className="main-text">
               <div className="instructions">
-                <p>Try to click on all the cards without</p>
-                <p>clicking on the same card twice!</p>
+                {/* <p>Try to click on all the cards without</p>
+                <p>clicking on the same card twice!</p> */}
+                <span className="game-level">Level: {currentLevel + 1}</span>
               </div>
               <Score currentScore={currentScore} highScore={highScore} />
             </div>
@@ -123,7 +151,6 @@ export default function GameScreen({
                     setCurrentScore={setCurrentScore}
                     highScore={highScore}
                     setHighScore={setHighScore}
-                    setCurrentLevel={setCurrentLevel}
                     currentLevelCards={currentLevelCards}
                     setCurrentLevelCards={setCurrentLevelCards}
                     setShowModal={setShowModal}

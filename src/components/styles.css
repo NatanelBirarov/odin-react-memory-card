@@ -88,6 +88,10 @@ button {
   margin: 10px 0;
 }
 
+.game-level {
+  font-size: 4rem;
+}
+
 .scores-container {
   display: flex;
   flex-direction: column;
@@ -427,6 +431,10 @@ button {
   border-radius: 10px;
   width: 30%;
   height: 50%;
+}
+
+.modal-text {
+  text-align: center;
 }
 
 .modal-buttons {
