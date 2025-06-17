@@ -1,23 +1,28 @@
-import { use, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Loader from "./Loader";
 import Card from "./Card";
 import Score from "./Score";
 import Modal from "./Modal";
-import { getLocalStorage, setLocalStorage } from "../js/localStorageFactory";
+import { setLocalStorage } from "../js/localStorageFactory";
 
 export default function GameScreen({
   currentSetCards,
-  startingLevel,
   onShowSelectionScreen,
   gameData,
 }) {
-  const [currentLevel, setCurrentLevel] = useState(startingLevel);
+  const setId = currentSetCards[0].id.split("-")[0];
+
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [currentLevelCards, setCurrentLevelCards] = useState([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(0);
+  const [currentLevel, setCurrentLevel] = useState(
+    gameData[setId].currentLevel
+  );
+
+  const levels = gameData[setId].levels;
 
   const updateLevel = useCallback(() => {
     const newLevelCards = currentSetCards.slice(
@@ -32,24 +37,26 @@ export default function GameScreen({
     updateLevel();
     setCurrentScore(0);
     setHighScore(0);
-    const setId = currentLevelCards[0].id.split("-")[0];
-    setLocalStorage("gameData", {
-      ...JSON.parse(getLocalStorage("gameData")),
-      [gameData[setId]]: currentLevel,
-    });
     setIsLoading(false);
   }, [currentLevel]);
 
-  function handleEndLevelScreen(state) {
+  function handleEndLevelScreen(state, isSuccess) {
     setShowModal(0);
-    if (state === 1) {
+    if (isSuccess) {
+      const newGameData = {
+        ...gameData[setId],
+        currentLevel: currentLevel + 1,
+        completed: currentLevel + 1 === levels,
+      };
+      setLocalStorage("gameData", {
+        ...gameData,
+        [setId]: newGameData,
+      });
       setCurrentLevel((curr) => curr + 1);
-      if (currentLevel === 10) {
-        setShowModal(2);
-      }
-    } else if (state === 0) {
+    }
+    if (state === 0) {
       updateLevel();
-    } else {
+    } else if (state === -1) {
       onShowSelectionScreen();
     }
   }
@@ -64,20 +71,20 @@ export default function GameScreen({
           <div className="modal-buttons">
             <button
               className="modal-button"
-              onClick={() => handleEndLevelScreen(0)}
+              onClick={() => handleEndLevelScreen(0, false)}
             >
               <div className="modal-button-text">Try again</div>
             </button>
             <button
               className="modal-button"
-              onClick={() => handleEndLevelScreen(-1)}
+              onClick={() => handleEndLevelScreen(-1, false)}
             >
               <div className="modal-button-text">Select set</div>
             </button>
           </div>
         </Modal>
       ) : showModal === 1 ? (
-        currentLevel + 1 === 2 ? (
+        currentLevel + 1 === levels ? (
           <Modal>
             <div className="modal-text">
               <p>You have completed the set!</p>
@@ -86,7 +93,7 @@ export default function GameScreen({
             <div className="modal-buttons">
               <button
                 className="modal-button"
-                onClick={() => handleEndLevelScreen(-1)}
+                onClick={() => handleEndLevelScreen(-1, true)}
               >
                 <div className="modal-button-text">Select next set</div>
               </button>
@@ -101,13 +108,13 @@ export default function GameScreen({
             <div className="modal-buttons">
               <button
                 className="modal-button"
-                onClick={() => handleEndLevelScreen(1)}
+                onClick={() => handleEndLevelScreen(1, true)}
               >
                 <div className="modal-button-text">Next level</div>
               </button>
               <button
                 className="modal-button"
-                onClick={() => handleEndLevelScreen(-1)}
+                onClick={() => handleEndLevelScreen(-1, true)}
               >
                 <div className="modal-button-text">Select set</div>
               </button>

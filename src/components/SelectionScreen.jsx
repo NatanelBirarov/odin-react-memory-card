@@ -1,10 +1,8 @@
 import React from "react";
+import { getLocalStorage } from "../js/localStorageFactory";
 
-export default function SelectionScreen({
-  onSelectSet,
-  gameData,
-  pokemonSets,
-}) {
+export default function SelectionScreen({ onSelectSet, pokemonSets }) {
+  const gameData = getLocalStorage("gameData");
   return (
     <>
       <div className="selection-screen">
@@ -12,7 +10,7 @@ export default function SelectionScreen({
         <div className="pokeball-border-inner"></div>
       </div> */}
         <div className="selections">
-          {pokemonSets.map((set) => (
+          {pokemonSets.map((set, index) => (
             <React.Fragment key={set.id}>
               <div className="selection" onClick={() => onSelectSet(set.id)}>
                 <span className="selection-name">{set.name}</span>
@@ -22,10 +20,14 @@ export default function SelectionScreen({
                   alt={set.name}
                 />
                 <span className="selection-level">
-                  {gameData[set.id]} / {set.levels}
+                  {gameData[set.id].currentLevel} / {set.levels}
                 </span>
               </div>
-              <div className="selection-disabled hidden">
+              <div
+                className={`selection-disabled ${
+                  index !== 0 && gameData[set.id].completed ? "hidden" : ""
+                }`}
+              >
                 <span>Complete the previous set to unlock this one!</span>
               </div>
             </React.Fragment>

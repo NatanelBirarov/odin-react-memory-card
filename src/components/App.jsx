@@ -26,7 +26,9 @@ function App() {
     const getSets = async () => {
       try {
         setIsLoading(true);
-        const pokemonSet = await pokemon.set.all();
+        const pokemonSet = await pokemon.set.all({
+          orderBy: "releaseDate",
+        });
         pokemonSets.current = pokemonSet.map((set) => {
           return {
             id: set.id,
@@ -41,14 +43,30 @@ function App() {
         pokemonSets.current = pokemonSets.current.filter((set) => {
           return set.name !== "Journey Together";
         });
-        gameData.current = JSON.parse(getLocalStorage("gameData"));
+        gameData.current = getLocalStorage("gameData");
         if (!gameData.current) {
           gameData.current = {};
           pokemonSets.current.forEach((set) => {
-            gameData.current[set.id] = 0;
+            gameData.current[set.id] = {
+              currentLevel: 0,
+              levels: set.levels,
+              highScore: 0,
+              completed: false,
+            };
           });
-          setLocalStorage("gameData", JSON.stringify(gameData.current));
+          setLocalStorage("gameData", gameData.current);
         }
+        // for (let setId in gameData.current) {
+        //   if (gameData.current.hasOwnProperty(setId)) {
+        //     if (
+        //       gameData.current[setId].currentLevel ===
+        //       gameData.current[setId].levels
+        //     ) {
+        //       gameData.current[setId].completed = true;
+        //     }
+        //   }
+        // }
+
         setIsLoading(false);
         setShowTitleScreen(true);
       } catch (error) {
@@ -75,7 +93,7 @@ function App() {
           clicked: false,
         };
       });
-      gameData.current = JSON.parse(getLocalStorage("gameData"));
+      gameData.current = getLocalStorage("gameData");
       setIsLoading(false);
       setShowGameScreen(true);
     } catch (error) {
@@ -102,14 +120,12 @@ function App() {
       {showSelectionScreen && (
         <SelectionScreen
           onSelectSet={handleSelectSet}
-          gameData={gameData.current}
           pokemonSets={pokemonSets.current}
         />
       )}
       {showGameScreen && (
         <GameScreen
           currentSetCards={pokemonSetCards.current}
-          startingLevel={0}
           onShowSelectionScreen={handleShowSelectionScreen}
           gameData={gameData.current}
         />
