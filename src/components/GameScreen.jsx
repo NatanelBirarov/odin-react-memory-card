@@ -11,6 +11,7 @@ export default function GameScreen({
   gameData,
 }) {
   const setId = currentSetCards[0].id.split("-")[0];
+  const setData = gameData.find((set) => set.id === setId);
 
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
@@ -18,11 +19,9 @@ export default function GameScreen({
   const [isShuffling, setIsShuffling] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(0);
-  const [currentLevel, setCurrentLevel] = useState(
-    gameData[setId].currentLevel
-  );
+  const [currentLevel, setCurrentLevel] = useState(setData.currentLevel);
 
-  const levels = gameData[setId].levels;
+  const levels = setData.levels;
 
   const updateLevel = useCallback(() => {
     const newLevelCards = currentSetCards.slice(
@@ -43,15 +42,18 @@ export default function GameScreen({
   function handleEndLevelScreen(state, isSuccess) {
     setShowModal(0);
     if (isSuccess) {
-      const newGameData = {
-        ...gameData[setId],
-        currentLevel: currentLevel + 1,
-        completed: currentLevel + 1 === levels,
-      };
-      setLocalStorage("gameData", {
-        ...gameData,
-        [setId]: newGameData,
+      const newGameDataArray = gameData.map((set) => {
+        if (set.id === setId) {
+          return {
+            ...setData,
+            currentLevel: currentLevel + 1,
+            completed: currentLevel + 1 === levels,
+          };
+        } else {
+          return set;
+        }
       });
+      setLocalStorage("gameData", newGameDataArray);
       setCurrentLevel((curr) => curr + 1);
     }
     if (state === 0) {

@@ -19,7 +19,7 @@ function App() {
   const [showGameScreen, setShowGameScreen] = useState(false);
 
   const pokemonSetCards = useRef([]);
-  const gameData = useRef({});
+  const gameData = useRef([]);
   const pokemonSets = useRef([]);
 
   useEffect(() => {
@@ -45,27 +45,22 @@ function App() {
         });
         gameData.current = getLocalStorage("gameData");
         if (!gameData.current) {
-          gameData.current = {};
+          gameData.current = [];
           pokemonSets.current.forEach((set) => {
-            gameData.current[set.id] = {
+            gameData.current.push({
+              id: set.id,
               currentLevel: 0,
               levels: set.levels,
               highScore: 0,
               completed: false,
-            };
+            });
           });
           setLocalStorage("gameData", gameData.current);
         }
-        // for (let setId in gameData.current) {
-        //   if (gameData.current.hasOwnProperty(setId)) {
-        //     if (
-        //       gameData.current[setId].currentLevel ===
-        //       gameData.current[setId].levels
-        //     ) {
-        //       gameData.current[setId].completed = true;
-        //     }
-        //   }
-        // }
+        // pokemonSets.current.forEach((set, index) => {
+        //   set.previousCompleted =
+        //     index !== 0 && gameData.current[index - 1].completed ? true : false;
+        // });
 
         setIsLoading(false);
         setShowTitleScreen(true);

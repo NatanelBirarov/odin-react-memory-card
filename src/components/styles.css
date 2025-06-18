@@ -364,6 +364,7 @@ button {
   border-radius: 10px;
   padding: 10px;
   transition: all 0.2s;
+  position: relative;
 }
 
 .selection:hover {
@@ -373,6 +374,24 @@ button {
   background: linear-gradient(#ddebff, #ddebff) padding-box,
     linear-gradient(var(--angle), #000, #ff0000) border-box;
   animation: 4s rotate linear infinite;
+}
+
+.selection-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.selection-disabled {
+  pointer-events: none;
 }
 
 @keyframes rotate {
