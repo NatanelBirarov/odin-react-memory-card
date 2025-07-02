@@ -1,35 +1,51 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Loader from "./Loader";
 import Card from "./Card";
 import Score from "./Score";
 import Modal from "./Modal";
-import { setLocalStorage } from "../js/localStorageFactory";
+import { getLocalStorage, setLocalStorage } from "../js/localStorageFactory";
+import { useLoaderData, useNavigate, useNavigation } from "react-router-dom";
 
-export default function GameScreen({
-  currentSetCards,
-  onShowSelectionScreen,
-  gameData,
-}) {
-  const setId = currentSetCards[0].id.split("-")[0];
+export default function GameScreen() {
+  const gameData = getLocalStorage("gameData");
+
+  const pokemonData = useLoaderData();
+  const navigation = useNavigation();
+  const navigate = useNavigate();
+
+  const setId = pokemonData[0].id.split("-")[0];
   const setData = gameData.find((set) => set.id === setId);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [currentLevelCards, setCurrentLevelCards] = useState([]);
   const [isShuffling, setIsShuffling] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(0);
   const [currentLevel, setCurrentLevel] = useState(setData.currentLevel);
+
+  const pokemonSetCards = useRef([]);
+
+  if (navigation.state === "loading") return <Loader />;
+
+  pokemonSetCards.current = pokemonData.map((card) => {
+    return {
+      id: card.id,
+      name: card.name,
+      image: card.images.large,
+      clicked: false,
+    };
+  });
 
   const levels = setData.levels;
 
   const updateLevel = useCallback(() => {
-    const newLevelCards = currentSetCards.slice(
+    const newLevelCards = pokemonSetCards.current.slice(
       currentLevel * 10,
       currentLevel * 10 + 10
     );
     setCurrentLevelCards(newLevelCards);
-  }, [currentLevel, currentSetCards]);
+  }, [currentLevel, pokemonSetCards]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,24 +58,24 @@ export default function GameScreen({
   function handleEndLevelScreen(state, isSuccess) {
     setShowModal(0);
     if (isSuccess) {
+      setCurrentLevel((curr) => curr + 1);
       const newGameDataArray = gameData.map((set) => {
         if (set.id === setId) {
           return {
             ...setData,
-            currentLevel: currentLevel + 1,
-            completed: currentLevel + 1 === levels,
+            currentLevel: currentLevel,
+            completed: currentLevel === levels,
           };
         } else {
           return set;
         }
       });
       setLocalStorage("gameData", newGameDataArray);
-      setCurrentLevel((curr) => curr + 1);
     }
     if (state === 0) {
       updateLevel();
     } else if (state === -1) {
-      onShowSelectionScreen();
+      navigate("/selectionscreen");
     }
   }
 
@@ -73,15 +89,15 @@ export default function GameScreen({
           <div className="modal-buttons">
             <button
               className="modal-button"
-              onClick={() => handleEndLevelScreen(0, false)}
-            >
-              <div className="modal-button-text">Try again</div>
-            </button>
-            <button
-              className="modal-button"
               onClick={() => handleEndLevelScreen(-1, false)}
             >
               <div className="modal-button-text">Select set</div>
+            </button>
+            <button
+              className="modal-button"
+              onClick={() => handleEndLevelScreen(0, false)}
+            >
+              <div className="modal-button-text">Try again</div>
             </button>
           </div>
         </Modal>
@@ -110,15 +126,15 @@ export default function GameScreen({
             <div className="modal-buttons">
               <button
                 className="modal-button"
-                onClick={() => handleEndLevelScreen(1, true)}
-              >
-                <div className="modal-button-text">Next level</div>
-              </button>
-              <button
-                className="modal-button"
                 onClick={() => handleEndLevelScreen(-1, true)}
               >
                 <div className="modal-button-text">Select set</div>
+              </button>
+              <button
+                className="modal-button"
+                onClick={() => handleEndLevelScreen(1, true)}
+              >
+                <div className="modal-button-text">Next level</div>
               </button>
             </div>
           </Modal>

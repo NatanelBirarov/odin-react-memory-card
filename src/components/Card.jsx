@@ -33,7 +33,7 @@ export default function Card({
   setCurrentLevelCards,
   setShowModal,
 }) {
-  function handleClick(e) {
+  function handleClick() {
     const clickedCard = currentLevelCards.find((card) => card.name === name);
     if (clickedCard.clicked) {
       setCurrentScore(0);
@@ -41,26 +41,6 @@ export default function Card({
         setHighScore(currentScore);
       }
       setShowModal(-1);
-      document.body.style.pointerEvents = "none";
-      const selected = e.target.closest(".flip-card");
-      selected.classList.add("shake");
-      setTimeout(() => {
-        setIsShuffling(true);
-      }, 800);
-      setTimeout(() => {
-        selected.classList.remove("shake");
-        const shuffledCards =
-          // shuffle(
-          currentLevelCards.map((card) => {
-            return { ...card, clicked: false };
-          });
-        // );
-        setCurrentLevelCards(shuffledCards);
-      }, 1100);
-      setTimeout(() => {
-        setIsShuffling(false);
-        document.body.style.pointerEvents = "";
-      }, 1500);
     } else {
       setCurrentScore((curr) => curr + 1);
       if (currentScore + 1 >= 10) {
