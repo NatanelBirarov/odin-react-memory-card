@@ -18,11 +18,11 @@ export default function GameScreen() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [currentScore, setCurrentScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+  const [highScore, setHighScore] = useState(setData.highScore);
   const [currentLevelCards, setCurrentLevelCards] = useState([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [showModal, setShowModal] = useState(0);
-  const [currentLevel, setCurrentLevel] = useState(setData.currentLevel);
+  const [currentLevel, setCurrentLevel] = useState(setData.completedLevels + 1);
 
   const pokemonSetCards = useRef([]);
 
@@ -40,10 +40,12 @@ export default function GameScreen() {
   const levels = setData.levels;
 
   const updateLevel = useCallback(() => {
-    const newLevelCards = pokemonSetCards.current.slice(
-      currentLevel * 10,
-      currentLevel * 10 + 10
-    );
+    const start = (currentLevel - 1) * 10;
+    const end =
+      pokemonSetCards.current.length - ((currentLevel - 1) * 10 + 10) > 5
+        ? (currentLevel - 1) * 10 + 10
+        : pokemonSetCards.current.length;
+    const newLevelCards = pokemonSetCards.current.slice(start, end);
     setCurrentLevelCards(newLevelCards);
   }, [currentLevel, pokemonSetCards]);
 
@@ -58,13 +60,14 @@ export default function GameScreen() {
   function handleEndLevelScreen(state, isSuccess) {
     setShowModal(0);
     if (isSuccess) {
-      setCurrentLevel((curr) => curr + 1);
+      setCurrentLevel(currentLevel + 1);
       const newGameDataArray = gameData.map((set) => {
         if (set.id === setId) {
           return {
             ...setData,
-            currentLevel: currentLevel,
+            completedLevels: currentLevel,
             completed: currentLevel === levels,
+            highScore: highScore,
           };
         } else {
           return set;
@@ -102,7 +105,7 @@ export default function GameScreen() {
           </div>
         </Modal>
       ) : showModal === 1 ? (
-        currentLevel + 1 === levels ? (
+        currentLevel >= levels ? (
           <Modal>
             <div className="modal-text">
               <p>You have completed the set!</p>
@@ -159,7 +162,7 @@ export default function GameScreen() {
               <div className="instructions">
                 {/* <p>Try to click on all the cards without</p>
                 <p>clicking on the same card twice!</p> */}
-                <span className="game-level">Level: {currentLevel + 1}</span>
+                <span className="game-level">Level: {currentLevel}</span>
               </div>
               <Score currentScore={currentScore} highScore={highScore} />
             </div>

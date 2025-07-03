@@ -4,8 +4,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 
 export default function SelectionScreen() {
   const pokemonSets = useRef([]);
-  const gameData = getLocalStorage("gameData");
-
+  const gameData = useRef([]);
   const pokemonData = useLoaderData();
   const navigate = useNavigate();
 
@@ -29,7 +28,7 @@ export default function SelectionScreen() {
     pokemonSets.current.forEach((set) => {
       gameData.current.push({
         id: set.id,
-        currentLevel: 0,
+        completedLevels: 0,
         levels: set.levels,
         highScore: 0,
         completed: false,
@@ -45,35 +44,46 @@ export default function SelectionScreen() {
         <div className="pokeball-border-inner"></div>
       </div> */}
         <div className="selections">
-          {pokemonSets.current.map((set, index) => (
-            <React.Fragment key={set.id}>
-              <div
-                className={`selection ${
-                  index === 0 || gameData[index - 1].completed
-                    ? ""
-                    : "selection-disabled"
-                }`}
-                onClick={() => navigate(`/gamescreen/${set.id}`)}
-              >
-                <span className="selection-name">{set.name}</span>
-                <img
-                  className="selection-image"
-                  src={set.image}
-                  alt={set.name}
-                />
-                <span className="selection-level">
-                  {gameData[index].currentLevel} / {set.levels}
-                </span>
+          {pokemonSets.current.map((set, index) => {
+            const unlocked =
+              index === 0 || gameData.current[index - 1].completed;
+            return (
+              <React.Fragment key={set.id}>
                 <div
-                  className={`selection-overlay ${
-                    index === 0 || gameData[index - 1].completed ? "hidden" : ""
+                  className={`selection ${
+                    unlocked && !gameData.current[index].completed
+                      ? ""
+                      : "selection-locked"
                   }`}
+                  onClick={() => navigate(`/gamescreen/${set.id}`)}
                 >
-                  <span>Complete the previous set to unlock this one!</span>
+                  <span className="selection-name">{set.name}</span>
+                  <img
+                    className="selection-image"
+                    src={set.image}
+                    alt={set.name}
+                  />
+                  <span className="selection-level">
+                    {gameData.current[index].completedLevels} / {set.levels}
+                  </span>
+                  <div
+                    className={`selection-overlay ${unlocked ? "hidden" : ""}`}
+                  >
+                    <span>Complete the previous set to unlock this one!</span>
+                  </div>
+                  {/* <div
+                    className={`selection-overlay ${
+                      gameData.current[index].completed && !locked
+                        ? ""
+                        : "hidden"
+                    }`}
+                  >
+                    <span>Set complete!</span>
+                  </div> */}
                 </div>
-              </div>
-            </React.Fragment>
-          ))}
+              </React.Fragment>
+            );
+          })}
         </div>
         {/* <div className="pokeball-border border-right">
         <div className="pokeball-border-inner"></div>

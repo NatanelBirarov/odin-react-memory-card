@@ -43,7 +43,7 @@ export default function Card({
       setShowModal(-1);
     } else {
       setCurrentScore((curr) => curr + 1);
-      if (currentScore + 1 >= 10) {
+      if (currentScore + 1 >= currentLevelCards.length) {
         setShowModal(1);
       } else {
         document.body.style.pointerEvents = "none";

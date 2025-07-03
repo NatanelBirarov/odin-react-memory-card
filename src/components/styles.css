@@ -377,6 +377,7 @@ button {
 }
 
 .selection-overlay {
+  padding: 1px;
   position: absolute;
   top: 0;
   left: 0;
@@ -390,7 +391,7 @@ button {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.selection-disabled {
+.selection-locked {
   pointer-events: none;
 }
 

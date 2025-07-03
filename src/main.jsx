@@ -38,7 +38,7 @@ const router = createBrowserRouter(
         element={<GameScreen />}
         loader={({ params }) =>
           fetchPokemon("card", {
-            q: `set.id:${params.setId} supertype:Pokémon`,
+            q: `set.id:${params.setId}`, // supertype:Pokémon
             orderBy: "tcgplayer.prices.holofoil.mid",
             select: "id,name,images",
           })
