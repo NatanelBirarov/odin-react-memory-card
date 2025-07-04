@@ -4,9 +4,17 @@ import Card from "./Card";
 import Score from "./Score";
 import Modal from "./Modal";
 import { getLocalStorage, setLocalStorage } from "../js/localStorageFactory";
-import { useLoaderData, useNavigate, useNavigation } from "react-router-dom";
+import {
+  useLoaderData,
+  useNavigate,
+  useNavigation,
+  useOutletContext,
+} from "react-router-dom";
+import SettingsScreen from "./SettingsScreen";
+import Menu from "./Menu";
 
 export default function GameScreen() {
+  const { showSettings, setShowSettings } = useOutletContext();
   const gameData = getLocalStorage("gameData");
 
   const pokemonData = useLoaderData();
@@ -84,6 +92,9 @@ export default function GameScreen() {
 
   return (
     <>
+      {showSettings && (
+        <SettingsScreen onClose={() => setShowSettings(false)} />
+      )}
       {showModal === -1 ? (
         <Modal>
           <div className="modal-text">
@@ -189,6 +200,7 @@ export default function GameScreen() {
           </>
         </>
       )}
+      <Menu onShowSettings={() => setShowSettings(true)} />
     </>
   );
 }

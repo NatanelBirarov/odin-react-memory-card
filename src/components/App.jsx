@@ -2,15 +2,18 @@ import Loader from "./Loader";
 import { Outlet, useNavigation } from "react-router-dom";
 
 import "./styles.css";
+import { useState } from "react";
 
 function App() {
+  const [showSettings, setShowSettings] = useState(false);
+
   const navigation = useNavigation();
 
   // if (pokemonData.isError) return <div>Error</div>;
   if (navigation.state === "loading") return <Loader />;
 
   return (
-    <Outlet />
+    <Outlet context={{ showSettings, setShowSettings }} />
     // <>
     //   {/* {isLoading && <Loader />} */}
     //   {showTitleScreen && (

@@ -2,12 +2,18 @@ import { useRef, useState } from "react";
 import Tilt from "react-parallax-tilt";
 import Loader from "./Loader";
 import SettingsScreen from "./SettingsScreen";
-import { useLoaderData, useNavigate, useNavigation } from "react-router-dom";
+import {
+  useLoaderData,
+  useNavigate,
+  useNavigation,
+  useOutletContext,
+} from "react-router-dom";
 
 export default function TitleScreen() {
-  const [showSettings, setShowSettings] = useState(false);
+  const { showSettings, setShowSettings } = useOutletContext();
 
   const backgroundCards = useRef([]);
+  const firstLoad = useRef(true);
   const navigation = useNavigation();
   const navigate = useNavigate();
 
@@ -15,12 +21,15 @@ export default function TitleScreen() {
 
   if (navigation.state === "loading") return <Loader />;
 
-  backgroundCards.current = Array.from(Array(30).keys()).map(() => {
-    const randomCard =
-      pokemonData[Math.floor(Math.random() * pokemonData.length)];
-    pokemonData = pokemonData.filter((card) => card.id !== randomCard.id);
-    return randomCard;
-  });
+  if (firstLoad.current) {
+    backgroundCards.current = Array.from(Array(30).keys()).map(() => {
+      const randomCard =
+        pokemonData[Math.floor(Math.random() * pokemonData.length)];
+      pokemonData = pokemonData.filter((card) => card.id !== randomCard.id);
+      return randomCard;
+    });
+    firstLoad.current = false;
+  }
 
   return (
     <>

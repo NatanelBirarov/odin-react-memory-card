@@ -33,6 +33,11 @@ button {
   letter-spacing: 3px;
 }
 
+.icon {
+  width: 30px;
+  height: auto;
+}
+
 .header {
   background-color: red;
   padding: 10px;
@@ -269,14 +274,42 @@ button {
   gap: 10px;
 }
 
-.pokeball-border {
-  width: 33%;
-  height: 100%;
+.menu-border {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: red;
   overflow: hidden;
+  border-top: 10px solid black;
+}
+
+.menu-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #f9c932;
+}
+
+.settings-button:hover .icon {
+  cursor: pointer;
+  animation: spin 1s ease-in-out;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
 }
 
 @keyframes move {
@@ -288,20 +321,20 @@ button {
   }
 }
 
-.pokeball-border-inner {
+/* .pokeball-border-inner {
   width: 40%;
   height: 100%;
   background: url("/pokeball-loader.png") repeat-y;
   background-size: contain;
-}
+} */
 
-.border-left {
+/* .border-left {
   border-right: 10px solid black;
 }
 
 .border-right {
   border-left: 10px solid black;
-}
+} */
 
 .border-left .pokeball-border-inner {
   animation: move 500000s linear infinite;
