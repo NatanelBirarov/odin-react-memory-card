@@ -3,9 +3,11 @@ import { getLocalStorage, setLocalStorage } from "../js/localStorageFactory";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
 import Menu from "./Menu";
+import HowToScreen from "./HowToScreen";
 
 export default function SelectionScreen() {
-  const { showSettings, setShowSettings } = useOutletContext();
+  const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
+    useOutletContext();
   const pokemonSets = useRef([]);
   const gameData = useRef([]);
   const pokemonData = useLoaderData();
@@ -45,6 +47,7 @@ export default function SelectionScreen() {
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
+      {showHowTo && <HowToScreen onClose={() => setShowHowTo(false)} />}
       <div className="selection-screen">
         {/* <div className="pokeball-border border-left">
         <div className="pokeball-border-inner"></div>
@@ -91,7 +94,10 @@ export default function SelectionScreen() {
             );
           })}
         </div>
-        <Menu onShowSettings={() => setShowSettings(true)} />
+        <Menu
+          onShowSettings={() => setShowSettings(true)}
+          onShowHowTo={() => setShowHowTo(true)}
+        />
       </div>
     </>
   );

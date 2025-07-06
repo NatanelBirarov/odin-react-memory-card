@@ -6,6 +6,7 @@ import { useState } from "react";
 
 function App() {
   const [showSettings, setShowSettings] = useState(false);
+  const [showHowTo, setShowHowTo] = useState(false);
 
   const navigation = useNavigation();
 
@@ -13,7 +14,9 @@ function App() {
   if (navigation.state === "loading") return <Loader />;
 
   return (
-    <Outlet context={{ showSettings, setShowSettings }} />
+    <Outlet
+      context={{ showSettings, setShowSettings, showHowTo, setShowHowTo }}
+    />
     // <>
     //   {/* {isLoading && <Loader />} */}
     //   {showTitleScreen && (

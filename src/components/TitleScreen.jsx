@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Tilt from "react-parallax-tilt";
 import Loader from "./Loader";
 import SettingsScreen from "./SettingsScreen";
@@ -8,9 +8,11 @@ import {
   useNavigation,
   useOutletContext,
 } from "react-router-dom";
+import HowToScreen from "./HowToScreen";
 
 export default function TitleScreen() {
-  const { showSettings, setShowSettings } = useOutletContext();
+  const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
+    useOutletContext();
 
   const backgroundCards = useRef([]);
   const firstLoad = useRef(true);
@@ -36,6 +38,7 @@ export default function TitleScreen() {
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
+      {showHowTo && <HowToScreen onClose={() => setShowHowTo(false)} />}
       <div className="title-screen">
         {/* <div className="title-screen-border border-left">
         <div className="title-screen-border-inner"></div>
@@ -75,7 +78,10 @@ export default function TitleScreen() {
                 >
                   <div className="title-screen-button-text">Play Game</div>
                 </button>
-                <button className="title-screen-button">
+                <button
+                  className="title-screen-button"
+                  onClick={() => setShowHowTo(true)}
+                >
                   <div className="title-screen-button-text">How to Play</div>
                 </button>
                 <button

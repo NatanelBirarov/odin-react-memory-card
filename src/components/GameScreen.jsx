@@ -12,9 +12,11 @@ import {
 } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
 import Menu from "./Menu";
+import HowToScreen from "./HowToScreen";
 
 export default function GameScreen() {
-  const { showSettings, setShowSettings } = useOutletContext();
+  const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
+    useOutletContext();
   const gameData = getLocalStorage("gameData");
 
   const pokemonData = useLoaderData();
@@ -95,6 +97,7 @@ export default function GameScreen() {
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
+      {showHowTo && <HowToScreen onClose={() => setShowHowTo(false)} />}
       {showModal === -1 ? (
         <Modal>
           <div className="modal-text">
@@ -200,7 +203,10 @@ export default function GameScreen() {
           </>
         </>
       )}
-      <Menu onShowSettings={() => setShowSettings(true)} />
+      <Menu
+        onShowSettings={() => setShowSettings(true)}
+        onShowHowTo={() => setShowHowTo(true)}
+      />
     </>
   );
 }
