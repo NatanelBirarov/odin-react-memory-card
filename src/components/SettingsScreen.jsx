@@ -12,8 +12,8 @@ export default function SettingsScreen({ onClose }) {
           className="range-slider"
           type="range"
           min="0"
-          max="100"
-          value="50"
+          max="1"
+          value="5"
         />
         <button className="modal-button" onClick={() => handleMuteMusic(1)}>
           <div className="modal-button-text">Mute</div>
@@ -28,8 +28,8 @@ export default function SettingsScreen({ onClose }) {
           className="range-slider"
           type="range"
           min="0"
-          max="100"
-          value="50"
+          max="1"
+          value="5"
         />
         <button className="modal-button" onClick={() => handleMuteMusic(2)}>
           <div className="modal-button-text">Mute</div>

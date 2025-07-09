@@ -14,6 +14,7 @@ export default function TitleScreen() {
   const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
     useOutletContext();
 
+  const soundRef = useRef(null);
   const backgroundCards = useRef([]);
   const firstLoad = useRef(true);
   const navigation = useNavigation();
@@ -33,8 +34,17 @@ export default function TitleScreen() {
     firstLoad.current = false;
   }
 
+  window.addEventListener(
+    "click",
+    () => {
+      soundRef.current.play();
+    },
+    { once: true }
+  );
+
   return (
     <>
+      <audio ref={soundRef} src="/title.mp3" autoPlay loop />
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}

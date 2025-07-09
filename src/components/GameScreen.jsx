@@ -17,6 +17,8 @@ import HowToScreen from "./HowToScreen";
 export default function GameScreen() {
   const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
     useOutletContext();
+
+  const soundRef = useRef(null);
   const gameData = getLocalStorage("gameData");
 
   const pokemonData = useLoaderData();
@@ -92,8 +94,17 @@ export default function GameScreen() {
     }
   }
 
+  window.addEventListener(
+    "click",
+    () => {
+      soundRef.current.play();
+    },
+    { once: true }
+  );
+
   return (
     <>
+      <audio ref={soundRef} src="/game.mp3" autoPlay loop />
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
@@ -206,6 +217,7 @@ export default function GameScreen() {
       <Menu
         onShowSettings={() => setShowSettings(true)}
         onShowHowTo={() => setShowHowTo(true)}
+        onReturnToSelection={() => navigate("/selectionscreen")}
       />
     </>
   );

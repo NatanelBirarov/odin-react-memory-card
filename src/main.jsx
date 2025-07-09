@@ -12,12 +12,14 @@ import TitleScreen from "./components/TitleScreen.jsx";
 import SelectionScreen from "./components/SelectionScreen.jsx";
 import GameScreen from "./components/GameScreen.jsx";
 import Loader from "./components/Loader.jsx";
+import StartScreen from "./components/StartScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />} hydrateFallbackElement={<Loader />}>
+      <Route index element={<StartScreen />}></Route>
       <Route
-        index
+        path="titlescreen"
         element={<TitleScreen />}
         loader={() =>
           fetchPokemon("card", {

@@ -15,7 +15,12 @@ function App() {
 
   return (
     <Outlet
-      context={{ showSettings, setShowSettings, showHowTo, setShowHowTo }}
+      context={{
+        showSettings,
+        setShowSettings,
+        showHowTo,
+        setShowHowTo,
+      }}
     />
     // <>
     //   {/* {isLoading && <Loader />} */}
