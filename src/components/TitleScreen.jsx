@@ -9,12 +9,13 @@ import {
   useOutletContext,
 } from "react-router-dom";
 import HowToScreen from "./HowToScreen";
+import Button from "./Button";
 
 export default function TitleScreen() {
   const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
     useOutletContext();
 
-  const soundRef = useRef(null);
+  const bgAudioRef = useRef(null);
   const backgroundCards = useRef([]);
   const firstLoad = useRef(true);
   const navigation = useNavigation();
@@ -34,17 +35,15 @@ export default function TitleScreen() {
     firstLoad.current = false;
   }
 
-  window.addEventListener(
-    "click",
-    () => {
-      soundRef.current.play();
-    },
-    { once: true }
-  );
-
   return (
     <>
-      <audio ref={soundRef} src="/title.mp3" autoPlay loop />
+      <audio
+        className="title-screen-audio"
+        ref={bgAudioRef}
+        src="/titleBg.mp3"
+        autoPlay
+        loop
+      />
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
@@ -78,28 +77,40 @@ export default function TitleScreen() {
           <div className="title-screen-text">
             <div className="title-screen-container">
               <div className="title-screen-logo">
-                <img src="/logo1.png" alt="Logo" className="logo1 logo-large" />
-                <img src="/logo2.png" alt="Logo" className="logo2 logo-large" />
+                <img
+                  width={1691}
+                  height={361}
+                  src="/logo1.png"
+                  alt="Logo"
+                  className="logo1 logo-large"
+                />
+                <img
+                  width={1691}
+                  height={361}
+                  src="/logo2.png"
+                  alt="Logo"
+                  className="logo2 logo-large"
+                />
               </div>
               <div className="title-screen-buttons">
-                <button
+                <Button
                   className="title-screen-button"
                   onClick={() => navigate("/selectionscreen")}
                 >
                   <div className="title-screen-button-text">Play Game</div>
-                </button>
-                <button
+                </Button>
+                <Button
                   className="title-screen-button"
                   onClick={() => setShowHowTo(true)}
                 >
                   <div className="title-screen-button-text">How to Play</div>
-                </button>
-                <button
+                </Button>
+                <Button
                   className="title-screen-button"
                   onClick={() => setShowSettings(true)}
                 >
                   <div className="title-screen-button-text">Settings</div>
-                </button>
+                </Button>
               </div>
             </div>
           </div>

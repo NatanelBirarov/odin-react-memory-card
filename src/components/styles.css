@@ -211,6 +211,8 @@ button {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  animation-name: fadeInOpacity;
+  animation: fadeInOpacity 1s ease-in;
 }
 
 .title-screen-background {
@@ -280,6 +282,7 @@ button {
   align-items: center;
   height: 100vh;
   background-image: linear-gradient(to bottom, #ff1b1b 70%, #fff);
+  font-size: 30px;
 }
 
 .menu-border {
@@ -326,6 +329,15 @@ button {
 .how-to-button:hover .icon {
   cursor: pointer;
   animation: boing 1s ease-in-out;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes half-spin {
@@ -622,6 +634,10 @@ button {
 
   .flip-card {
     width: 120px;
+  }
+
+  .flip-card:hover {
+    cursor: pointer;
   }
 
   .title-screen-background {

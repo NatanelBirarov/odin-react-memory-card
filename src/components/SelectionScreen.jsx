@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { getLocalStorage, setLocalStorage } from "../js/localStorageFactory";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
@@ -9,7 +9,8 @@ export default function SelectionScreen() {
   const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
     useOutletContext();
 
-  const soundRef = useRef(null);
+  const selectAudioRef = useRef(new Audio("/selectClick.mp3"));
+  const bgAudioRef = useRef(null);
   const pokemonSets = useRef([]);
   const gameData = useRef([]);
   const pokemonData = useLoaderData();
@@ -44,17 +45,20 @@ export default function SelectionScreen() {
     setLocalStorage("gameData", gameData.current);
   }
 
-  window.addEventListener(
-    "click",
-    () => {
-      soundRef.current.play();
-    },
-    { once: true }
-  );
+  function handleSelectGame(id) {
+    selectAudioRef.current.play();
+    navigate(`/gamescreen/${id}`);
+  }
 
   return (
     <>
-      <audio ref={soundRef} src="/selection.mp3" autoPlay loop />
+      <audio
+        className="title-screen-audio"
+        ref={bgAudioRef}
+        src="/selectionBg.mp3"
+        autoPlay
+        loop
+      />
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
@@ -75,7 +79,7 @@ export default function SelectionScreen() {
                       ? ""
                       : "selection-locked"
                   }`}
-                  onClick={() => navigate(`/gamescreen/${set.id}`)}
+                  onClick={() => handleSelectGame(set.id)}
                 >
                   <span className="selection-name">{set.name}</span>
                   <img

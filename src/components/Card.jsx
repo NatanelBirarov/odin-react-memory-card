@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import Tilt from "react-parallax-tilt";
 
 function shuffle(array) {
@@ -33,7 +34,10 @@ export default function Card({
   setCurrentLevelCards,
   setShowModal,
 }) {
+  const selectAudioRef = useRef(new Audio("/cardFlip.mp3"));
+
   function handleClick() {
+    selectAudioRef.current.play();
     const clickedCard = currentLevelCards.find((card) => card.name === name);
     if (clickedCard.clicked) {
       setCurrentScore(0);

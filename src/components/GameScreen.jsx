@@ -13,12 +13,12 @@ import {
 import SettingsScreen from "./SettingsScreen";
 import Menu from "./Menu";
 import HowToScreen from "./HowToScreen";
+import Button from "./Button";
 
 export default function GameScreen() {
   const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
     useOutletContext();
 
-  const soundRef = useRef(null);
   const gameData = getLocalStorage("gameData");
 
   const pokemonData = useLoaderData();
@@ -37,6 +37,8 @@ export default function GameScreen() {
   const [currentLevel, setCurrentLevel] = useState(setData.completedLevels + 1);
 
   const pokemonSetCards = useRef([]);
+  const bgAudioRef = useRef(null);
+  const resultAudioRef = useRef(new Audio("/result.mp3"));
 
   if (navigation.state === "loading") return <Loader />;
 
@@ -87,24 +89,35 @@ export default function GameScreen() {
       });
       setLocalStorage("gameData", newGameDataArray);
     }
-    if (state === 0) {
-      updateLevel();
-    } else if (state === -1) {
+    if (state === -1) {
       navigate("/selectionscreen");
+    } else if (state === 0) {
+      resultAudioRef.current.pause();
+      resultAudioRef.current.currentTime = 0;
+      setTimeout(() => {
+        bgAudioRef.current.play();
+      }, 1000);
+      updateLevel();
+    } else if (state === 1) {
+      resultAudioRef.current.pause();
+      resultAudioRef.current.currentTime = 0;
+      setTimeout(() => {
+        bgAudioRef.current.play();
+      }, 1000);
     }
   }
 
-  window.addEventListener(
-    "click",
-    () => {
-      soundRef.current.play();
-    },
-    { once: true }
-  );
+  if (showModal !== 0) {
+    bgAudioRef.current.pause();
+    bgAudioRef.current.currentTime = 0;
+    setTimeout(() => {
+      resultAudioRef.current.play();
+    }, 1000);
+  }
 
   return (
     <>
-      <audio ref={soundRef} src="/game.mp3" autoPlay loop />
+      <audio ref={bgAudioRef} src="/gameBg.mp3" autoPlay loop />
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
@@ -115,18 +128,18 @@ export default function GameScreen() {
             <p>You failed...</p>
           </div>
           <div className="modal-buttons">
-            <button
+            <Button
               className="modal-button"
               onClick={() => handleEndLevelScreen(-1, false)}
             >
               <div className="modal-button-text">Select set</div>
-            </button>
-            <button
+            </Button>
+            <Button
               className="modal-button"
               onClick={() => handleEndLevelScreen(0, false)}
             >
               <div className="modal-button-text">Try again</div>
-            </button>
+            </Button>
           </div>
         </Modal>
       ) : showModal === 1 ? (
@@ -137,12 +150,12 @@ export default function GameScreen() {
               <p>Congratulations!</p>
             </div>
             <div className="modal-buttons">
-              <button
+              <Button
                 className="modal-button"
                 onClick={() => handleEndLevelScreen(-1, true)}
               >
                 <div className="modal-button-text">Select next set</div>
-              </button>
+              </Button>
             </div>
           </Modal>
         ) : (
@@ -152,18 +165,18 @@ export default function GameScreen() {
               <p>Congratulations!</p>
             </div>
             <div className="modal-buttons">
-              <button
+              <Button
                 className="modal-button"
                 onClick={() => handleEndLevelScreen(-1, true)}
               >
                 <div className="modal-button-text">Select set</div>
-              </button>
-              <button
+              </Button>
+              <Button
                 className="modal-button"
                 onClick={() => handleEndLevelScreen(1, true)}
               >
                 <div className="modal-button-text">Next level</div>
-              </button>
+              </Button>
             </div>
           </Modal>
         )

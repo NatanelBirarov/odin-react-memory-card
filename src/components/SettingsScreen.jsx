@@ -1,3 +1,4 @@
+import Button from "./Button";
 import Modal from "./Modal";
 
 export default function SettingsScreen({ onClose }) {
@@ -15,9 +16,9 @@ export default function SettingsScreen({ onClose }) {
           max="1"
           value="5"
         />
-        <button className="modal-button" onClick={() => handleMuteMusic(1)}>
+        <Button className="modal-button" onClick={() => handleMuteMusic(1)}>
           <div className="modal-button-text">Mute</div>
-        </button>
+        </Button>
       </div>
       <div className="modal-block">
         <label htmlFor="music-volume" className="modal-text">
@@ -31,17 +32,17 @@ export default function SettingsScreen({ onClose }) {
           max="1"
           value="5"
         />
-        <button className="modal-button" onClick={() => handleMuteMusic(2)}>
+        <Button className="modal-button" onClick={() => handleMuteMusic(2)}>
           <div className="modal-button-text">Mute</div>
-        </button>
+        </Button>
       </div>
       <div className="modal-block">
-        <button className="modal-button" onClick={() => handleClearData()}>
+        <Button className="modal-button" onClick={() => handleClearData()}>
           <div className="modal-button-text">Clear game date</div>
-        </button>
-        <button className="modal-button" onClick={onClose}>
+        </Button>
+        <Button className="modal-button" onClick={onClose}>
           <div className="modal-button-text">Close</div>
-        </button>
+        </Button>
       </div>
     </Modal>
   );
