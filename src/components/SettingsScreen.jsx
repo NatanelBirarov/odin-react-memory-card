@@ -1,7 +1,11 @@
+import { useOutletContext } from "react-router-dom";
 import Button from "./Button";
 import Modal from "./Modal";
 
 export default function SettingsScreen({ onClose }) {
+  const { musicVolume, setMusicVolume, sfxVolume, setSfxVolume } =
+    useOutletContext();
+
   return (
     <Modal className="settings-screen">
       <div className="modal-block">
@@ -13,10 +17,11 @@ export default function SettingsScreen({ onClose }) {
           className="range-slider"
           type="range"
           min="0"
-          max="1"
-          value="5"
+          max="100"
+          value={musicVolume * 100}
+          onChange={(e) => setMusicVolume(+e.target.value / 100)}
         />
-        <Button className="modal-button" onClick={() => handleMuteMusic(1)}>
+        <Button className="modal-button" onClick={() => setMusicVolume(0)}>
           <div className="modal-button-text">Mute</div>
         </Button>
       </div>
@@ -29,10 +34,11 @@ export default function SettingsScreen({ onClose }) {
           className="range-slider"
           type="range"
           min="0"
-          max="1"
-          value="5"
+          max="100"
+          value={sfxVolume * 100}
+          onChange={(e) => setSfxVolume(+e.target.value / 100)}
         />
-        <Button className="modal-button" onClick={() => handleMuteMusic(2)}>
+        <Button className="modal-button" onClick={() => setSfxVolume(0)}>
           <div className="modal-button-text">Mute</div>
         </Button>
       </div>

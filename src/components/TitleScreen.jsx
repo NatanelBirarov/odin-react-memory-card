@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Tilt from "react-parallax-tilt";
 import Loader from "./Loader";
 import SettingsScreen from "./SettingsScreen";
@@ -12,8 +12,14 @@ import HowToScreen from "./HowToScreen";
 import Button from "./Button";
 
 export default function TitleScreen() {
-  const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
-    useOutletContext();
+  const {
+    showSettings,
+    setShowSettings,
+    showHowTo,
+    setShowHowTo,
+    musicVolume,
+    sfxVolume,
+  } = useOutletContext();
 
   const bgAudioRef = useRef(null);
   const backgroundCards = useRef([]);
@@ -22,6 +28,10 @@ export default function TitleScreen() {
   const navigate = useNavigate();
 
   let pokemonData = useLoaderData();
+
+  useEffect(() => {
+    bgAudioRef.current.volume = musicVolume;
+  }, [musicVolume]);
 
   if (navigation.state === "loading") return <Loader />;
 

@@ -16,8 +16,14 @@ import HowToScreen from "./HowToScreen";
 import Button from "./Button";
 
 export default function GameScreen() {
-  const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
-    useOutletContext();
+  const {
+    showSettings,
+    setShowSettings,
+    showHowTo,
+    setShowHowTo,
+    musicVolume,
+    sfxVolume,
+  } = useOutletContext();
 
   const gameData = getLocalStorage("gameData");
 
@@ -39,6 +45,10 @@ export default function GameScreen() {
   const pokemonSetCards = useRef([]);
   const bgAudioRef = useRef(null);
   const resultAudioRef = useRef(new Audio("/result.mp3"));
+
+  useEffect(() => {
+    bgAudioRef.current.volume = musicVolume;
+  }, [musicVolume]);
 
   if (navigation.state === "loading") return <Loader />;
 
@@ -96,14 +106,14 @@ export default function GameScreen() {
       resultAudioRef.current.currentTime = 0;
       setTimeout(() => {
         bgAudioRef.current.play();
-      }, 1000);
+      }, 500);
       updateLevel();
     } else if (state === 1) {
       resultAudioRef.current.pause();
       resultAudioRef.current.currentTime = 0;
       setTimeout(() => {
         bgAudioRef.current.play();
-      }, 1000);
+      }, 500);
     }
   }
 
@@ -112,7 +122,7 @@ export default function GameScreen() {
     bgAudioRef.current.currentTime = 0;
     setTimeout(() => {
       resultAudioRef.current.play();
-    }, 1000);
+    }, 500);
   }
 
   return (
@@ -208,7 +218,7 @@ export default function GameScreen() {
               <div className="cards-container">
                 {currentLevelCards.map((card) => (
                   <Card
-                    key={card.name}
+                    key={card.id}
                     name={card.name}
                     image={card.image}
                     isShuffling={isShuffling}

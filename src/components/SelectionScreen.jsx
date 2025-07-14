@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { getLocalStorage, setLocalStorage } from "../js/localStorageFactory";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
@@ -6,8 +6,14 @@ import Menu from "./Menu";
 import HowToScreen from "./HowToScreen";
 
 export default function SelectionScreen() {
-  const { showSettings, setShowSettings, showHowTo, setShowHowTo } =
-    useOutletContext();
+  const {
+    showSettings,
+    setShowSettings,
+    showHowTo,
+    setShowHowTo,
+    musicVolume,
+    sfxVolume,
+  } = useOutletContext();
 
   const selectAudioRef = useRef(new Audio("/selectClick.mp3"));
   const bgAudioRef = useRef(null);
@@ -15,6 +21,10 @@ export default function SelectionScreen() {
   const gameData = useRef([]);
   const pokemonData = useLoaderData();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    bgAudioRef.current.volume = musicVolume;
+  }, [musicVolume]);
 
   pokemonSets.current = pokemonData.map((set) => {
     return {

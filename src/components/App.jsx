@@ -7,6 +7,8 @@ import { useState } from "react";
 function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showHowTo, setShowHowTo] = useState(false);
+  const [musicVolume, setMusicVolume] = useState(0.5);
+  const [sfxVolume, setSfxVolume] = useState(0.5);
 
   const navigation = useNavigation();
 
@@ -20,6 +22,10 @@ function App() {
         setShowSettings,
         showHowTo,
         setShowHowTo,
+        musicVolume,
+        setMusicVolume,
+        sfxVolume,
+        setSfxVolume,
       }}
     />
     // <>
