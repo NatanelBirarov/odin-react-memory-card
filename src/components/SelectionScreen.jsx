@@ -12,7 +12,6 @@ export default function SelectionScreen() {
     showHowTo,
     setShowHowTo,
     musicVolume,
-    sfxVolume,
   } = useOutletContext();
 
   const selectAudioRef = useRef(new Audio("/selectClick.mp3"));

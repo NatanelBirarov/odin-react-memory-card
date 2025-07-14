@@ -22,7 +22,6 @@ export default function GameScreen() {
     showHowTo,
     setShowHowTo,
     musicVolume,
-    sfxVolume,
   } = useOutletContext();
 
   const gameData = getLocalStorage("gameData");

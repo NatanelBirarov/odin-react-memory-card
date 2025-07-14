@@ -18,7 +18,6 @@ export default function TitleScreen() {
     showHowTo,
     setShowHowTo,
     musicVolume,
-    sfxVolume,
   } = useOutletContext();
 
   const bgAudioRef = useRef(null);
