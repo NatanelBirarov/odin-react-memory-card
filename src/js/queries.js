@@ -7,7 +7,7 @@ const pokemonQuery = (queryKey, type, options) => ({
 });
 
 export const titleScreenQuery = () =>
-  pokemonQuery(["card"], "card", {
+  pokemonQuery(["card", -1], "card", {
     q: "set.name:Prismatic supertype:Pokémon",
     orderBy: "-tcgplayer.prices.holofoil.mid",
     select: "id,images",

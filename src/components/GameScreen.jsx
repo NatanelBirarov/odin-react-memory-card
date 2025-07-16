@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Loader from "./Loader";
 import Card from "./Card";
 import Score from "./Score";
@@ -9,11 +9,14 @@ import {
   useNavigate,
   useNavigation,
   useOutletContext,
+  useParams,
 } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
 import Menu from "./Menu";
 import HowToScreen from "./HowToScreen";
 import Button from "./Button";
+import { useQuery } from "@tanstack/react-query";
+import { gameScreenQuery } from "../js/queries";
 
 export default function GameScreen() {
   const {
@@ -26,7 +29,9 @@ export default function GameScreen() {
 
   const gameData = getLocalStorage("gameData");
 
-  const pokemonData = useLoaderData();
+  // const pokemonData = useLoaderData();
+  const params = useParams();
+  const { data: pokemonData } = useQuery(gameScreenQuery(params.setId));
   const navigation = useNavigation();
   const navigate = useNavigate();
 
@@ -51,14 +56,20 @@ export default function GameScreen() {
 
   if (navigation.state === "loading") return <Loader />;
 
-  pokemonSetCards.current = pokemonData.map((card) => {
-    return {
-      id: card.id,
-      name: card.name,
-      image: card.images.large,
-      clicked: false,
-    };
-  });
+  pokemonSetCards.current = useMemo(() => {
+    let transformedData = [];
+    if (pokemonData) {
+      transformedData = pokemonData.map((card) => {
+        return {
+          id: card.id,
+          name: card.name,
+          image: card.images.large,
+          clicked: false,
+        };
+      });
+    }
+    return transformedData;
+  }, [pokemonData]);
 
   const levels = setData.levels;
 

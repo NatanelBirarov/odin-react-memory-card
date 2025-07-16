@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { getLocalStorage, setLocalStorage } from "../js/localStorageFactory";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
 import Menu from "./Menu";
 import HowToScreen from "./HowToScreen";
+import { selectionScreenQuery } from "../js/queries";
+import { useQuery } from "@tanstack/react-query";
 
 export default function SelectionScreen() {
   const {
@@ -18,41 +20,48 @@ export default function SelectionScreen() {
   const bgAudioRef = useRef(null);
   const pokemonSets = useRef([]);
   const gameData = useRef([]);
-  const pokemonData = useLoaderData();
+  // const pokemonData = useLoaderData();
+  const { data: pokemonData } = useQuery(selectionScreenQuery());
   const navigate = useNavigate();
 
   useEffect(() => {
     bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
 
-  pokemonSets.current = pokemonData.map((set) => {
-    return {
-      id: set.id,
-      name: set.name,
-      image: set.images.logo,
-      levels:
-        set.total % 10 > 5
-          ? Math.floor(set.total / 10 + 1)
-          : Math.floor(set.total / 10),
-    };
-  });
-  pokemonSets.current = pokemonSets.current.filter((set) => {
-    return set.name !== "Journey Together";
-  });
-  gameData.current = getLocalStorage("gameData");
-  if (!gameData.current) {
-    gameData.current = [];
-    pokemonSets.current.forEach((set) => {
-      gameData.current.push({
-        id: set.id,
-        completedLevels: 0,
-        levels: set.levels,
-        highScore: 0,
-        completed: false,
+  gameData.current = useMemo(() => {
+    let newGameData = [];
+    if (pokemonData) {
+      pokemonSets.current = pokemonData.map((set) => {
+        return {
+          id: set.id,
+          name: set.name,
+          image: set.images.logo,
+          levels:
+            set.total % 10 > 5
+              ? Math.floor(set.total / 10 + 1)
+              : Math.floor(set.total / 10),
+        };
       });
-    });
-    setLocalStorage("gameData", gameData.current);
-  }
+      pokemonSets.current = pokemonSets.current.filter((set) => {
+        return set.name !== "Journey Together";
+      });
+      newGameData = getLocalStorage("gameData");
+      if (!newGameData) {
+        newGameData = [];
+        pokemonSets.current.forEach((set) => {
+          newGameData.push({
+            id: set.id,
+            completedLevels: 0,
+            levels: set.levels,
+            highScore: 0,
+            completed: false,
+          });
+        });
+        setLocalStorage("gameData", gameData.current);
+      }
+    }
+    return newGameData;
+  }, [pokemonData]);
 
   function handleSelectGame(id) {
     selectAudioRef.current.play();
