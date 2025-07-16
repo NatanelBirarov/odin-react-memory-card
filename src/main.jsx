@@ -6,7 +6,11 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import fetchPokemon from "./js/pokemonFactory.js";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import queryClient from "./js/queryClient.js";
+import pokemonLoader from "./js/pokemonLoader.js";
+
 import App from "./components/App.jsx";
 import TitleScreen from "./components/TitleScreen.jsx";
 import SelectionScreen from "./components/SelectionScreen.jsx";
@@ -16,35 +20,28 @@ import StartScreen from "./components/StartScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />} hydrateFallbackElement={<Loader />}>
+    <Route
+      path="/"
+      element={<App />}
+      hydrateFallbackElement={<Loader />}
+      errorElement={<Loader />}
+    >
       <Route index element={<StartScreen />}></Route>
       <Route
         path="titlescreen"
         element={<TitleScreen />}
-        loader={() =>
-          fetchPokemon("card", {
-            q: "set.name:Prismatic supertype:Pokémon",
-            orderBy: "-tcgplayer.prices.holofoil.mid",
-            select: "id,images",
-          })
-        }
+        loader={pokemonLoader}
       />
       <Route
         path="selectionscreen"
         element={<SelectionScreen />}
-        loader={() => fetchPokemon("set", { orderBy: "releaseDate" })}
+        loader={pokemonLoader}
         hydrateFallbackElement={<Loader />}
       />
       <Route
         path="gamescreen/:setId"
         element={<GameScreen />}
-        loader={({ params }) =>
-          fetchPokemon("card", {
-            q: `set.id:${params.setId}`, // supertype:Pokémon
-            orderBy: "tcgplayer.prices.holofoil.mid",
-            select: "id,name,images",
-          })
-        }
+        loader={pokemonLoader}
       />
       <Route path="*" element={<div>404</div>} />
     </Route>
@@ -53,6 +50,9 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </StrictMode>
 );

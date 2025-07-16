@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import Tilt from "react-parallax-tilt";
 import Loader from "./Loader";
 import SettingsScreen from "./SettingsScreen";
@@ -10,6 +10,8 @@ import {
 } from "react-router-dom";
 import HowToScreen from "./HowToScreen";
 import Button from "./Button";
+import { useQuery } from "@tanstack/react-query";
+import { titleScreenQuery } from "../js/queries";
 
 export default function TitleScreen() {
   const {
@@ -26,23 +28,38 @@ export default function TitleScreen() {
   const navigation = useNavigation();
   const navigate = useNavigate();
 
-  let pokemonData = useLoaderData();
+  // let pokemonData = useLoaderData();
+
+  let {
+    data: pokemonData,
+    isLoading,
+    isFetching,
+    isFetched,
+    isError,
+    status,
+  } = useQuery(titleScreenQuery());
 
   useEffect(() => {
     bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
 
-  if (navigation.state === "loading") return <Loader />;
+  backgroundCards.current = useMemo(() => {
+    let transformedData = [];
+    if (pokemonData) {
+      if (firstLoad.current) {
+        transformedData = Array.from(Array(30).keys()).map(() => {
+          const randomCard =
+            pokemonData[Math.floor(Math.random() * pokemonData.length)];
+          pokemonData = pokemonData.filter((card) => card.id !== randomCard.id);
+          return randomCard;
+        });
+        firstLoad.current = false;
+      }
+    }
+    return transformedData;
+  }, [pokemonData]);
 
-  if (firstLoad.current) {
-    backgroundCards.current = Array.from(Array(30).keys()).map(() => {
-      const randomCard =
-        pokemonData[Math.floor(Math.random() * pokemonData.length)];
-      pokemonData = pokemonData.filter((card) => card.id !== randomCard.id);
-      return randomCard;
-    });
-    firstLoad.current = false;
-  }
+  if (navigation.state === "loading") return <Loader />;
 
   return (
     <>
