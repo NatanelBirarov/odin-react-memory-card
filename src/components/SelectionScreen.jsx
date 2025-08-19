@@ -16,7 +16,7 @@ export default function SelectionScreen() {
     musicVolume,
   } = useOutletContext();
 
-  const selectAudioRef = useRef(new Audio("/selectClick.mp3"));
+  const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
   const bgAudioRef = useRef(null);
   const pokemonSets = useRef([]);
   const gameData = useRef([]);
@@ -73,7 +73,7 @@ export default function SelectionScreen() {
       <audio
         className="title-screen-audio"
         ref={bgAudioRef}
-        src="/selectionBg.mp3"
+        src="/audio/selectionBg.mp3"
         autoPlay
         loop
       />

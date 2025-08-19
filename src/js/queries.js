@@ -2,7 +2,7 @@ import fetchPokemon from "./pokemonFactory";
 
 const pokemonQuery = (queryKey, type, options) => ({
   queryKey: queryKey,
-  queryFn: () => fetchPokemon(type, options),
+  queryFn: () => fetchPokemon(queryKey, type, options),
   staleTime: Infinity,
 });
 

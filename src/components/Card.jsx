@@ -34,7 +34,7 @@ export default function Card({
   setCurrentLevelCards,
   setShowModal,
 }) {
-  const selectAudioRef = useRef(new Audio("/cardFlip.mp3"));
+  const selectAudioRef = useRef(new Audio("/audio/cardFlip.mp3"));
 
   function handleClick() {
     selectAudioRef.current.play();
@@ -93,7 +93,7 @@ export default function Card({
           <img className="card-front" src={image} alt={name} />
           <img
             className="card-back"
-            src="/card-back.png"
+            src="/images/card-back.png"
             alt={name + "-back"}
           />
           {/* <div className="card-name">

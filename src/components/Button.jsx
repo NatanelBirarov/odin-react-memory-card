@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 
 export default function Button({ children, onClick, className }) {
   const { sfxVolume } = useOutletContext();
-  const selectAudioRef = useRef(new Audio("/selectClick.mp3"));
+  const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
 
   useEffect(() => {
     selectAudioRef.current.volume = sfxVolume;

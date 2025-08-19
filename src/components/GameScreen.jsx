@@ -48,7 +48,7 @@ export default function GameScreen() {
 
   const pokemonSetCards = useRef([]);
   const bgAudioRef = useRef(null);
-  const resultAudioRef = useRef(new Audio("/result.mp3"));
+  const resultAudioRef = useRef(new Audio("/audio/result.mp3"));
 
   useEffect(() => {
     bgAudioRef.current.volume = musicVolume;
@@ -137,7 +137,7 @@ export default function GameScreen() {
 
   return (
     <>
-      <audio ref={bgAudioRef} src="/gameBg.mp3" autoPlay loop />
+      <audio ref={bgAudioRef} src="/audio/gameBg.mp3" autoPlay loop />
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
@@ -210,10 +210,14 @@ export default function GameScreen() {
           <div className="header">
             <img className="header-img" src="/pokeball-main.png" alt="Logo" />
             <div className="logo-container">
-              <img src="/logo1.png" alt="Logo" className="logo1" />
-              <img src="/logo2.png" alt="Logo" className="logo2" />
+              <img src="/images/logo1.png" alt="Logo" className="logo1" />
+              <img src="/images/logo2.png" alt="Logo" className="logo2" />
             </div>
-            <img className="header-img" src="/pokeball-main.png" alt="Logo" />
+            <img
+              className="header-img"
+              src="/images/pokeball-main.png"
+              alt="Logo"
+            />
           </div>
           <>
             <div className="main-text">

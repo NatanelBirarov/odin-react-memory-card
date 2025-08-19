@@ -66,7 +66,7 @@ export default function TitleScreen() {
       <audio
         className="title-screen-audio"
         ref={bgAudioRef}
-        src="/titleBg.mp3"
+        src="/audio/titleBg.mp3"
         autoPlay
         loop
       />
@@ -106,14 +106,14 @@ export default function TitleScreen() {
                 <img
                   width={1691}
                   height={361}
-                  src="/logo1.png"
+                  src="/images/logo1.png"
                   alt="Logo"
                   className="logo1 logo-large"
                 />
                 <img
                   width={1691}
                   height={361}
-                  src="/logo2.png"
+                  src="/images/logo2.png"
                   alt="Logo"
                   className="logo2 logo-large"
                 />

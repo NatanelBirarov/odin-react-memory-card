@@ -13,16 +13,24 @@ export default function Menu({
           className="menu-button settings-button"
           onClick={onShowSettings}
         >
-          <img className="icon" src="/cog.svg" alt="Logo" />
+          <img className="icon" src="/images/cog.svg" alt="Logo" />
         </Button>
         <Button className="menu-button how-to-button" onClick={onShowHowTo}>
-          <img className="icon" src="/help-circle-outline.svg" alt="Logo" />
+          <img
+            className="icon"
+            src="/images/help-circle-outline.svg"
+            alt="Logo"
+          />
         </Button>
         <Button
           className="menu-button selection-button"
           onClick={onReturnToSelection}
         >
-          <img className="icon" src="/cards-playing-outline.svg" alt="Logo" />
+          <img
+            className="icon"
+            src="/images/cards-playing-outline.svg"
+            alt="Logo"
+          />
         </Button>
       </div>
     </div>
