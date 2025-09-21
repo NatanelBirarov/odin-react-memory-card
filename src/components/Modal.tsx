@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 
-export default function Modal({ className, children }) {
+type ModalProps = {
+  className?: string;
+  children: React.ReactNode;
+};
+export default function Modal({ className, children }: ModalProps) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     // document.body.style.paddingRight = "0px";

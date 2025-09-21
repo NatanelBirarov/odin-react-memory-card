@@ -1,4 +1,9 @@
-export default function Score({ currentScore, highScore }) {
+type ScoreProps = {
+  currentScore: number;
+  highScore: number;
+};
+
+export default function Score({ currentScore, highScore }: ScoreProps) {
   return (
     <div className="scores-container">
       <h1 className="score">Score:{currentScore}</h1>
