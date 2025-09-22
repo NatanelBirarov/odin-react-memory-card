@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import Button from "./Button";
 import Modal from "./Modal";
-import { setLocalStorage } from "../js/localStorageFactory";
+import { setLocalStorage } from "../scripts/localStorageFactory";
 
 export default function SettingsScreen({ onClose }) {
   const { musicVolume, setMusicVolume, sfxVolume, setSfxVolume } =

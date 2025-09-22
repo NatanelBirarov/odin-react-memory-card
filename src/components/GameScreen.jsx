@@ -3,7 +3,10 @@ import Loader from "./Loader";
 import Card from "./Card";
 import Score from "./Score";
 import Modal from "./Modal";
-import { getLocalStorage, setLocalStorage } from "../js/localStorageFactory";
+import {
+  getLocalStorage,
+  setLocalStorage,
+} from "../scripts/localStorageFactory";
 import {
   useLoaderData,
   useNavigate,
@@ -16,7 +19,7 @@ import Menu from "./Menu";
 import HowToScreen from "./HowToScreen";
 import Button from "./Button";
 import { useQuery } from "@tanstack/react-query";
-import { gameScreenQuery } from "../js/queries";
+import { gameScreenQuery } from "../scripts/queries";
 
 export default function GameScreen() {
   const {

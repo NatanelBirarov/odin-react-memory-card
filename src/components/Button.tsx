@@ -1,8 +1,15 @@
 import { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
+import { ContextType } from "../scripts/types";
 
-export default function Button({ children, onClick, className }) {
-  const { sfxVolume } = useOutletContext();
+type ButtonProps = {
+  children: React.ReactNode;
+  onClick: () => void;
+  className?: string;
+};
+
+export default function Button({ children, onClick, className }: ButtonProps) {
+  const { sfxVolume } = useOutletContext<ContextType>();
   const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
 
   useEffect(() => {

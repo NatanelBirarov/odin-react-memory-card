@@ -1,10 +1,13 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { getLocalStorage, setLocalStorage } from "../js/localStorageFactory";
+import {
+  getLocalStorage,
+  setLocalStorage,
+} from "../scripts/localStorageFactory";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
 import Menu from "./Menu";
 import HowToScreen from "./HowToScreen";
-import { selectionScreenQuery } from "../js/queries";
+import { selectionScreenQuery } from "../scripts/queries";
 import { useQuery } from "@tanstack/react-query";
 
 export default function SelectionScreen() {

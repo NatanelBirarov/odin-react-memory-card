@@ -1,7 +1,11 @@
 import Button from "./Button";
 import Modal from "./Modal";
 
-export default function HowToScreen({ onClose }) {
+type HowToScreenProps = {
+  onClose: () => void;
+};
+
+export default function HowToScreen({ onClose }: HowToScreenProps) {
   return (
     <Modal className="how-to-screen">
       <p>

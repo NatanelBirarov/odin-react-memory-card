@@ -1,7 +1,23 @@
 import { useRef } from "react";
 import Tilt from "react-parallax-tilt";
+import { StateUpdater, CardObject } from "../scripts/types";
 
-function shuffle(array) {
+type CardProps = {
+  name: string;
+  image: string;
+  isShuffling: boolean;
+  setIsShuffling: (isShuffling: boolean) => void;
+  currentScore: number;
+  setCurrentScore: StateUpdater<number>;
+  highScore: number;
+  setHighScore: StateUpdater<number>;
+  currentLevelCards: CardObject[];
+  setCurrentLevelCards: StateUpdater<CardObject[]>;
+  setShowModal: (modalType: number) => void;
+};
+
+// Durstenfeld shuffle algorithm
+function shuffle(array: CardObject[]) {
   const shuffledArray = [...array];
   let currentIndex = shuffledArray.length;
 
@@ -33,12 +49,14 @@ export default function Card({
   currentLevelCards,
   setCurrentLevelCards,
   setShowModal,
-}) {
+}: CardProps) {
   const selectAudioRef = useRef(new Audio("/audio/cardFlip.mp3"));
 
   function handleClick() {
     selectAudioRef.current.play();
-    const clickedCard = currentLevelCards.find((card) => card.name === name);
+    const clickedCard: CardObject = currentLevelCards.find(
+      (card) => card.name === name
+    );
     if (clickedCard.clicked) {
       setCurrentScore(0);
       if (currentScore > highScore) {
@@ -55,7 +73,7 @@ export default function Card({
         setTimeout(() => {
           const shuffledCards =
             // shuffle(
-            currentLevelCards.map((card) => {
+            currentLevelCards.map((card: CardObject) => {
               if (card.name === clickedCard.name) {
                 return { ...card, clicked: true };
               } else {

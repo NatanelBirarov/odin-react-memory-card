@@ -11,7 +11,9 @@ import {
 import HowToScreen from "./HowToScreen";
 import Button from "./Button";
 import { useQuery } from "@tanstack/react-query";
-import { titleScreenQuery } from "../js/queries";
+import { titleScreenQuery } from "../scripts/queries";
+
+import { CardObject, ContextType, PokemonData } from "../scripts/types";
 
 export default function TitleScreen() {
   const {
@@ -20,37 +22,30 @@ export default function TitleScreen() {
     showHowTo,
     setShowHowTo,
     musicVolume,
-  } = useOutletContext();
+  } = useOutletContext<ContextType>();
 
-  const bgAudioRef = useRef(null);
-  const backgroundCards = useRef([]);
+  const bgAudioRef = useRef<HTMLAudioElement | null>(null);
+  const backgroundCards = useRef<CardObject[]>([]);
   const firstLoad = useRef(true);
   const navigation = useNavigation();
   const navigate = useNavigate();
 
-  // let pokemonData = useLoaderData();
-
-  let {
-    data: pokemonData,
-    isLoading,
-    isFetching,
-    isFetched,
-    isError,
-    status,
-  } = useQuery(titleScreenQuery());
+  let { data: pokemonData }: PokemonData = useQuery(titleScreenQuery());
 
   useEffect(() => {
     bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
 
-  backgroundCards.current = useMemo(() => {
-    let transformedData = [];
+  backgroundCards.current = useMemo<CardObject[]>(() => {
+    let transformedData: CardObject[] = [];
     if (pokemonData) {
       if (firstLoad.current) {
         transformedData = Array.from(Array(30).keys()).map(() => {
-          const randomCard =
+          const randomCard: CardObject =
             pokemonData[Math.floor(Math.random() * pokemonData.length)];
-          pokemonData = pokemonData.filter((card) => card.id !== randomCard.id);
+          pokemonData = pokemonData.filter(
+            (card: CardObject) => card.id !== randomCard.id
+          );
           return randomCard;
         });
         firstLoad.current = false;
@@ -79,7 +74,7 @@ export default function TitleScreen() {
         <div className="title-screen-border-inner"></div>
       </div> */}
         <div className="title-screen-background">
-          {backgroundCards.current.map((card) => (
+          {backgroundCards.current.map((card: CardObject) => (
             <Tilt
               key={card.id}
               perspective={500}

@@ -1,10 +1,17 @@
 import Button from "./Button";
+import { StateUpdater } from "../scripts/types";
+
+type MenuProps = {
+  onShowSettings: StateUpdater<null>;
+  onShowHowTo: StateUpdater<null>;
+  onReturnToSelection: StateUpdater<null>;
+};
 
 export default function Menu({
   onShowSettings,
   onShowHowTo,
   onReturnToSelection,
-}) {
+}: MenuProps) {
   return (
     <div className="menu">
       <button className="menu-toggle">...</button>

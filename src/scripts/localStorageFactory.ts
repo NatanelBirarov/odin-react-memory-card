@@ -1,4 +1,4 @@
-export function getLocalStorage(key) {
+export function getLocalStorage(key: string) {
   try {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : null;
@@ -8,7 +8,7 @@ export function getLocalStorage(key) {
   }
 }
 
-export function setLocalStorage(key, value) {
+export function setLocalStorage(key: string, value: any) {
   try {
     const item = JSON.stringify(value);
     localStorage.setItem(key, item);

@@ -8,8 +8,8 @@ import {
 } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import queryClient from "./js/queryClient.js";
-import pokemonLoader from "./js/pokemonLoader.js";
+import queryClient from "./scripts/queryClient.js";
+import pokemonLoader from "./scripts/pokemonLoader.js";
 
 import App from "./components/App.jsx";
 import TitleScreen from "./components/TitleScreen.jsx";

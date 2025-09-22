@@ -5,7 +5,8 @@
     "checkJs": false,
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "noEmit": true
+    "noEmit": true,
+    "lib": ["dom", "es2015"]
   },
   "include": ["src"]
 }
