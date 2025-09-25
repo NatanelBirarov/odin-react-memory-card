@@ -1,4 +1,6 @@
-export type StateUpdater<T> = (param: T | ((prev: T) => T)) => void;
+import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
+
+export type StateUpdater<T> = (param?: T | ((prev: T) => T)) => void;
 
 export type CardObject = {
   id: string;
@@ -19,4 +21,10 @@ export type ContextType = {
   setMusicVolume: React.Dispatch<React.SetStateAction<number>>;
   sfxVolume: number;
   setSfxVolume: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export type QueryOptions = {
+  queryKey: (string | number)[];
+  type: "card" | "set";
+  params?: PokemonTCG.IParameter;
 };

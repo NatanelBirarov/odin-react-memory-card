@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
-import { ContextType } from "../scripts/types";
+import { ContextType, StateUpdater } from "../scripts/types";
 
 type ButtonProps = {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick: StateUpdater<null>;
   className?: string;
 };
 

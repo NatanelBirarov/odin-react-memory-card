@@ -6,7 +6,7 @@
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "noEmit": true,
-    "lib": ["dom", "es2015"]
+    "lib": ["dom", "es2019"]
   },
   "include": ["src"]
 }
