@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 type ModalProps = {
-  className?: string;
+  className?: "how-to-screen" | "settings-screen";
   children: React.ReactNode;
 };
 export default function Modal({ className, children }: ModalProps) {

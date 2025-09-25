@@ -13,7 +13,7 @@ type CardProps = {
   setHighScore: StateUpdater<number>;
   currentLevelCards: CardObject[];
   setCurrentLevelCards: StateUpdater<CardObject[]>;
-  setShowModal: (modalType: number) => void;
+  setShowModal: (modalType: -1 | 0 | 1) => void;
 };
 
 // Durstenfeld shuffle algorithm

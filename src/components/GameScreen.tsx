@@ -20,6 +20,17 @@ import HowToScreen from "./HowToScreen";
 import Button from "./Button";
 import { useQuery } from "@tanstack/react-query";
 import { gameScreenQuery } from "../scripts/queries";
+import { CardObject, ContextType } from "../scripts/types";
+
+type SetData = {
+  completed: boolean;
+  completedLevels: number;
+  highScore: number;
+  id: string;
+  levels: number;
+};
+
+type GameDataType = SetData[];
 
 export default function GameScreen() {
   const {
@@ -28,9 +39,9 @@ export default function GameScreen() {
     showHowTo,
     setShowHowTo,
     musicVolume,
-  } = useOutletContext();
+  } = useOutletContext<ContextType>();
 
-  const gameData = getLocalStorage("gameData");
+  const gameData: GameDataType = getLocalStorage("gameData");
 
   // const pokemonData = useLoaderData();
   const params = useParams();
@@ -44,12 +55,12 @@ export default function GameScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(setData.highScore);
-  const [currentLevelCards, setCurrentLevelCards] = useState([]);
+  const [currentLevelCards, setCurrentLevelCards] = useState<CardObject[]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [showModal, setShowModal] = useState(0);
   const [currentLevel, setCurrentLevel] = useState(setData.completedLevels + 1);
 
-  const pokemonSetCards = useRef([]);
+  const pokemonSetCards = useRef<CardObject[]>([]);
   const bgAudioRef = useRef(null);
   const resultAudioRef = useRef(new Audio("/audio/result.mp3"));
 

@@ -1,7 +1,7 @@
 import Loader from "./Loader";
 import { Outlet, useNavigation } from "react-router-dom";
 
-import "..styles/styles.css";
+import "../styles/styles.css";
 import { useState } from "react";
 import {
   getLocalStorage,
@@ -9,8 +9,13 @@ import {
 } from "../scripts/localStorageFactory";
 import { ContextType } from "../scripts/types";
 
+type VolumeType = {
+  musicVolume: number;
+  sfxVolume: number;
+};
+
 function App() {
-  const volume = getLocalStorage("volume");
+  const volume: VolumeType = getLocalStorage("volume");
   if (!volume) {
     setLocalStorage("volume", { musicVolumeInit: 0.5, sfxVolumeInit: 0.5 });
   }

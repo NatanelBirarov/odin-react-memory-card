@@ -11,11 +11,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import queryClient from "./scripts/queryClient.js";
 import pokemonLoader from "./scripts/pokemonLoader.js";
 
-import App from "./components/App.jsx";
-import TitleScreen from "./components/TitleScreen.jsx";
+import App from "./components/App.tsx";
+import TitleScreen from "./components/TitleScreen.tsx";
 import SelectionScreen from "./components/SelectionScreen.jsx";
-import GameScreen from "./components/GameScreen.jsx";
-import Loader from "./components/Loader.jsx";
+import GameScreen from "./components/GameScreen.tsx";
+import Loader from "./components/Loader.tsx";
 import StartScreen from "./components/StartScreen.jsx";
 
 const router = createBrowserRouter(
