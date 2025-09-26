@@ -3,10 +3,7 @@ import { Outlet, useNavigation } from "react-router-dom";
 
 import "../styles/styles.css";
 import { useState } from "react";
-import {
-  getLocalStorage,
-  setLocalStorage,
-} from "../scripts/localStorageFactory";
+import LocalStorageFactory from "../scripts/localStorageFactory";
 import { ContextType } from "../scripts/types";
 
 type VolumeType = {
@@ -15,9 +12,12 @@ type VolumeType = {
 };
 
 function App() {
-  const volume: VolumeType = getLocalStorage("volume");
+  const volume: VolumeType = LocalStorageFactory.get("volume");
   if (!volume) {
-    setLocalStorage("volume", { musicVolumeInit: 0.5, sfxVolumeInit: 0.5 });
+    LocalStorageFactory.set("volume", {
+      musicVolumeInit: 0.5,
+      sfxVolumeInit: 0.5,
+    });
   }
   const initialMusicVolume = volume?.musicVolume || 0.5;
   const initialSfxVolume = volume?.sfxVolume || 0.5;

@@ -1,14 +1,10 @@
-import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Loader from "./Loader";
 import Card from "./Card";
 import Score from "./Score";
 import Modal from "./Modal";
+import LocalStorageFactory from "../scripts/localStorageFactory";
 import {
-  getLocalStorage,
-  setLocalStorage,
-} from "../scripts/localStorageFactory";
-import {
-  useLoaderData,
   useNavigate,
   useNavigation,
   useOutletContext,
@@ -20,17 +16,9 @@ import HowToScreen from "./HowToScreen";
 import Button from "./Button";
 import { useQuery } from "@tanstack/react-query";
 import { gameScreenQuery } from "../scripts/queries";
-import { CardObject, ContextType } from "../scripts/types";
+import { CardData, SetDataType, ContextType } from "../scripts/types";
 
-type SetData = {
-  completed: boolean;
-  completedLevels: number;
-  highScore: number;
-  id: string;
-  levels: number;
-};
-
-type GameDataType = SetData[];
+type GameDataType = SetDataType[];
 
 export default function GameScreen() {
   const {
@@ -41,7 +29,7 @@ export default function GameScreen() {
     musicVolume,
   } = useOutletContext<ContextType>();
 
-  const gameData: GameDataType = getLocalStorage("gameData");
+  const gameData: GameDataType = LocalStorageFactory.get("gameData");
 
   // const pokemonData = useLoaderData();
   const params = useParams();
@@ -55,12 +43,12 @@ export default function GameScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(setData.highScore);
-  const [currentLevelCards, setCurrentLevelCards] = useState<CardObject[]>([]);
+  const [currentLevelCards, setCurrentLevelCards] = useState<CardData[]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [showModal, setShowModal] = useState(0);
   const [currentLevel, setCurrentLevel] = useState(setData.completedLevels + 1);
 
-  const pokemonSetCards = useRef<CardObject[]>([]);
+  const pokemonSetCards = useRef<CardData[]>([]);
   const bgAudioRef = useRef(null);
   const resultAudioRef = useRef(new Audio("/audio/result.mp3"));
 
@@ -121,7 +109,7 @@ export default function GameScreen() {
           return set;
         }
       });
-      setLocalStorage("gameData", newGameDataArray);
+      LocalStorageFactory.set("gameData", newGameDataArray);
     }
     if (state === -1) {
       navigate("/selectionscreen");

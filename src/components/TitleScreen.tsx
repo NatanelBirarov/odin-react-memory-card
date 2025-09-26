@@ -2,18 +2,13 @@ import { useEffect, useMemo, useRef } from "react";
 import Tilt from "react-parallax-tilt";
 import Loader from "./Loader";
 import SettingsScreen from "./SettingsScreen";
-import {
-  useLoaderData,
-  useNavigate,
-  useNavigation,
-  useOutletContext,
-} from "react-router-dom";
+import { useNavigate, useNavigation, useOutletContext } from "react-router-dom";
 import HowToScreen from "./HowToScreen";
 import Button from "./Button";
 import { useQuery } from "@tanstack/react-query";
 import { titleScreenQuery } from "../scripts/queries";
 
-import { CardObject, ContextType, PokemonData } from "../scripts/types";
+import { CardData, ContextType, PokemonData } from "../scripts/types";
 
 export default function TitleScreen() {
   const {
@@ -25,7 +20,7 @@ export default function TitleScreen() {
   } = useOutletContext<ContextType>();
 
   const bgAudioRef = useRef<HTMLAudioElement | null>(null);
-  const backgroundCards = useRef<CardObject[]>([]);
+  const backgroundCards = useRef<CardData[]>([]);
   const firstLoad = useRef(true);
   const navigation = useNavigation();
   const navigate = useNavigate();
@@ -36,15 +31,15 @@ export default function TitleScreen() {
     bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
 
-  backgroundCards.current = useMemo<CardObject[]>(() => {
-    let transformedData: CardObject[] = [];
+  backgroundCards.current = useMemo<CardData[]>(() => {
+    let transformedData: CardData[] = [];
     if (pokemonData) {
       if (firstLoad.current) {
         transformedData = Array.from(Array(30).keys()).map(() => {
-          const randomCard: CardObject =
+          const randomCard: CardData =
             pokemonData[Math.floor(Math.random() * pokemonData.length)];
           pokemonData = pokemonData.filter(
-            (card: CardObject) => card.id !== randomCard.id
+            (card: CardData) => card.id !== randomCard.id
           );
           return randomCard;
         });
@@ -74,7 +69,7 @@ export default function TitleScreen() {
         <div className="title-screen-border-inner"></div>
       </div> */}
         <div className="title-screen-background">
-          {backgroundCards.current.map((card: CardObject) => (
+          {backgroundCards.current.map((card: CardData) => (
             <Tilt
               key={card.id}
               perspective={500}

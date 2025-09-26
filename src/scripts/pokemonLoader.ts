@@ -5,8 +5,12 @@ import {
   selectionScreenQuery,
   titleScreenQuery,
 } from "./queries";
+import { LoaderFunctionArgs } from "react-router-dom";
 
-export default async function pokemonLoader({ params, request }) {
+export default async function pokemonLoader({
+  params,
+  request,
+}: LoaderFunctionArgs) {
   const url = new URL(request.url);
 
   if (url.pathname.includes("titlescreen")) {
