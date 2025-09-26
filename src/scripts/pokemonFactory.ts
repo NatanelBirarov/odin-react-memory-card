@@ -1,8 +1,10 @@
 import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
-import { QueryOptions } from "./types";
+import { CardData, QueryOptions } from "./types";
 // pokemon.configure({ apiKey: "a087390f-8839-444e-90b6-b09b9ecb6699" });
 
-export default async function fetchPokemon(fetchParams: QueryOptions) {
+export default async function fetchPokemon(
+  fetchParams: QueryOptions
+): Promise<PokemonTCG.ISet[] | PokemonTCG.ICard[] | CardData[]> {
   try {
     return PokemonTCG[
       fetchParams.type === "card" ? "findCardsByQueries" : "findSetsByQueries"
@@ -15,7 +17,7 @@ export default async function fetchPokemon(fetchParams: QueryOptions) {
       try {
         const res = await fetch("/data/card/.card.json");
         const files: string[] = await res.json();
-        const results = await Promise.all(
+        const results: PokemonTCG.ICard[] = await Promise.all(
           files.map(async (file) => {
             const fileRes = await fetch(`/data/${file}`);
             return fileRes.json();
@@ -27,30 +29,37 @@ export default async function fetchPokemon(fetchParams: QueryOptions) {
           return results
             .flat()
             .filter(
-              (card) =>
+              (card: PokemonTCG.ICard) =>
                 card.set.name.includes("Prismatic") &&
                 card.supertype === "Pokémon"
             )
             .sort(
-              (a, b) =>
+              (a: PokemonTCG.ICard, b: PokemonTCG.ICard) =>
                 (b.tcgplayer?.prices?.holofoil?.mid || 0) -
                 (a.tcgplayer?.prices?.holofoil?.mid || 0)
             )
-            .map((card) => {
-              card.id, card.images;
+            .map((card: PokemonTCG.ICard) => {
+              return { id: card.id, images: card.images } as CardData;
             });
         } else {
           // Otherwise, filter by set ID
           return results
             .flat()
-            .filter((card) => card.set.id === fetchParams.queryKey[1])
+            .filter(
+              (card: PokemonTCG.ICard) =>
+                card.set.id === fetchParams.queryKey[1]
+            )
             .sort(
-              (a, b) =>
+              (a: PokemonTCG.ICard, b: PokemonTCG.ICard) =>
                 (b.tcgplayer?.prices?.holofoil?.mid || 0) -
                 (a.tcgplayer?.prices?.holofoil?.mid || 0)
             )
-            .map((card) => {
-              card.id, card.name, card.images;
+            .map((card: PokemonTCG.ICard) => {
+              return {
+                id: card.id,
+                name: card.name,
+                images: card.images,
+              } as CardData;
             });
         }
       } catch (fetchError) {
@@ -60,7 +69,8 @@ export default async function fetchPokemon(fetchParams: QueryOptions) {
     } else if (fetchParams.type === "set") {
       try {
         const setsData = await fetch(`/data/set/.set.json`);
-        return await setsData.json();
+        const setsDataJson: PokemonTCG.ISet[] = await setsData.json();
+        return setsDataJson;
       } catch (fetchError) {
         console.error("Error fetching local Pokémon sets data:", fetchError);
         throw fetchError;

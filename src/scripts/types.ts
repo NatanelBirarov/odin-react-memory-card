@@ -2,7 +2,7 @@ import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
 
 export type StateUpdater<T> = (param?: T | ((prev: T) => T)) => void;
 
-export type CardObject = {
+export type CardData = {
   id: string;
   name: string;
   image?: string;
@@ -10,7 +10,15 @@ export type CardObject = {
   clicked: boolean;
 };
 
-export type PokemonData = { data: CardObject[] | undefined };
+export type SetDataType = {
+  id: string;
+  completedLevels: number;
+  levels: number;
+  highScore: number;
+  completed: boolean;
+};
+
+export type PokemonData = { data: CardData[] | undefined };
 
 export type ContextType = {
   showSettings: boolean;
