@@ -4,8 +4,56 @@
   box-sizing: border-box;
 }
 
-html {
-  font-size: 62.5%;
+.glass-effect {
+  width: 240px;
+  height: 360px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 10px 5px rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* For browsers that support clamp and container queries */
+@supports (font-size: clamp(1rem, 1cqi, 1rem)) {
+  :root {
+    --fs-sm: clamp(0.8rem, 0.17cqi + 0.76rem, 0.89rem);
+    --fs-base: clamp(1rem, 0.34cqi + 0.91rem, 1.19rem);
+    --fs-md: clamp(1.25rem, 0.61cqi + 1.1rem, 1.58rem);
+    --fs-lg: clamp(1.56rem, 1cqi + 1.31rem, 2.11rem);
+    --fs-xl: clamp(1.95rem, 1.56cqi + 1.56rem, 2.81rem);
+    --fs-xxl: clamp(2.44rem, 2.38cqi + 1.85rem, 3.75rem);
+    --fs-xxxl: clamp(3.05rem, 3.54cqi + 2.17rem, 5rem);
+  }
+}
+/* For browsers that don't support clamp or container queries */
+@supports not (font-size: clamp(1rem, 1cqi, 1rem)) {
+  :root {
+    --fs-sm: 0.8rem;
+    --fs-base: 1rem;
+    --fs-md: 1.25rem;
+    --fs-lg: 1.56rem;
+    --fs-xl: 1.95rem;
+    --fs-xxl: 2.44rem;
+    --fs-xxxl: 3.05rem;
+  }
+  @media screen and (min-width: 1280px) {
+    :root {
+      --fs-sm: 0.89rem;
+      --fs-base: 1.19rem;
+      --fs-md: 1.58rem;
+      --fs-lg: 2.11rem;
+      --fs-xl: 2.81rem;
+      --fs-xxl: 3.75rem;
+      --fs-xxxl: 5rem;
+    }
+  }
 }
 
 #root {

@@ -33,6 +33,8 @@ export default function GameScreen() {
 
   // const pokemonData = useLoaderData();
   const params = useParams();
+
+  type GameScreenData = { data: CardData[] };
   const { data: pokemonData } = useQuery(gameScreenQuery(params.setId));
   const navigation = useNavigation();
   const navigate = useNavigate();

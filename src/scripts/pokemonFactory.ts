@@ -6,9 +6,11 @@ export default async function fetchPokemon(
   fetchParams: QueryOptions
 ): Promise<PokemonTCG.ISet[] | PokemonTCG.ICard[] | CardData[]> {
   try {
-    return PokemonTCG[
-      fetchParams.type === "card" ? "findCardsByQueries" : "findSetsByQueries"
-    ](fetchParams.params);
+    const pokemonQueryHandler =
+      PokemonTCG[
+        fetchParams.type === "card" ? "findCardsByQueries" : "findSetsByQueries"
+      ];
+    return pokemonQueryHandler(fetchParams.params);
   } catch (error) {
     console.error("Error fetching Pokémon data fro API:", error);
     console.error("Trying to fetch local data...:");
