@@ -31,8 +31,10 @@ export default function SelectionScreen() {
   const gameData = useRef<SetDataType[]>([]);
   // const pokemonData = useLoaderData();
 
-  type QueryResult = { data: PokemonTCG.ISet[] };
-  const { data: pokemonData } = useQuery(selectionScreenQuery()) as QueryResult;
+  type SelectionScreenData = { data: PokemonTCG.ISet[] };
+  const { data: pokemonData } = useQuery(
+    selectionScreenQuery()
+  ) as SelectionScreenData;
   const navigate = useNavigate();
 
   useEffect(() => {

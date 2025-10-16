@@ -8,7 +8,7 @@ import Button from "./Button";
 import { useQuery } from "@tanstack/react-query";
 import { titleScreenQuery } from "../scripts/queries";
 
-import { CardData, ContextType, PokemonData } from "../scripts/types";
+import { CardData, ContextType } from "../scripts/types";
 
 export default function TitleScreen() {
   const {
@@ -25,7 +25,8 @@ export default function TitleScreen() {
   const navigation = useNavigation();
   const navigate = useNavigate();
 
-  let { data: pokemonData }: PokemonData = useQuery(titleScreenQuery());
+  type TitleScreenData = { data: CardData[] };
+  let { data: pokemonData } = useQuery(titleScreenQuery()) as TitleScreenData;
 
   useEffect(() => {
     bgAudioRef.current.volume = musicVolume;

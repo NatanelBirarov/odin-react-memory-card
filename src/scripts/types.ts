@@ -18,8 +18,6 @@ export type SetDataType = {
   completed: boolean;
 };
 
-export type PokemonData = { data: CardData[] | undefined };
-
 export type ContextType = {
   showSettings: boolean;
   setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
