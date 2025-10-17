@@ -70,7 +70,7 @@ export default function SelectionScreen() {
             completed: false,
           });
         });
-        LocalStorageFactory.set("gameData", gameData.current);
+        LocalStorageFactory.set("gameData", newGameData);
       }
     }
     return newGameData;
