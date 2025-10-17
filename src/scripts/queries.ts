@@ -15,7 +15,7 @@ export const titleScreenQuery = () => {
     select: "id,images",
   };
 
-  return pokemonQuery({ queryKey: ["card", -1], type: "card", params });
+  return pokemonQuery({ queryKey: ["card", "-1"], type: "card", params });
 };
 
 export const selectionScreenQuery = () => {

@@ -30,7 +30,7 @@ export type ContextType = {
 };
 
 export type QueryOptions = {
-  queryKey: (string | number)[];
+  queryKey: [string] | [string, string];
   type: "card" | "set";
   params?: PokemonTCG.IParameter;
 };

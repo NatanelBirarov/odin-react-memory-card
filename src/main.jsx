@@ -30,7 +30,7 @@ const router = createBrowserRouter(
       <Route
         path="titlescreen"
         element={<TitleScreen />}
-        // loader={pokemonLoader}
+        loader={pokemonLoader}
       />
       <Route
         path="selectionscreen"
