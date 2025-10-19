@@ -3,292 +3,507 @@
     "id": "pop5-1",
     "name": "Ho-Oh",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "80",
-    "types": [
-      "Fire"
-    ],
+    "types": ["Fire"],
     "attacks": [
       {
         "name": "Fire Wing",
-        "cost": [
-          "Fire",
-          "Colorless"
-        ],
+        "cost": ["Fire", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20",
         "text": ""
       },
       {
         "name": "Fire Blast",
-        "cost": [
-          "Fire",
-          "Fire",
-          "Fire",
-          "Colorless"
-        ],
+        "cost": ["Fire", "Fire", "Fire", "Colorless"],
         "convertedEnergyCost": 4,
         "damage": "60",
         "text": "Discard a Fire Energy attached to Ho-Oh."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Water",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless",
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Water", "value": "×2" }],
+    "retreatCost": ["Colorless", "Colorless"],
     "convertedRetreatCost": 2,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "1",
     "artist": "Mitsuhiro Arita",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      250
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [250],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/1.png",
       "large": "https://images.pokemontcg.io/pop5/1_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-1",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 3.0,
+          "mid": 5.99,
+          "high": 16.05,
+          "market": 15.29,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 15.0,
+          "mid": 22.11,
+          "high": 50.0,
+          "market": 24.41,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-1",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 27.47,
+        "lowPrice": 14.98,
+        "trendPrice": 50.33,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 13.19,
+        "lowPriceExPlus": 30.0,
+        "avg1": 24.95,
+        "avg7": 52.85,
+        "avg30": 36.1,
+        "reverseHoloAvg1": 12.99,
+        "reverseHoloAvg7": 12.81,
+        "reverseHoloAvg30": 9.16
+      }
     }
   },
   {
     "id": "pop5-2",
     "name": "Lugia",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "80",
-    "types": [
-      "Psychic"
-    ],
+    "types": ["Psychic"],
     "attacks": [
       {
         "name": "Super Psy Bolt",
-        "cost": [
-          "Psychic",
-          "Colorless"
-        ],
+        "cost": ["Psychic", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20",
         "text": ""
       },
       {
         "name": "Aerowing",
-        "cost": [
-          "Psychic",
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Psychic", "Colorless", "Colorless"],
         "convertedEnergyCost": 3,
         "damage": "30",
         "text": "Before doing damage, you may flip a coin. If tails, this attack does nothing. If heads, this attack does 60 damage instead."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Psychic",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless",
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Psychic", "value": "×2" }],
+    "retreatCost": ["Colorless", "Colorless"],
     "convertedRetreatCost": 2,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "2",
     "artist": "Mitsuhiro Arita",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      249
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [249],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/2.png",
       "large": "https://images.pokemontcg.io/pop5/2_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-2",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 33.61,
+          "mid": 41.98,
+          "high": 225.0,
+          "market": 100.0,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 80.0,
+          "mid": 107.99,
+          "high": 111.99,
+          "market": 100.14,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-2",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 37.47,
+        "lowPrice": 44.94,
+        "trendPrice": 52.33,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 275.0,
+        "reverseHoloTrend": 31.46,
+        "lowPriceExPlus": 75.0,
+        "avg1": 44.95,
+        "avg7": 45.63,
+        "avg30": 46.37,
+        "reverseHoloAvg1": 25.0,
+        "reverseHoloAvg7": 23.42,
+        "reverseHoloAvg30": 23.42
+      }
     }
   },
   {
     "id": "pop5-3",
     "name": "Mew δ",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "60",
-    "types": [
-      "Fire"
-    ],
+    "types": ["Fire"],
     "attacks": [
       {
         "name": "Copy",
-        "cost": [
-          "Colorless"
-        ],
+        "cost": ["Colorless"],
         "convertedEnergyCost": 1,
         "damage": "",
         "text": "Choose 1 of the Defending Pokémon's attacks. Copy copies that attack. This attack does nothing if Mew doesn't have the Energy necessary to use that attack. (You must still do anything else required for that attack.) Mew performs that attack."
       },
       {
         "name": "Extra Draw",
-        "cost": [
-          "Fire"
-        ],
+        "cost": ["Fire"],
         "convertedEnergyCost": 1,
         "damage": "",
         "text": "If your opponent has any Pokémon-ex in play, search your deck for up to 2 basic Energy cards and attach them to Mew. Shuffle your deck afterward."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Psychic",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Psychic", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "3",
     "artist": "Masakazu Fukuda",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      151
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [151],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/3.png",
       "large": "https://images.pokemontcg.io/pop5/3_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-3",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "holofoil": {
+          "low": 118.69,
+          "mid": 120.68,
+          "high": 186.5,
+          "market": 499.0,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-3",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 284.75,
+        "lowPrice": 245.0,
+        "trendPrice": 222.77,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 70.57,
+        "lowPriceExPlus": 550.0,
+        "avg1": 249.99,
+        "avg7": 223.0,
+        "avg30": 206.04,
+        "reverseHoloAvg1": 55.0,
+        "reverseHoloAvg7": 53.56,
+        "reverseHoloAvg30": 43.21
+      }
     }
   },
   {
     "id": "pop5-4",
     "name": "Double Rainbow Energy",
     "supertype": "Energy",
-    "subtypes": [
-      "Special"
-    ],
+    "subtypes": ["Special"],
     "rules": [
       "Double Rainbow Energy can be attached only to an Evolved Pokémon (excluding Pokémon-ex). While in play, Double Rainbow Energy provides every type of Energy but provides 2 Energy at a time. (Has no effect other than providing Energy.) Damage done to your opponent's Pokémon by the Pokémon Double Rainbow Energy is attached to is reduced by 10 (before applying Weakness and Resistance). When the Pokémon Double Rainbow Energy is attached to is no longer an Evolved Pokémon, discard Double Rainbow Energy."
     ],
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "4",
     "artist": "Takumi Akabane",
     "rarity": "Rare",
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/4.png",
       "large": "https://images.pokemontcg.io/pop5/4_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-4",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 12.17,
+          "mid": 16.48,
+          "high": 28.08,
+          "market": 26.25,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-4",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 8.41,
+        "lowPrice": 10.0,
+        "trendPrice": 7.71,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 0.0,
+        "avg1": 4.98,
+        "avg7": 8.38,
+        "avg30": 7.72,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop5-5",
     "name": "Charmeleon δ",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Stage 1"
-    ],
+    "subtypes": ["Stage 1"],
     "hp": "70",
-    "types": [
-      "Lightning"
-    ],
+    "types": ["Lightning"],
     "evolvesFrom": "Charmander",
-    "evolvesTo": [
-      "Charizard"
-    ],
+    "evolvesTo": ["Charizard"],
     "attacks": [
       {
         "name": "Slash",
-        "cost": [
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Colorless", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20",
         "text": ""
       },
       {
         "name": "Thunder Jolt",
-        "cost": [
-          "Lightning",
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Lightning", "Colorless", "Colorless"],
         "convertedEnergyCost": 3,
         "damage": "50",
         "text": "Flip a coin. If tails, Charmeleon does 10 damage to itself."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Water",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Water", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "5",
     "artist": "Mitsuhiro Arita",
     "rarity": "Uncommon",
-    "nationalPokedexNumbers": [
-      5
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [5],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/5.png",
       "large": "https://images.pokemontcg.io/pop5/5_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-5",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 45.0,
+          "mid": 69.69,
+          "high": 79.99,
+          "market": 59.99,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-5",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 34.75,
+        "lowPrice": 19.99,
+        "trendPrice": 22.83,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 25.0,
+        "avg1": 29.5,
+        "avg7": 27.78,
+        "avg30": 20.31,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop5-6",
     "name": "Bill's Maintenance",
     "supertype": "Trainer",
-    "subtypes": [
-      "Supporter"
-    ],
+    "subtypes": ["Supporter"],
     "rules": [
       "You can play only one Supporter card each turn. When you play this card, put it next to your Active Pokémon. When your turn ends, discard this card.",
       "If you have any cards in your hand, shuffle 1 of them into your deck, then draw 3 cards."
     ],
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "6",
     "artist": "Ken Sugimori",
     "rarity": "Uncommon",
-    "legalities": {
-      "unlimited": "Legal",
-      "expanded": "Legal"
-    },
+    "legalities": { "unlimited": "Legal", "expanded": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/6.png",
       "large": "https://images.pokemontcg.io/pop5/6_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-6",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 3.83,
+          "mid": 4.98,
+          "high": 5.86,
+          "market": 4.15,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-6",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 3.16,
+        "lowPrice": 1.49,
+        "trendPrice": 2.51,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 1.49,
+        "avg1": 4.0,
+        "avg7": 2.4,
+        "avg30": 2.38,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop5-7",
     "name": "Rare Candy",
     "supertype": "Trainer",
-    "subtypes": [
-      "Item"
-    ],
+    "subtypes": ["Item"],
     "rules": [
       "Choose 1 of your Basic Pokémon in play. If you have a Stage 1 or Stage 2 card that evolves from that Pokémon in your hand, put that card on the Basic Pokémon. (This counts as evolving that Pokémon.)"
     ],
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "7",
     "artist": "Ryo Ueda",
     "rarity": "Uncommon",
@@ -300,288 +515,519 @@
     "images": {
       "small": "https://images.pokemontcg.io/pop5/7.png",
       "large": "https://images.pokemontcg.io/pop5/7_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-7",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 11.04,
+          "mid": 12.85,
+          "high": 20.0,
+          "market": 12.99,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-7",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 10.0,
+        "lowPrice": 1.99,
+        "trendPrice": 6.11,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 7.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 7.0,
+        "lowPriceExPlus": 9.99,
+        "avg1": 10.0,
+        "avg7": 5.99,
+        "avg30": 4.17,
+        "reverseHoloAvg1": 7.0,
+        "reverseHoloAvg7": 7.0,
+        "reverseHoloAvg30": 7.0
+      }
     }
   },
   {
     "id": "pop5-8",
     "name": "Boost Energy",
     "supertype": "Energy",
-    "subtypes": [
-      "Special"
-    ],
+    "subtypes": ["Special"],
     "rules": [
       "Boost Energy can be attached only to an Evolved Pokémon. Discard Boost Energy at the end of the turn it was attached. Boost Energy provides ColorlessColorlessColorless Energy. The Pokémon Boost Energy is attached to can't retreat. If the Pokémon Boost Energy is attached to isn't an Evolved Pokémon, discard Boost Energy."
     ],
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "8",
     "artist": "Shin-ichi Yoshikawa",
     "rarity": "Uncommon",
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/8.png",
       "large": "https://images.pokemontcg.io/pop5/8_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-8",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 1.75,
+          "mid": 3.37,
+          "high": 5.54,
+          "market": 3.71,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-8",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 3.5,
+        "lowPrice": 1.0,
+        "trendPrice": 2.89,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 1.48,
+        "lowPriceExPlus": 2.5,
+        "avg1": 4.0,
+        "avg7": 2.53,
+        "avg30": 2.38,
+        "reverseHoloAvg1": 1.48,
+        "reverseHoloAvg7": 2.08,
+        "reverseHoloAvg30": 2.08
+      }
     }
   },
   {
     "id": "pop5-9",
     "name": "δ Rainbow Energy",
     "supertype": "Energy",
-    "subtypes": [
-      "Special"
-    ],
+    "subtypes": ["Special"],
     "rules": [
       "δ Rainbow Energy provides Colorless Energy. While attached to a Pokémon that has δ on its card, δ Rainbow Energy provides every type of Energy but provides only 1 Energy at a time. (Has no effect other than providing Energy.)"
     ],
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "9",
     "artist": "Takumi Akabane",
     "rarity": "Uncommon",
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/9.png",
       "large": "https://images.pokemontcg.io/pop5/9_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-9",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 4.99,
+          "mid": 5.5,
+          "high": 7.75,
+          "market": 4.33,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-9",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 4.99,
+        "lowPrice": 3.5,
+        "trendPrice": 4.26,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.83,
+        "lowPriceExPlus": 3.5,
+        "avg1": 4.7,
+        "avg7": 4.35,
+        "avg30": 3.75,
+        "reverseHoloAvg1": 0.83,
+        "reverseHoloAvg7": 0.83,
+        "reverseHoloAvg30": 0.83
+      }
     }
   },
   {
     "id": "pop5-10",
     "name": "Charmander δ",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "50",
-    "types": [
-      "Lightning"
-    ],
-    "evolvesTo": [
-      "Charmeleon"
-    ],
+    "types": ["Lightning"],
+    "evolvesTo": ["Charmeleon"],
     "attacks": [
       {
         "name": "Scratch",
-        "cost": [
-          "Colorless"
-        ],
+        "cost": ["Colorless"],
         "convertedEnergyCost": 1,
         "damage": "10",
         "text": ""
       },
       {
         "name": "Bite",
-        "cost": [
-          "Lightning",
-          "Colorless"
-        ],
+        "cost": ["Lightning", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20",
         "text": ""
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Water",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Water", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "10",
     "artist": "Mitsuhiro Arita",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      4
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [4],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/10.png",
       "large": "https://images.pokemontcg.io/pop5/10_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-10",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 14.9,
+          "mid": 18.33,
+          "high": 79.99,
+          "market": 22.98,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-10",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 8.34,
+        "lowPrice": 5.0,
+        "trendPrice": 10.96,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 5.0,
+        "avg1": 8.5,
+        "avg7": 9.36,
+        "avg30": 8.52,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop5-11",
     "name": "Meowth δ",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "40",
-    "types": [
-      "Darkness"
-    ],
-    "evolvesTo": [
-      "Persian"
-    ],
+    "types": ["Darkness"],
+    "evolvesTo": ["Persian"],
     "attacks": [
       {
         "name": "Feint Attack",
-        "cost": [
-          "Darkness"
-        ],
+        "cost": ["Darkness"],
         "convertedEnergyCost": 1,
         "damage": "",
         "text": "Choose 1 of your opponent's Pokémon. This attack does 10 damage to that Pokémon. This attack's damage isn't affected by Weakness, Resistance, Poké-Powers, Poké-Bodies, or any other effects on that Pokémon."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Fighting",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Fighting", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "11",
     "artist": "Mitsuhiro Arita",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      52
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [52],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/11.png",
       "large": "https://images.pokemontcg.io/pop5/11_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-11",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 6.1,
+          "mid": 7.13,
+          "high": 9.69,
+          "market": 4.77,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-11",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 2.76,
+        "lowPrice": 1.3,
+        "trendPrice": 4.1,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 2.5,
+        "avg1": 2.5,
+        "avg7": 4.03,
+        "avg30": 2.63,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop5-12",
     "name": "Pikachu",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "50",
-    "types": [
-      "Lightning"
-    ],
-    "evolvesTo": [
-      "Raichu"
-    ],
+    "types": ["Lightning"],
+    "evolvesTo": ["Raichu"],
     "attacks": [
       {
         "name": "Lightning Ball",
-        "cost": [
-          "Lightning"
-        ],
+        "cost": ["Lightning"],
         "convertedEnergyCost": 1,
         "damage": "10",
         "text": ""
       },
       {
         "name": "Thunderbolt",
-        "cost": [
-          "Lightning",
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Lightning", "Colorless", "Colorless"],
         "convertedEnergyCost": 3,
         "damage": "50",
         "text": "Discard all Energy cards attached to Pikachu."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Fighting",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Fighting", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "12",
     "artist": "Naoyo Kimura",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      25
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [25],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/12.png",
       "large": "https://images.pokemontcg.io/pop5/12_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-12",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 20.5,
+          "mid": 25.3,
+          "high": 45.69,
+          "market": 27.59,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 47.5,
+          "mid": 68.4,
+          "high": 110.25,
+          "market": 99.97,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-12",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 25.69,
+        "lowPrice": 10.0,
+        "trendPrice": 22.48,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 135.86,
+        "lowPriceExPlus": 25.0,
+        "avg1": 20.0,
+        "avg7": 26.1,
+        "avg30": 21.48,
+        "reverseHoloAvg1": 249.99,
+        "reverseHoloAvg7": 75.98,
+        "reverseHoloAvg30": 51.33
+      }
     }
   },
   {
     "id": "pop5-13",
     "name": "Pikachu δ",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "40",
-    "types": [
-      "Metal"
-    ],
-    "evolvesTo": [
-      "Raichu"
-    ],
+    "types": ["Metal"],
+    "evolvesTo": ["Raichu"],
     "attacks": [
       {
         "name": "Electric Punch",
-        "cost": [
-          "Colorless"
-        ],
+        "cost": ["Colorless"],
         "convertedEnergyCost": 1,
         "damage": "10",
         "text": ""
       },
       {
         "name": "Heavy Metal",
-        "cost": [
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Colorless", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "10+",
         "text": "Flip a coin for each Metal Energy attached to Pikachu. This attack does 10 damage plus 20 more damage for each heads."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Fighting",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Fighting", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "13",
     "artist": "Ryo Ueda",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      25
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [25],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/13.png",
       "large": "https://images.pokemontcg.io/pop5/13_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-13",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 28.11,
+          "mid": 28.69,
+          "high": 34.99,
+          "market": 25.84,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-13",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 22.66,
+        "lowPrice": 7.67,
+        "trendPrice": 18.59,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 15.0,
+        "avg1": 20.0,
+        "avg7": 15.71,
+        "avg30": 15.06,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop5-14",
     "name": "Pelipper δ",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Stage 1"
-    ],
+    "subtypes": ["Stage 1"],
     "hp": "70",
-    "types": [
-      "Lightning"
-    ],
+    "types": ["Lightning"],
     "evolvesFrom": "Wingull",
     "abilities": [
       {
@@ -593,114 +1039,178 @@
     "attacks": [
       {
         "name": "Lightning Wing",
-        "cost": [
-          "Lightning",
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Lightning", "Colorless", "Colorless"],
         "convertedEnergyCost": 3,
         "damage": "50",
         "text": "Does 10 damage to 1 of your Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Lightning",
-        "value": "×2"
+    "weaknesses": [{ "type": "Lightning", "value": "×2" }],
+    "resistances": [{ "type": "Fighting", "value": "-30" }],
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
       }
-    ],
-    "resistances": [
-      {
-        "type": "Fighting",
-        "value": "-30"
-      }
-    ],
+    },
     "number": "14",
     "artist": "Mitsuhiro Arita",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      279
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [279],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/14.png",
       "large": "https://images.pokemontcg.io/pop5/14_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-14",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 0.56,
+          "mid": 2.09,
+          "high": 21.11,
+          "market": 1.22,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 2.1,
+          "mid": 3.06,
+          "high": 6.67,
+          "market": 4.56,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-14",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 1.21,
+        "lowPrice": 0.35,
+        "trendPrice": 1.6,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 3.31,
+        "lowPriceExPlus": 1.0,
+        "avg1": 1.95,
+        "avg7": 1.27,
+        "avg30": 1.79,
+        "reverseHoloAvg1": 2.5,
+        "reverseHoloAvg7": 2.61,
+        "reverseHoloAvg30": 2.61
+      }
     }
   },
   {
     "id": "pop5-15",
     "name": "Zangoose δ",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "70",
-    "types": [
-      "Metal"
-    ],
+    "types": ["Metal"],
     "attacks": [
       {
         "name": "Detect",
-        "cost": [
-          "Colorless"
-        ],
+        "cost": ["Colorless"],
         "convertedEnergyCost": 1,
         "damage": "",
         "text": "Flip a coin. If heads, prevent all effects of an attack, including damage, done to Zangoose during your opponent's next turn."
       },
       {
         "name": "Metal Claw",
-        "cost": [
-          "Metal",
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Metal", "Colorless", "Colorless"],
         "convertedEnergyCost": 3,
         "damage": "40",
         "text": ""
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Fighting",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Fighting", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "15",
     "artist": "Kouki Saitou",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      335
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [335],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/15.png",
       "large": "https://images.pokemontcg.io/pop5/15_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-15",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 0.56,
+          "mid": 1.74,
+          "high": 6.69,
+          "market": 1.21,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 4.63,
+          "mid": 6.66,
+          "high": 9.16,
+          "market": 6.15,
+          "directLow": 6.95
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-15",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 1.55,
+        "lowPrice": 0.5,
+        "trendPrice": 1.81,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 5.41,
+        "lowPriceExPlus": 0.75,
+        "avg1": 0.75,
+        "avg7": 1.53,
+        "avg30": 1.97,
+        "reverseHoloAvg1": 5.0,
+        "reverseHoloAvg7": 3.86,
+        "reverseHoloAvg30": 3.86
+      }
     }
   },
   {
     "id": "pop5-16",
     "name": "Espeon ★",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic",
-      "Star"
-    ],
+    "subtypes": ["Basic", "Star"],
     "hp": "70",
-    "types": [
-      "Psychic"
-    ],
-    "rules": [
-      "You can't have more than 1 Pokémon Star in your deck."
-    ],
+    "types": ["Psychic"],
+    "rules": ["You can't have more than 1 Pokémon Star in your deck."],
     "abilities": [
       {
         "name": "Purple Ray",
@@ -711,55 +1221,81 @@
     "attacks": [
       {
         "name": "Psychic Boom",
-        "cost": [
-          "Psychic",
-          "Psychic",
-          "Colorless"
-        ],
+        "cost": ["Psychic", "Psychic", "Colorless"],
         "convertedEnergyCost": 3,
         "damage": "30+",
         "text": "Does 30 damage plus 10 more damage for each Energy attached to the Defending Pokémon."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Psychic",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Psychic", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "16",
     "artist": "Masakazu Fukuda",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      196
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [196],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/16.png",
       "large": "https://images.pokemontcg.io/pop5/16_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-16",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 49999.99,
+          "mid": 52500.0,
+          "high": 55000.0,
+          "market": null,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-16",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 8000.0,
+        "lowPrice": 6500.0,
+        "trendPrice": 3559.68,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 8000.0,
+        "avg1": 8000.0,
+        "avg7": 3774.88,
+        "avg30": 1785.47,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop5-17",
     "name": "Umbreon ★",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic",
-      "Star"
-    ],
+    "subtypes": ["Basic", "Star"],
     "hp": "70",
-    "types": [
-      "Darkness"
-    ],
-    "rules": [
-      "You can't have more than 1 Pokémon Star in your deck."
-    ],
+    "types": ["Darkness"],
+    "rules": ["You can't have more than 1 Pokémon Star in your deck."],
     "abilities": [
       {
         "name": "Dark Ray",
@@ -770,43 +1306,72 @@
     "attacks": [
       {
         "name": "Feint Attack",
-        "cost": [
-          "Darkness",
-          "Darkness"
-        ],
+        "cost": ["Darkness", "Darkness"],
         "convertedEnergyCost": 2,
         "damage": "",
         "text": "Choose 1 of your opponent's Pokémon. This attack does 30 damage to that Pokémon. This attack's damage isn't affected by Weakness, Resistance, Poké-Powers, Poké-Bodies, or any other effects on that Pokémon."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Fighting",
-        "value": "×2"
-      }
-    ],
-    "resistances": [
-      {
-        "type": "Psychic",
-        "value": "-30"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Fighting", "value": "×2" }],
+    "resistances": [{ "type": "Psychic", "value": "-30" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop5",
+      "name": "POP Series 5",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2007/03/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop5/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop5/logo.png"
+      }
+    },
     "number": "17",
     "artist": "Masakazu Fukuda",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      197
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [197],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop5/17.png",
       "large": "https://images.pokemontcg.io/pop5/17_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop5-17",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 47.0,
+          "mid": 47.0,
+          "high": 47.0,
+          "market": null,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop5-17",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 6500.0,
+        "lowPrice": 3600.0,
+        "trendPrice": 4058.37,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 550.0,
+        "lowPriceExPlus": 9999.0,
+        "avg1": 110.0,
+        "avg7": 3549.29,
+        "avg30": 2380.46,
+        "reverseHoloAvg1": 550.0,
+        "reverseHoloAvg7": 450.0,
+        "reverseHoloAvg30": 450.0
+      }
     }
   }
 ]

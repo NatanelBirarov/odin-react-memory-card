@@ -4,6 +4,7 @@ import Modal from "./Modal";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import { ContextType } from "../scripts/types";
 import { ChangeEvent, WheelEvent } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 
 type SettingsScreenProps = {
   onClose: () => void;
@@ -12,6 +13,9 @@ type SettingsScreenProps = {
 export default function SettingsScreen({ onClose }: SettingsScreenProps) {
   const { musicVolume, setMusicVolume, sfxVolume, setSfxVolume } =
     useOutletContext<ContextType>();
+
+  const isMusicMute = musicVolume === 0;
+  const isSfxMute = sfxVolume === 0;
 
   function setVolume(newValue: number, type: number) {
     if (type === 1) {
@@ -49,47 +53,66 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
 
   return (
     <Modal className="settings-screen">
-      <div className="modal-block">
+      <div className="modal-block-col">
         <label htmlFor="music-volume" className="modal-text">
           <p>Music volume</p>
         </label>
-        <input
-          id="music-volume"
-          className="range-slider"
-          type="range"
-          min="0"
-          max="100"
-          value={musicVolume * 100}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setVolume(+e.target.value, 1)
-          }
-          onWheel={(e: WheelEvent<HTMLInputElement>) => handleSliderWheel(e, 1)}
-        />
-        <Button className="modal-button" onClick={() => setMusicVolume(0)}>
-          <div className="modal-button-text">Mute</div>
-        </Button>
+        <div className="modal-block-row">
+          <input
+            id="music-volume"
+            className="range-slider"
+            type="range"
+            min="0"
+            max="100"
+            value={musicVolume * 100}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setVolume(+e.target.value, 1)
+            }
+            onWheel={(e: WheelEvent<HTMLInputElement>) =>
+              handleSliderWheel(e, 1)
+            }
+          />
+          <Button
+            className="modal-mute-button"
+            onClick={() => setMusicVolume(0)}
+          >
+            {isMusicMute ? (
+              <VolumeX color="black" size={24} />
+            ) : (
+              <Volume2 color="black" size={24} />
+            )}
+          </Button>
+        </div>
       </div>
-      <div className="modal-block">
+      <div className="modal-block-col">
         <label htmlFor="music-volume" className="modal-text">
           <p>SFX volume</p>
         </label>
-        <input
-          id="sfx-volume"
-          className="range-slider"
-          type="range"
-          min="0"
-          max="100"
-          value={sfxVolume * 100}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setVolume(+e.target.value, 2)
-          }
-          onWheel={(e: WheelEvent<HTMLInputElement>) => handleSliderWheel(e, 2)}
-        />
-        <Button className="modal-button" onClick={() => setSfxVolume(0)}>
-          <div className="modal-button-text">Mute</div>
-        </Button>
+        <div className="modal-block-row">
+          <input
+            id="sfx-volume"
+            className="range-slider"
+            type="range"
+            min="0"
+            max="100"
+            value={sfxVolume * 100}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setVolume(+e.target.value, 2)
+            }
+            onWheel={(e: WheelEvent<HTMLInputElement>) =>
+              handleSliderWheel(e, 2)
+            }
+          />
+          <Button className="modal-mute-button" onClick={() => setSfxVolume(0)}>
+            {isSfxMute ? (
+              <VolumeX color="black" size={24} />
+            ) : (
+              <Volume2 color="black" size={24} />
+            )}
+          </Button>
+        </div>
       </div>
-      <div className="modal-block">
+      <div className="modal-block-col">
         <Button className="modal-button" onClick={() => handleClearData()}>
           <div className="modal-button-text">Clear game date</div>
         </Button>

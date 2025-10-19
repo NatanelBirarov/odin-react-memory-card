@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import { ContextType, StateUpdater } from "../scripts/types";
 
 type ButtonProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClick: StateUpdater<null>;
   className?: string;
 };
