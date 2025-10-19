@@ -214,7 +214,11 @@ export default function GameScreen() {
       ) : (
         <>
           <div className="header">
-            <img className="header-img" src="/pokeball-main.png" alt="Logo" />
+            <img
+              className="header-img"
+              src="/images/pokeball-main.png"
+              alt="Logo"
+            />
             <div className="logo-container">
               <img src="/images/logo1.png" alt="Logo" className="logo1" />
               <img src="/images/logo2.png" alt="Logo" className="logo2" />

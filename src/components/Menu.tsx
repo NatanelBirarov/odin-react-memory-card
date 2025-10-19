@@ -1,5 +1,6 @@
 import Button from "./Button";
 import { StateUpdater } from "../scripts/types";
+import { BookCopy, CircleQuestionMark, Settings } from "lucide-react";
 
 type MenuProps = {
   onShowSettings: StateUpdater<null>;
@@ -20,24 +21,16 @@ export default function Menu({
           className="menu-button settings-button"
           onClick={onShowSettings}
         >
-          <img className="icon" src="/images/cog.svg" alt="Logo" />
+          <Settings color="black" size={30} strokeWidth={2.5} />
         </Button>
         <Button className="menu-button how-to-button" onClick={onShowHowTo}>
-          <img
-            className="icon"
-            src="/images/help-circle-outline.svg"
-            alt="Logo"
-          />
+          <CircleQuestionMark color="black" size={30} strokeWidth={2} />
         </Button>
         <Button
           className="menu-button selection-button"
           onClick={onReturnToSelection}
         >
-          <img
-            className="icon"
-            src="/images/cards-playing-outline.svg"
-            alt="Logo"
-          />
+          <BookCopy color="black" size={30} strokeWidth={2} />
         </Button>
       </div>
     </div>

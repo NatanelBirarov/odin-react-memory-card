@@ -3,69 +3,93 @@
     "id": "pop4-1",
     "name": "Chimecho δ",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "60",
-    "types": [
-      "Metal"
-    ],
+    "types": ["Metal"],
     "attacks": [
       {
         "name": "Wrap",
-        "cost": [
-          "Colorless"
-        ],
+        "cost": ["Colorless"],
         "convertedEnergyCost": 1,
         "damage": "",
         "text": "Flip a coin. If heads, the Defending Pokémon is now Paralyzed."
       },
       {
         "name": "Sonicboom",
-        "cost": [
-          "Metal",
-          "Colorless"
-        ],
+        "cost": ["Metal", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "30",
         "text": "This attack's damage isn't affected by Weakness or Resistance."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Psychic",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Psychic", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "1",
     "artist": "Masakazu Fukuda",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      358
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [358],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/1.png",
       "large": "https://images.pokemontcg.io/pop4/1_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-1",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 950.0,
+          "mid": 950.0,
+          "high": 950.0,
+          "market": 317.0,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-1",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 226.66,
+        "lowPrice": 140.0,
+        "trendPrice": 186.52,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 199.0,
+        "reverseHoloTrend": 50.0,
+        "lowPriceExPlus": 400.0,
+        "avg1": 220.0,
+        "avg7": 187.38,
+        "avg30": 98.03,
+        "reverseHoloAvg1": 50.0,
+        "reverseHoloAvg7": 50.0,
+        "reverseHoloAvg30": 50.0
+      }
     }
   },
   {
     "id": "pop4-2",
     "name": "Deoxys δ",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "70",
-    "types": [
-      "Colorless"
-    ],
+    "types": ["Colorless"],
     "abilities": [
       {
         "name": "Form Change",
@@ -76,50 +100,87 @@
     "attacks": [
       {
         "name": "Crystal Laser",
-        "cost": [
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Colorless", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20",
         "text": "During your next turn, Deoxys's attacks do 40 more damage to the Defending Pokémon (before applying Weakness and Resistance)."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Psychic",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Psychic", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "2",
     "artist": "Kouki Saitou",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      386
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [386],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/2.png",
       "large": "https://images.pokemontcg.io/pop4/2_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-2",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 6.74,
+          "mid": 7.37,
+          "high": 40.0,
+          "market": 33.01,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 63.8,
+          "mid": 85.0,
+          "high": 199.99,
+          "market": 43.87,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-2",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 38.85,
+        "lowPrice": 2.99,
+        "trendPrice": 38.31,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 7.99,
+        "reverseHoloTrend": 27.8,
+        "lowPriceExPlus": 14.95,
+        "avg1": 7.95,
+        "avg7": 42.65,
+        "avg30": 19.1,
+        "reverseHoloAvg1": 30.0,
+        "reverseHoloAvg7": 14.43,
+        "reverseHoloAvg30": 8.53
+      }
     }
   },
   {
     "id": "pop4-3",
     "name": "Flygon",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Stage 2"
-    ],
+    "subtypes": ["Stage 2"],
     "hp": "120",
-    "types": [
-      "Fighting"
-    ],
+    "types": ["Fighting"],
     "evolvesFrom": "Vibrava",
     "abilities": [
       {
@@ -131,63 +192,94 @@
     "attacks": [
       {
         "name": "Bite",
-        "cost": [
-          "Fighting",
-          "Colorless"
-        ],
+        "cost": ["Fighting", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "30",
         "text": ""
       },
       {
         "name": "Sand Pit",
-        "cost": [
-          "Fighting",
-          "Colorless",
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Fighting", "Colorless", "Colorless", "Colorless"],
         "convertedEnergyCost": 4,
         "damage": "70",
         "text": "The Defending Pokémon can't retreat during your opponent's next turn."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Water",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless",
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Water", "value": "×2" }],
+    "retreatCost": ["Colorless", "Colorless"],
     "convertedRetreatCost": 2,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "3",
     "artist": "Hisao Nakamura",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      330
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [330],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/3.png",
       "large": "https://images.pokemontcg.io/pop4/3_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-3",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 4.93,
+          "mid": 17.5,
+          "high": 18.81,
+          "market": 14.0,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 10.32,
+          "mid": 11.87,
+          "high": 17.8,
+          "market": 19.24,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-3",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 0.93,
+        "lowPrice": 0.09,
+        "trendPrice": 1.02,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 1.29,
+        "reverseHoloTrend": 2.34,
+        "lowPriceExPlus": 1.0,
+        "avg1": 2.0,
+        "avg7": 0.95,
+        "avg30": 1.18,
+        "reverseHoloAvg1": 2.44,
+        "reverseHoloAvg7": 1.52,
+        "reverseHoloAvg30": 1.67
+      }
     }
   },
   {
     "id": "pop4-4",
     "name": "Mew",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "70",
-    "types": [
-      "Psychic"
-    ],
+    "types": ["Psychic"],
     "abilities": [
       {
         "name": "Reactive Barrier",
@@ -198,50 +290,87 @@
     "attacks": [
       {
         "name": "Psyshock",
-        "cost": [
-          "Psychic",
-          "Colorless"
-        ],
+        "cost": ["Psychic", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20",
         "text": "Flip a coin. If heads, the Defending Pokémon is now Paralyzed."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Psychic",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Psychic", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "4",
     "artist": "Nakaoka",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      151
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [151],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/4.png",
       "large": "https://images.pokemontcg.io/pop4/4_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-4",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 64.0,
+          "mid": 64.0,
+          "high": 64.0,
+          "market": 23.28,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 39.19,
+          "mid": 46.24,
+          "high": 99.99,
+          "market": 52.48,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-4",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 26.44,
+        "lowPrice": 5.5,
+        "trendPrice": 31.75,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 20.43,
+        "lowPriceExPlus": 20.0,
+        "avg1": 16.0,
+        "avg7": 32.92,
+        "avg30": 22.95,
+        "reverseHoloAvg1": 17.95,
+        "reverseHoloAvg7": 24.54,
+        "reverseHoloAvg30": 13.24
+      }
     }
   },
   {
     "id": "pop4-5",
     "name": "Sceptile",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Stage 2"
-    ],
+    "subtypes": ["Stage 2"],
     "hp": "100",
-    "types": [
-      "Grass"
-    ],
+    "types": ["Grass"],
     "evolvesFrom": "Grovyle",
     "abilities": [
       {
@@ -253,409 +382,707 @@
     "attacks": [
       {
         "name": "Tail Rap",
-        "cost": [
-          "Grass",
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Grass", "Colorless", "Colorless"],
         "convertedEnergyCost": 3,
         "damage": "50×",
         "text": "Flip 2 coins. This attack does 50 damage times the number of heads."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Fire",
-        "value": "×2"
-      }
-    ],
-    "resistances": [
-      {
-        "type": "Water",
-        "value": "-30"
-      }
-    ],
-    "retreatCost": [
-      "Colorless",
-      "Colorless",
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Fire", "value": "×2" }],
+    "resistances": [{ "type": "Water", "value": "-30" }],
+    "retreatCost": ["Colorless", "Colorless", "Colorless"],
     "convertedRetreatCost": 3,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "5",
     "artist": "Atsuko Nishida",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      254
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [254],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/5.png",
       "large": "https://images.pokemontcg.io/pop4/5_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-5",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 130.0,
+          "mid": 167.82,
+          "high": 229.98,
+          "market": 149.99,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-5",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 125.0,
+        "lowPrice": 120.0,
+        "trendPrice": 119.22,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 179.99,
+        "avg1": 125.0,
+        "avg7": 123.74,
+        "avg30": 46.7,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop4-6",
     "name": "Combusken",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Stage 1"
-    ],
+    "subtypes": ["Stage 1"],
     "hp": "70",
-    "types": [
-      "Fire"
-    ],
+    "types": ["Fire"],
     "evolvesFrom": "Torchic",
-    "evolvesTo": [
-      "Blaziken"
-    ],
+    "evolvesTo": ["Blaziken"],
     "attacks": [
       {
         "name": "Smokescreen",
-        "cost": [
-          "Fire"
-        ],
+        "cost": ["Fire"],
         "convertedEnergyCost": 1,
         "damage": "10",
         "text": "If the Defending Pokémon tries to attack during your opponent's next turn, your opponent flips a coin. If tails, that attack does nothing."
       },
       {
         "name": "Sky Uppercut",
-        "cost": [
-          "Fire",
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Fire", "Colorless", "Colorless"],
         "convertedEnergyCost": 3,
         "damage": "40",
         "text": "This attack's damage isn't affected by Resistance."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Water",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Water", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "6",
     "artist": "Mitsuhiro Arita",
     "rarity": "Uncommon",
-    "nationalPokedexNumbers": [
-      256
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [256],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/6.png",
       "large": "https://images.pokemontcg.io/pop4/6_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-6",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 4.76,
+          "mid": 6.49,
+          "high": 7.0,
+          "market": 6.19,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 4.0,
+          "mid": 8.04,
+          "high": 12.72,
+          "market": 8.47,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-6",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 1.96,
+        "lowPrice": 0.1,
+        "trendPrice": 3.78,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 1.9,
+        "reverseHoloTrend": 2.33,
+        "lowPriceExPlus": 1.0,
+        "avg1": 1.0,
+        "avg7": 1.72,
+        "avg30": 2.84,
+        "reverseHoloAvg1": 0.45,
+        "reverseHoloAvg7": 3.24,
+        "reverseHoloAvg30": 1.66
+      }
     }
   },
   {
     "id": "pop4-7",
     "name": "Grovyle",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Stage 1"
-    ],
+    "subtypes": ["Stage 1"],
     "hp": "70",
-    "types": [
-      "Grass"
-    ],
+    "types": ["Grass"],
     "evolvesFrom": "Treecko",
-    "evolvesTo": [
-      "Sceptile"
-    ],
+    "evolvesTo": ["Sceptile"],
     "attacks": [
       {
         "name": "Quick Attack",
-        "cost": [
-          "Colorless"
-        ],
+        "cost": ["Colorless"],
         "convertedEnergyCost": 1,
         "damage": "10+",
         "text": "Flip a coin. If heads, this attack does 10 damage plus 10 more damage."
       },
       {
         "name": "Blot",
-        "cost": [
-          "Grass",
-          "Colorless"
-        ],
+        "cost": ["Grass", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20",
         "text": "Remove 2 damage counters from Grovyle."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Fire",
-        "value": "×2"
-      }
-    ],
-    "resistances": [
-      {
-        "type": "Water",
-        "value": "-30"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Fire", "value": "×2" }],
+    "resistances": [{ "type": "Water", "value": "-30" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "7",
     "artist": "Mitsuhiro Arita",
     "rarity": "Uncommon",
-    "nationalPokedexNumbers": [
-      253
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [253],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/7.png",
       "large": "https://images.pokemontcg.io/pop4/7_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-7",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 15.0,
+          "mid": 16.61,
+          "high": 29.95,
+          "market": 15.04,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-7",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 11.5,
+        "lowPrice": 5.0,
+        "trendPrice": 16.58,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 10.0,
+        "avg1": 5.0,
+        "avg7": 13.28,
+        "avg30": 9.37,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop4-8",
     "name": "Heal Energy",
     "supertype": "Energy",
-    "subtypes": [
-      "Special"
-    ],
+    "subtypes": ["Special"],
     "rules": [
       "Heal Energy provides Colorless Energy. When you attach this card from your hand to 1 of your Pokémon, remove 1 damage counter and all Special Conditions from that Pokémon. If Heal Energy is attached to Pokémon-ex, Heal Energy has no effect other than providing Energy."
     ],
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "8",
     "artist": "Takumi Akabane",
     "rarity": "Uncommon",
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/8.png",
       "large": "https://images.pokemontcg.io/pop4/8_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-8",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 5.43,
+          "mid": 5.87,
+          "high": 6.31,
+          "market": 6.31,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-8",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 0.0,
+        "lowPrice": 2.95,
+        "trendPrice": 5.82,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 3.85,
+        "avg1": 6.5,
+        "avg7": 5.2,
+        "avg30": 4.79,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop4-9",
     "name": "Pokémon Fan Club",
     "supertype": "Trainer",
-    "subtypes": [
-      "Supporter"
-    ],
+    "subtypes": ["Supporter"],
     "rules": [
       "You can play only one Supporter card each turn. When you play this card, put it next to your Active Pokémon. When your turn ends, discard this card.",
       "Search your deck for up to 2 Basic Pokémon and put them onto your Bench. Shuffle your deck afterward."
     ],
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "9",
     "artist": "Ken Sugimori",
     "rarity": "Uncommon",
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/9.png",
       "large": "https://images.pokemontcg.io/pop4/9_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-9",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 50.0,
+          "mid": 50.0,
+          "high": 50.0,
+          "market": 90.87,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-9",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 9.0,
+        "lowPrice": 24.0,
+        "trendPrice": 25.85,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 24.0,
+        "avg1": 9.0,
+        "avg7": 20.14,
+        "avg30": 25.07,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop4-10",
     "name": "Scramble Energy",
     "supertype": "Energy",
-    "subtypes": [
-      "Special"
-    ],
+    "subtypes": ["Special"],
     "rules": [
       "Scramble Energy can be attached only to an Evolved Pokémon (excluding Pokémon-ex). Scramble Energy provides Colorless Energy. While in play, if you have more Prize cards left than your opponent, Scramble Energy provides every type of Energy but provides only 3 in any combination at a time. If the Pokémon Scramble Energy is attached to isn't an Evolved Pokémon (or evolves into Pokémon-ex), discard Scramble Energy."
     ],
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "10",
     "artist": "Takumi Akabane",
     "rarity": "Uncommon",
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/10.png",
       "large": "https://images.pokemontcg.io/pop4/10_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-10",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 4.56,
+          "mid": 5.0,
+          "high": 6.5,
+          "market": 5.24,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-10",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 3.5,
+        "lowPrice": 1.99,
+        "trendPrice": 4.9,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 2.5,
+        "avg1": 3.5,
+        "avg7": 3.98,
+        "avg30": 4.57,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop4-11",
     "name": "Mudkip",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "50",
-    "types": [
-      "Water"
-    ],
-    "evolvesTo": [
-      "Marshtomp"
-    ],
+    "types": ["Water"],
+    "evolvesTo": ["Marshtomp"],
     "attacks": [
       {
         "name": "Super Hypno Wave",
-        "cost": [
-          "Water",
-          "Colorless"
-        ],
+        "cost": ["Water", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20",
         "text": "The Defending Pokémon is now Asleep."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Grass",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Grass", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "11",
     "artist": "Masakazu Fukuda",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      258
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [258],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/11.png",
       "large": "https://images.pokemontcg.io/pop4/11_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-11",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 22.0,
+          "mid": 22.88,
+          "high": 25.69,
+          "market": 6.34,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 25.0,
+          "mid": 45.0,
+          "high": 50.88,
+          "market": 11.79,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-11",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 6.72,
+        "lowPrice": 0.4,
+        "trendPrice": 4.06,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 3.81,
+        "lowPriceExPlus": 1.69,
+        "avg1": 1.49,
+        "avg7": 3.01,
+        "avg30": 4.39,
+        "reverseHoloAvg1": 6.0,
+        "reverseHoloAvg7": 2.14,
+        "reverseHoloAvg30": 2.07
+      }
     }
   },
   {
     "id": "pop4-12",
     "name": "Pidgey",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "40",
-    "types": [
-      "Colorless"
-    ],
-    "evolvesTo": [
-      "Pidgeotto"
-    ],
+    "types": ["Colorless"],
+    "evolvesTo": ["Pidgeotto"],
     "attacks": [
       {
         "name": "Quick Attack",
-        "cost": [
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Colorless", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20+",
         "text": "Flip a coin. If heads, this attack does 20 damage plus 10 more damage."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Lightning",
-        "value": "×2"
-      }
-    ],
-    "resistances": [
-      {
-        "type": "Fighting",
-        "value": "-30"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Lightning", "value": "×2" }],
+    "resistances": [{ "type": "Fighting", "value": "-30" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "12",
     "artist": "Hisao Nakamura",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      16
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [16],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/12.png",
       "large": "https://images.pokemontcg.io/pop4/12_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-12",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 3.69,
+          "mid": 5.34,
+          "high": 6.99,
+          "market": 3.11,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-12",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 1.87,
+        "lowPrice": 0.5,
+        "trendPrice": 2.34,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 0.95,
+        "avg1": 1.99,
+        "avg7": 1.78,
+        "avg30": 4.31,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop4-13",
     "name": "Pikachu",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "50",
-    "types": [
-      "Lightning"
-    ],
-    "evolvesTo": [
-      "Raichu"
-    ],
+    "types": ["Lightning"],
+    "evolvesTo": ["Raichu"],
     "attacks": [
       {
         "name": "Spark",
-        "cost": [
-          "Lightning",
-          "Colorless"
-        ],
+        "cost": ["Lightning", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20",
         "text": "Does 10 damage to 1 of your opponent's Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Fighting",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Fighting", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "13",
     "artist": "Kouki Saitou",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      25
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [25],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/13.png",
       "large": "https://images.pokemontcg.io/pop4/13_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-13",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 22.5,
+          "mid": 23.22,
+          "high": 39.99,
+          "market": 25.16,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 20.67,
+          "mid": 26.36,
+          "high": 37.93,
+          "market": 39.39,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-13",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 21.47,
+        "lowPrice": 4.0,
+        "trendPrice": 18.68,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 20.0,
+        "reverseHoloTrend": 17.72,
+        "lowPriceExPlus": 17.89,
+        "avg1": 20.0,
+        "avg7": 18.61,
+        "avg30": 16.27,
+        "reverseHoloAvg1": 18.0,
+        "reverseHoloAvg7": 15.57,
+        "reverseHoloAvg30": 11.58
+      }
     }
   },
   {
     "id": "pop4-14",
     "name": "Squirtle",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "50",
-    "types": [
-      "Water"
-    ],
-    "evolvesTo": [
-      "Wartortle"
-    ],
+    "types": ["Water"],
+    "evolvesTo": ["Wartortle"],
     "abilities": [
       {
         "name": "Shell Retreat",
@@ -666,171 +1093,257 @@
     "attacks": [
       {
         "name": "Tackle",
-        "cost": [
-          "Colorless"
-        ],
+        "cost": ["Colorless"],
         "convertedEnergyCost": 1,
         "damage": "10",
         "text": ""
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Lightning",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Lightning", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "14",
     "artist": "Atsuko Nishida",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      7
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [7],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/14.png",
       "large": "https://images.pokemontcg.io/pop4/14_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-14",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 18.95,
+          "mid": 32.98,
+          "high": 47.0,
+          "market": 25.6,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-14",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 7.62,
+        "lowPrice": 3.8,
+        "trendPrice": 10.04,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 4.95,
+        "lowPriceExPlus": 8.49,
+        "avg1": 9.95,
+        "avg7": 7.59,
+        "avg30": 11.82,
+        "reverseHoloAvg1": 4.95,
+        "reverseHoloAvg7": 4.95,
+        "reverseHoloAvg30": 4.95
+      }
     }
   },
   {
     "id": "pop4-15",
     "name": "Treecko δ",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "40",
-    "types": [
-      "Psychic"
-    ],
-    "evolvesTo": [
-      "Grovyle"
-    ],
+    "types": ["Psychic"],
+    "evolvesTo": ["Grovyle"],
     "attacks": [
       {
         "name": "Pound",
-        "cost": [
-          "Colorless"
-        ],
+        "cost": ["Colorless"],
         "convertedEnergyCost": 1,
         "damage": "10",
         "text": ""
       },
       {
         "name": "Shining Claws",
-        "cost": [
-          "Psychic"
-        ],
+        "cost": ["Psychic"],
         "convertedEnergyCost": 1,
         "damage": "10",
         "text": "Flip a coin. If heads, the Defending Pokémon is now Confused."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Fire",
-        "value": "×2"
-      }
-    ],
-    "resistances": [
-      {
-        "type": "Water",
-        "value": "-30"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Fire", "value": "×2" }],
+    "resistances": [{ "type": "Water", "value": "-30" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "15",
     "artist": "Masakazu Fukuda",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      252
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [252],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/15.png",
       "large": "https://images.pokemontcg.io/pop4/15_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-15",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 5.0,
+          "mid": 6.99,
+          "high": 8.98,
+          "market": 4.27,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-15",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 1.09,
+        "lowPrice": 1.0,
+        "trendPrice": 3.07,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 0.0,
+        "lowPriceExPlus": 1.49,
+        "avg1": 1.0,
+        "avg7": 1.85,
+        "avg30": 3.09,
+        "reverseHoloAvg1": 0.0,
+        "reverseHoloAvg7": 0.0,
+        "reverseHoloAvg30": 0.0
+      }
     }
   },
   {
     "id": "pop4-16",
     "name": "Wobbuffet",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic"
-    ],
+    "subtypes": ["Basic"],
     "hp": "80",
-    "types": [
-      "Psychic"
-    ],
+    "types": ["Psychic"],
     "attacks": [
       {
         "name": "Nap",
-        "cost": [
-          "Colorless"
-        ],
+        "cost": ["Colorless"],
         "convertedEnergyCost": 1,
         "damage": "",
         "text": "Remove 2 damage counters from Wobbuffet."
       },
       {
         "name": "Expand",
-        "cost": [
-          "Psychic",
-          "Colorless"
-        ],
+        "cost": ["Psychic", "Colorless"],
         "convertedEnergyCost": 2,
         "damage": "20",
         "text": "During your opponent's next turn, any damage done to Wobbuffet is reduced by 20 (after applying Weakness and Resistance)."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Psychic",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless",
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Psychic", "value": "×2" }],
+    "retreatCost": ["Colorless", "Colorless"],
     "convertedRetreatCost": 2,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "16",
     "artist": "Kagemaru Himeno",
     "rarity": "Common",
-    "nationalPokedexNumbers": [
-      202
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [202],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/16.png",
       "large": "https://images.pokemontcg.io/pop4/16_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-16",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 0.9,
+          "mid": 1.47,
+          "high": 1.99,
+          "market": 0.99,
+          "directLow": null
+        },
+        "holofoil": {
+          "low": 1.92,
+          "mid": 4.65,
+          "high": 7.0,
+          "market": 6.29,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-16",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 2.32,
+        "lowPrice": 0.5,
+        "trendPrice": 2.1,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 1.15,
+        "lowPriceExPlus": 1.0,
+        "avg1": 1.0,
+        "avg7": 1.89,
+        "avg30": 2.82,
+        "reverseHoloAvg1": 0.99,
+        "reverseHoloAvg7": 2.41,
+        "reverseHoloAvg30": 2.41
+      }
     }
   },
   {
     "id": "pop4-17",
     "name": "Deoxys ex",
     "supertype": "Pokémon",
-    "subtypes": [
-      "Basic",
-      "ex"
-    ],
+    "subtypes": ["Basic", "ex"],
     "hp": "110",
-    "types": [
-      "Psychic"
-    ],
+    "types": ["Psychic"],
     "rules": [
       "When Pokémon-ex has been Knocked Out, your opponent takes 2 Prize cards."
     ],
@@ -844,38 +1357,71 @@
     "attacks": [
       {
         "name": "Fastwave",
-        "cost": [
-          "Colorless",
-          "Colorless",
-          "Colorless"
-        ],
+        "cost": ["Colorless", "Colorless", "Colorless"],
         "convertedEnergyCost": 3,
         "damage": "50",
         "text": "This attack's damage isn't affected by Resistance, Poké-Powers, Poké-Bodies, or any other effects on the Defending Pokémon."
       }
     ],
-    "weaknesses": [
-      {
-        "type": "Psychic",
-        "value": "×2"
-      }
-    ],
-    "retreatCost": [
-      "Colorless"
-    ],
+    "weaknesses": [{ "type": "Psychic", "value": "×2" }],
+    "retreatCost": ["Colorless"],
     "convertedRetreatCost": 1,
+    "set": {
+      "id": "pop4",
+      "name": "POP Series 4",
+      "series": "POP",
+      "printedTotal": 17,
+      "total": 17,
+      "legalities": { "unlimited": "Legal" },
+      "releaseDate": "2006/08/01",
+      "updatedAt": "2020/08/14 09:35:00",
+      "images": {
+        "symbol": "https://images.pokemontcg.io/pop4/symbol.png",
+        "logo": "https://images.pokemontcg.io/pop4/logo.png"
+      }
+    },
     "number": "17",
     "artist": "Hiromichi Sugiyama",
     "rarity": "Rare",
-    "nationalPokedexNumbers": [
-      386
-    ],
-    "legalities": {
-      "unlimited": "Legal"
-    },
+    "nationalPokedexNumbers": [386],
+    "legalities": { "unlimited": "Legal" },
     "images": {
       "small": "https://images.pokemontcg.io/pop4/17.png",
       "large": "https://images.pokemontcg.io/pop4/17_hires.png"
+    },
+    "tcgplayer": {
+      "url": "https://prices.pokemontcg.io/tcgplayer/pop4-17",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "normal": {
+          "low": 299.0,
+          "mid": 357.4,
+          "high": 359.9,
+          "market": 200.0,
+          "directLow": null
+        }
+      }
+    },
+    "cardmarket": {
+      "url": "https://prices.pokemontcg.io/cardmarket/pop4-17",
+      "updatedAt": "2025/10/19",
+      "prices": {
+        "averageSellPrice": 167.5,
+        "lowPrice": 69.99,
+        "trendPrice": 200.59,
+        "germanProLow": 0.0,
+        "suggestedPrice": 0.0,
+        "reverseHoloSell": 0.0,
+        "reverseHoloLow": 0.0,
+        "reverseHoloTrend": 150.0,
+        "lowPriceExPlus": 249.99,
+        "avg1": 250.0,
+        "avg7": 145.78,
+        "avg30": 122.07,
+        "reverseHoloAvg1": 150.0,
+        "reverseHoloAvg7": 150.0,
+        "reverseHoloAvg30": 150.0
+      }
     }
   }
 ]
