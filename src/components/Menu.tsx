@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "./Button/Button";
 import { StateUpdater } from "../scripts/types";
 import { BookCopy, CircleQuestionMark, Settings } from "lucide-react";
 
@@ -17,19 +17,13 @@ export default function Menu({
     <div className="menu">
       <button className="menu-toggle">...</button>
       <div className="menu-content">
-        <Button
-          className="menu-button settings-button"
-          onClick={onShowSettings}
-        >
+        <Button type="menu" onClick={onShowSettings} animation="halfSpin">
           <Settings color="black" size={30} strokeWidth={2.5} />
         </Button>
-        <Button className="menu-button how-to-button" onClick={onShowHowTo}>
+        <Button type="menu" onClick={onShowHowTo} animation="boing">
           <CircleQuestionMark color="black" size={30} strokeWidth={2} />
         </Button>
-        <Button
-          className="menu-button selection-button"
-          onClick={onReturnToSelection}
-        >
+        <Button type="menu" onClick={onReturnToSelection} animation="flip">
           <BookCopy color="black" size={30} strokeWidth={2} />
         </Button>
       </div>

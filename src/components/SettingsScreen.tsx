@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom";
-import Button from "./Button";
+import Button from "./Button/Button";
 import Modal from "./Modal";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import { ContextType } from "../scripts/types";
@@ -72,10 +72,7 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
               handleSliderWheel(e, 1)
             }
           />
-          <Button
-            className="modal-mute-button"
-            onClick={() => setMusicVolume(0)}
-          >
+          <Button type="mute" onClick={() => setMusicVolume(0)}>
             {isMusicMute ? (
               <VolumeX color="black" size={24} />
             ) : (
@@ -103,7 +100,7 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
               handleSliderWheel(e, 2)
             }
           />
-          <Button className="modal-mute-button" onClick={() => setSfxVolume(0)}>
+          <Button type="mute" onClick={() => setSfxVolume(0)}>
             {isSfxMute ? (
               <VolumeX color="black" size={24} />
             ) : (
@@ -113,10 +110,10 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
         </div>
       </div>
       <div className="modal-block-col">
-        <Button className="modal-button" onClick={() => handleClearData()}>
+        <Button type="modal" onClick={() => handleClearData()}>
           <div className="modal-button-text">Clear game date</div>
         </Button>
-        <Button className="modal-button" onClick={onClose}>
+        <Button type="modal" onClick={onClose}>
           <div className="modal-button-text">Close</div>
         </Button>
       </div>
