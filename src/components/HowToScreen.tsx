@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "./Button/Button";
 import Modal from "./Modal";
 
 type HowToScreenProps = {
@@ -21,7 +21,7 @@ export default function HowToScreen({ onClose }: HowToScreenProps) {
       <p>
         <strong>4. </strong> Clear all levels to unlock the next set!
       </p>
-      <Button className="modal-button" onClick={onClose}>
+      <Button type="modal" onClick={onClose}>
         <div className="modal-button-text">Close</div>
       </Button>
     </Modal>

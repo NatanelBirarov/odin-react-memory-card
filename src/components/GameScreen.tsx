@@ -13,7 +13,7 @@ import {
 import SettingsScreen from "./SettingsScreen";
 import Menu from "./Menu";
 import HowToScreen from "./HowToScreen";
-import Button from "./Button";
+import Button from "./Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import { gameScreenQuery } from "../scripts/queries";
 import { CardData, SetDataType, ContextType } from "../scripts/types";
@@ -155,15 +155,12 @@ export default function GameScreen() {
           </div>
           <div className="modal-buttons">
             <Button
-              className="modal-button"
+              type="modal"
               onClick={() => handleEndLevelScreen(-1, false)}
             >
               <div className="modal-button-text">Select set</div>
             </Button>
-            <Button
-              className="modal-button"
-              onClick={() => handleEndLevelScreen(0, false)}
-            >
+            <Button type="modal" onClick={() => handleEndLevelScreen(0, false)}>
               <div className="modal-button-text">Try again</div>
             </Button>
           </div>
@@ -177,7 +174,7 @@ export default function GameScreen() {
             </div>
             <div className="modal-buttons">
               <Button
-                className="modal-button"
+                type="modal"
                 onClick={() => handleEndLevelScreen(-1, true)}
               >
                 <div className="modal-button-text">Select next set</div>
@@ -192,13 +189,13 @@ export default function GameScreen() {
             </div>
             <div className="modal-buttons">
               <Button
-                className="modal-button"
+                type="modal"
                 onClick={() => handleEndLevelScreen(-1, true)}
               >
                 <div className="modal-button-text">Select set</div>
               </Button>
               <Button
-                className="modal-button"
+                type="modal"
                 onClick={() => handleEndLevelScreen(1, true)}
               >
                 <div className="modal-button-text">Next level</div>

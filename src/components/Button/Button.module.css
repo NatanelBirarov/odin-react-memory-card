@@ -1,0 +1,106 @@
+.button {
+}
+
+.modal {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 2rem;
+  transition: all 0.2s;
+  display: inline;
+}
+
+.modal:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+}
+
+.mute {
+  border: 2px solid #345ca1;
+  background-color: #f9c932;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  box-shadow: -2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.title-screen {
+  background-color: red;
+  padding: 0;
+  border: 3px solid black;
+  border-radius: 10px;
+  font-size: 2rem;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.title-screen:hover {
+  transform: rotateZ(-1.2deg);
+  transform-origin: top left;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #f9c932;
+  cursor: pointer;
+}
+
+.halfSpin {
+  animation: half-spin 1s ease-in-out;
+}
+
+@keyframes half-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+.boing {
+  animation: boing 1s ease-in-out;
+}
+
+@keyframes boing {
+  15%,
+  40%,
+  75%,
+  100% {
+    transform-origin: center center;
+  }
+  15% {
+    transform: scale(1.2);
+  }
+  40% {
+    transform: scale(0.95, 0.95);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+.flip {
+  animation: flip 1s ease-in-out;
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}

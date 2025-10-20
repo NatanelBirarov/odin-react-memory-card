@@ -4,7 +4,7 @@ import Loader from "./Loader";
 import SettingsScreen from "./SettingsScreen";
 import { useNavigate, useNavigation, useOutletContext } from "react-router-dom";
 import HowToScreen from "./HowToScreen";
-import Button from "./Button";
+import Button from "./Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import { titleScreenQuery } from "../scripts/queries";
 
@@ -111,19 +111,16 @@ export default function TitleScreen() {
               </div>
               <div className="title-screen-buttons">
                 <Button
-                  className="title-screen-button"
+                  type="title-screen"
                   onClick={() => navigate("/selectionscreen")}
                 >
                   <div className="title-screen-button-text">Play Game</div>
                 </Button>
-                <Button
-                  className="title-screen-button"
-                  onClick={() => setShowHowTo(true)}
-                >
+                <Button type="title-screen" onClick={() => setShowHowTo(true)}>
                   <div className="title-screen-button-text">How to Play</div>
                 </Button>
                 <Button
-                  className="title-screen-button"
+                  type="title-screen"
                   onClick={() => setShowSettings(true)}
                 >
                   <div className="title-screen-button-text">Settings</div>
