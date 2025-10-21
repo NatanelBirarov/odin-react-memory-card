@@ -1,6 +1,8 @@
-import Button from "./Button/Button";
-import { StateUpdater } from "../scripts/types";
+import Button from "../Button/Button";
+import { StateUpdater } from "../../scripts/types";
 import { BookCopy, CircleQuestionMark, Settings } from "lucide-react";
+import { useRef } from "react";
+import styles from "./Menu.module.css";
 
 type MenuProps = {
   onShowSettings: StateUpdater<null>;
@@ -13,10 +15,21 @@ export default function Menu({
   onShowHowTo,
   onReturnToSelection,
 }: MenuProps) {
+  const menuElement = useRef<HTMLDivElement | null>(null);
+  const menuToggleButton = useRef<HTMLButtonElement | null>(null);
+
+  function handlePinMenu() {
+    if (menuElement.current) {
+      menuElement.current.classList.toggle(styles.pinned);
+    }
+  }
+
   return (
-    <div className="menu">
-      <button className="menu-toggle">...</button>
-      <div className="menu-content">
+    <div className={`${styles.menu}`} ref={menuElement}>
+      <Button type="menuToggle" onClick={handlePinMenu} ref={menuToggleButton}>
+        ...
+      </Button>
+      <div className={styles.menuContent}>
         <Button type="menu" onClick={onShowSettings} animation="halfSpin">
           <Settings color="black" size={30} strokeWidth={2.5} />
         </Button>

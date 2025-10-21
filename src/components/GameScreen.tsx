@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Loader from "./Loader";
+import Loader from "./Loader/Loader";
 import Card from "./Card";
-import Score from "./Score";
-import Modal from "./Modal";
+import Score from "./Scores/Scores";
+import Modal from "./Modal/Modal";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import {
   useNavigate,
@@ -11,7 +11,7 @@ import {
   useParams,
 } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
-import Menu from "./Menu";
+import Menu from "./Menu/Menu";
 import HowToScreen from "./HowToScreen";
 import Button from "./Button/Button";
 import { useQuery } from "@tanstack/react-query";

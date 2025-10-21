@@ -15,7 +15,7 @@ import App from "./components/App.tsx";
 import TitleScreen from "./components/TitleScreen.tsx";
 import SelectionScreen from "./components/SelectionScreen.jsx";
 import GameScreen from "./components/GameScreen.tsx";
-import Loader from "./components/Loader.tsx";
+import Loader from "./components/Loader/Loader.js";
 import StartScreen from "./components/StartScreen.jsx";
 
 const router = createBrowserRouter(

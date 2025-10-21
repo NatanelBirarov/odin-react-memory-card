@@ -1,4 +1,4 @@
-import Loader from "./Loader";
+import Loader from "./Loader/Loader";
 import { Outlet, useNavigation } from "react-router-dom";
 
 import "../styles/styles.css";

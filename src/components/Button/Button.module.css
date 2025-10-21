@@ -1,6 +1,3 @@
-.button {
-}
-
 .modal {
   padding: 10px 20px;
   border-radius: 6px;
@@ -25,7 +22,7 @@
   box-shadow: -2px 2px rgba(0, 0, 0, 0.5);
 }
 
-.title-screen {
+.titleScreen {
   background-color: red;
   padding: 0;
   border: 3px solid black;
@@ -35,7 +32,7 @@
   transition: all 0.2s;
 }
 
-.title-screen:hover {
+.titleScreen:hover {
   transform: rotateZ(-1.2deg);
   transform-origin: top left;
 }
@@ -49,6 +46,18 @@
   padding: 10px;
   background-color: #f9c932;
   cursor: pointer;
+}
+
+.menuToggle {
+  background-color: black;
+  border: none;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  transform: translateY(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .halfSpin {

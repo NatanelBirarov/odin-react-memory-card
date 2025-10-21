@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import Tilt from "react-parallax-tilt";
-import Loader from "./Loader";
+import Loader from "./Loader/Loader";
 import SettingsScreen from "./SettingsScreen";
 import { useNavigate, useNavigation, useOutletContext } from "react-router-dom";
 import HowToScreen from "./HowToScreen";
@@ -111,16 +111,16 @@ export default function TitleScreen() {
               </div>
               <div className="title-screen-buttons">
                 <Button
-                  type="title-screen"
+                  type="titleScreen"
                   onClick={() => navigate("/selectionscreen")}
                 >
                   <div className="title-screen-button-text">Play Game</div>
                 </Button>
-                <Button type="title-screen" onClick={() => setShowHowTo(true)}>
+                <Button type="titleScreen" onClick={() => setShowHowTo(true)}>
                   <div className="title-screen-button-text">How to Play</div>
                 </Button>
                 <Button
-                  type="title-screen"
+                  type="titleScreen"
                   onClick={() => setShowSettings(true)}
                 >
                   <div className="title-screen-button-text">Settings</div>
