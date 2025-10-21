@@ -1,0 +1,12 @@
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loaderImg {
+  width: 15%;
+  height: auto;
+  animation: spin 2s linear infinite;
+}

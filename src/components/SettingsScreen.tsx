@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import Button from "./Button/Button";
-import Modal from "./Modal";
+import Modal from "./Modal/Modal";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import { ContextType } from "../scripts/types";
 import { ChangeEvent, WheelEvent } from "react";

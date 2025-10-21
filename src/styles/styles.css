@@ -150,18 +150,6 @@ button {
   font-size: 4rem;
 }
 
-.scores-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
-}
-
-.score {
-  margin: 10px 0;
-}
-
 .cards-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -246,19 +234,6 @@ button {
   }
 }
 
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.loader-img {
-  width: 15%;
-  height: auto;
-  animation: spin 2s linear infinite;
-}
-
 .title-screen {
   display: flex;
   justify-content: center;
@@ -339,59 +314,6 @@ button {
   font-size: 30px;
 }
 
-.menu {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 15%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: translateY(calc(100% - 40px));
-  transition: transform 0.2s linear;
-}
-
-.menu-content {
-  padding: 25px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-  background-color: red;
-  overflow: hidden;
-  border-top: 10px solid black;
-  /* transform: translateY(100%); */
-}
-
-.menu-toggle {
-  background-color: black;
-  border: none;
-  border-radius: 10px;
-  width: 50px;
-  height: 50px;
-  transform: translateY(10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.menu:has(.menu-toggle:hover),
-.menu:has(.menu-content:hover) {
-  transform: translateY(0);
-}
-
-.menu-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 3px solid black;
-  border-radius: 10px;
-  padding: 10px;
-  background-color: #f9c932;
-}
-
 .how-to-screen {
   .modal-content {
     border: 3px solid black;
@@ -403,33 +325,6 @@ button {
   }
 }
 
-.settings-button:hover svg {
-  cursor: pointer;
-  animation: half-spin 1s ease-in-out;
-}
-
-.how-to-button:hover svg {
-  cursor: pointer;
-  animation: boing 1s ease-in-out;
-}
-
-.selection-button:hover svg {
-  cursor: pointer;
-  animation: flip 1s ease-in-out;
-}
-
-@keyframes flip {
-  0% {
-    transform: rotateY(0deg);
-  }
-  50% {
-    transform: rotateY(180deg);
-  }
-  100% {
-    transform: rotateY(0deg);
-  }
-}
-
 @keyframes fadeInOpacity {
   0% {
     opacity: 0;
@@ -438,37 +333,6 @@ button {
     opacity: 1;
   }
 }
-
-/* @keyframes half-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(180deg);
-  }
-} */
-
-@keyframes boing {
-  15%,
-  40%,
-  75%,
-  100% {
-    transform-origin: center center;
-  }
-  15% {
-    transform: scale(1.2);
-  }
-  40% {
-    transform: scale(0.95, 0.95);
-  }
-  75% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1, 1);
-  }
-}
-
 @keyframes move {
   0% {
     background-position: 0 0;
@@ -511,26 +375,11 @@ button {
   width: 50%;
 }
 
-.title-screen-button {
-  background-color: red;
-  padding: 0;
-  border: 3px solid black;
-  border-radius: 10px;
-  font-size: 2rem;
-  width: 100%;
-  transition: all 0.2s;
-}
-
 .title-screen-button-text {
   width: 100%;
   padding: 10px 20px;
   border: 2.5px solid #ffffff;
   border-radius: 6px;
-}
-
-.title-screen-button:hover {
-  transform: rotateZ(-1.2deg);
-  transform-origin: top left;
 }
 
 .selection-screen {
@@ -653,19 +502,6 @@ button {
   gap: 10px;
 }
 
-.modal-button {
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 2rem;
-  transition: all 0.2s;
-  display: inline;
-}
-
-.modal-button:hover {
-  cursor: pointer;
-  transform: scale(1.03);
-}
-
 .modal-block-row {
   width: 100%;
   display: flex;
@@ -683,25 +519,6 @@ button {
   .modal-content {
     background-color: #ff1b1b;
     gap: 30px;
-  }
-
-  .modal-button {
-    width: 100%;
-  }
-
-  .modal-button:nth-of-type(2) {
-    margin-bottom: 10px;
-  }
-
-  .modal-mute-button {
-    border: 2px solid #345ca1;
-    background-color: #f9c932;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    box-shadow: -2px 2px rgba(0, 0, 0, 0.5);
   }
 
   .range-slider {
@@ -725,13 +542,6 @@ button {
     align-items: center;
   }
 
-  .scores-container {
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    justify-content: space-around;
-  }
-
   .title-screen-text {
     width: 100%;
   }
@@ -740,10 +550,6 @@ button {
 @media screen and (max-width: 650px) {
   .instructions {
     text-align: center;
-  }
-
-  .scores-container {
-    flex-direction: column;
   }
 
   .cards-container {

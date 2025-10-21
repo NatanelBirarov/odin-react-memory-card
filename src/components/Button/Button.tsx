@@ -5,9 +5,10 @@ import styles from "./Button.module.css";
 
 type ButtonProps = {
   children?: React.ReactNode;
-  onClick: StateUpdater<null>;
+  onClick?: StateUpdater<null>;
   type?: string;
   animation?: string;
+  ref?: React.Ref<HTMLButtonElement>;
 };
 
 export default function Button({
@@ -15,6 +16,7 @@ export default function Button({
   onClick,
   type,
   animation,
+  ref = null,
 }: ButtonProps) {
   const { sfxVolume } = useOutletContext<ContextType>();
   const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
@@ -40,10 +42,11 @@ export default function Button({
 
   return (
     <button
-      className={`${styles.button} ${styles[type]}`}
+      className={styles[type]}
       onClick={handleClick}
       onMouseEnter={(e) => toggleButtonHover(e, animation)}
       onMouseLeave={(e) => toggleButtonHover(e, animation)}
+      ref={ref}
     >
       {children}
     </button>

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from "react";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
-import Menu from "./Menu";
+import Menu from "./Menu/Menu";
 import HowToScreen from "./HowToScreen";
 import { selectionScreenQuery } from "../scripts/queries";
 import { useQuery } from "@tanstack/react-query";
