@@ -1,13 +1,15 @@
 import Button from "./Button/Button";
 import Modal from "./Modal/Modal";
 
+import { modalText } from "./Modal/Modal.module.css";
+
 type HowToScreenProps = {
   onClose: () => void;
 };
 
 export default function HowToScreen({ onClose }: HowToScreenProps) {
   return (
-    <Modal className="how-to-screen">
+    <Modal type="howToModalContent">
       <p>
         <strong>1. </strong> Select the next available set.
       </p>
@@ -22,7 +24,7 @@ export default function HowToScreen({ onClose }: HowToScreenProps) {
         <strong>4. </strong> Clear all levels to unlock the next set!
       </p>
       <Button type="modal" onClick={onClose}>
-        <div className="modal-button-text">Close</div>
+        <div className={modalText}>Close</div>
       </Button>
     </Modal>
   );

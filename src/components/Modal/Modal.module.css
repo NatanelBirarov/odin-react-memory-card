@@ -1,0 +1,62 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  position: fixed;
+}
+
+.modalContent {
+  background-color: #ff1b1ba4;
+  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+
+.howToModalContent {
+  composes: modalContent;
+  border-width: 3px;
+  gap: 0;
+  text-align: center;
+  width: 50%;
+}
+
+.settingsModalContent {
+  composes: modalContent;
+  gap: 30px;
+}
+
+.modalText {
+  text-align: center;
+}
+
+.modalButtons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modalBlockRow {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.modalBlockCol {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
