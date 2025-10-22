@@ -1,0 +1,8 @@
+.startScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: linear-gradient(to bottom, #ff1b1b 70%, #fff);
+  font-size: 30px;
+}

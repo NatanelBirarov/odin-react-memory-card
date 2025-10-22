@@ -16,7 +16,7 @@ import TitleScreen from "./components/TitleScreen.tsx";
 import SelectionScreen from "./components/SelectionScreen.jsx";
 import GameScreen from "./components/GameScreen.tsx";
 import Loader from "./components/Loader/Loader.js";
-import StartScreen from "./components/StartScreen.jsx";
+import StartPage from "./components/StartPage/StartPage.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,7 +26,7 @@ const router = createBrowserRouter(
       hydrateFallbackElement={<Loader />}
       errorElement={<Loader />}
     >
-      <Route index element={<StartScreen />}></Route>
+      <Route index element={<StartPage />}></Route>
       <Route
         path="titlescreen"
         element={<TitleScreen />}

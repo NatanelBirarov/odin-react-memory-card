@@ -3,7 +3,7 @@ import Tilt from "react-parallax-tilt";
 import Loader from "./Loader/Loader";
 import SettingsScreen from "./SettingsScreen";
 import { useNavigate, useNavigation, useOutletContext } from "react-router-dom";
-import HowToScreen from "./HowToScreen";
+import HowToPlayPage from "./HowToPlayPage/HowToPlay";
 import Button from "./Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import { titleScreenQuery } from "../scripts/queries";
@@ -64,7 +64,7 @@ export default function TitleScreen() {
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
-      {showHowTo && <HowToScreen onClose={() => setShowHowTo(false)} />}
+      {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
       <div className="title-screen">
         {/* <div className="title-screen-border border-left">
         <div className="title-screen-border-inner"></div>

@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import Tilt from "react-parallax-tilt";
-import { StateUpdater, CardData } from "../scripts/types";
+import { StateUpdater, CardData } from "../../scripts/types";
+
+import styles from "./Card.module.css";
 
 type CardProps = {
   name: string;
@@ -98,25 +100,21 @@ export default function Card({
       glareColor="white"
       glarePosition="all"
       glareBorderRadius="5px"
-      // scale={2}
       transitionSpeed={1500}
       tiltReverse={true}
     >
-      <div className="flip-card" onClick={handleClick}>
+      <div className={styles.card} onClick={handleClick}>
         <div
-          className={`flip-card-inner ${isShuffling ? "flip" : ""}`}
-          // onPointerMove={rotateElement}
-          // onPointerLeave={resetElement}
+          className={`${styles.cardContent} ${
+            isShuffling ? styles.cardFlip : ""
+          }`}
         >
-          <img className="card-front" src={image} alt={name} />
+          <img className={styles.cardFace} src={image} alt={name + "-front"} />
           <img
-            className="card-back"
+            className={styles.cardFace}
             src="/images/card-back.png"
             alt={name + "-back"}
           />
-          {/* <div className="card-name">
-        <span>{name}</span>
-      </div> */}
         </div>
       </div>
     </Tilt>

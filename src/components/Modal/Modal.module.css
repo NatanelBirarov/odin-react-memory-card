@@ -25,6 +25,11 @@
   border: 2px solid black;
 }
 
+.gameScreenModalContent {
+  composes: modalContent;
+  width: 80%;
+}
+
 .howToModalContent {
   composes: modalContent;
   border-width: 3px;
@@ -42,21 +47,15 @@
   text-align: center;
 }
 
-.modalButtons {
+.modalBlockRow {
+  width: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 10px;
 }
 
-.modalBlockRow {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-}
-
 .modalBlockCol {
-  width: 100%;
-  display: flex;
+  composes: modalBlockRow;
   flex-direction: column;
-  gap: 10px;
 }
