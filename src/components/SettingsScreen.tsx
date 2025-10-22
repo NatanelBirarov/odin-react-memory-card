@@ -1,6 +1,10 @@
 import { useOutletContext } from "react-router-dom";
 import Button from "./Button/Button";
-import Modal from "./Modal/Modal";
+import Modal, {
+  ModalBlockColumn,
+  ModalBlockRow,
+  ModalText,
+} from "./Modal/Modal";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import { ContextType } from "../scripts/types";
 import { ChangeEvent, WheelEvent } from "react";
@@ -54,12 +58,14 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
   }
 
   return (
-    <Modal type="settingsModalContent">
-      <div className={modalStyles.modalBlockCol}>
-        <label htmlFor="music-volume" className={modalStyles.modalText}>
-          <p>Music volume</p>
-        </label>
-        <div className={modalStyles.modalBlockRow}>
+    <Modal contentType="settingsModalContent">
+      <ModalBlockColumn>
+        <ModalText>
+          <label htmlFor="music-volume">
+            <p>Music volume</p>
+          </label>
+        </ModalText>
+        <ModalBlockRow>
           <input
             id="music-volume"
             className="range-slider"
@@ -81,13 +87,15 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
               <Volume2 color="black" size={24} />
             )}
           </Button>
-        </div>
-      </div>
-      <div className={modalStyles.modalBlockCol}>
-        <label htmlFor="music-volume" className={modalStyles.modalText}>
-          <p>SFX volume</p>
-        </label>
-        <div className={modalStyles.modalBlockRow}>
+        </ModalBlockRow>
+      </ModalBlockColumn>
+      <ModalBlockColumn>
+        <ModalText>
+          <label htmlFor="music-volume" className={modalStyles.modalText}>
+            <p>SFX volume</p>
+          </label>
+        </ModalText>
+        <ModalBlockRow>
           <input
             id="sfx-volume"
             className="range-slider"
@@ -109,16 +117,14 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
               <Volume2 color="black" size={24} />
             )}
           </Button>
-        </div>
-      </div>
-      <div className={modalStyles.modalBlockCol}>
-        <Button type="modal" onClick={() => handleClearData()}>
-          <div className={modalStyles.modalText}>Clear game date</div>
-        </Button>
-        <Button type="modal" onClick={onClose}>
-          <div className={modalStyles.modalText}>Close</div>
-        </Button>
-      </div>
+        </ModalBlockRow>
+      </ModalBlockColumn>
+      <Button type="modal" onClick={() => handleClearData()}>
+        <div className={modalStyles.modalText}>Clear game date</div>
+      </Button>
+      <Button type="modal" onClick={onClose}>
+        <div className={modalStyles.modalText}>Close</div>
+      </Button>
     </Modal>
   );
 }

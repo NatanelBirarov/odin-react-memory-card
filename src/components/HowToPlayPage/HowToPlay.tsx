@@ -1,15 +1,15 @@
-import Button from "./Button/Button";
-import Modal from "./Modal/Modal";
+import Button from "../Button/Button";
+import Modal, { ModalBlockRow } from "../Modal/Modal";
 
-import { modalText } from "./Modal/Modal.module.css";
+import { modalText } from "../Modal/Modal.module.css";
 
 type HowToScreenProps = {
   onClose: () => void;
 };
 
-export default function HowToScreen({ onClose }: HowToScreenProps) {
+export default function HowToPlayPage({ onClose }: HowToScreenProps) {
   return (
-    <Modal type="howToModalContent">
+    <Modal contentType="howToModalContent">
       <p>
         <strong>1. </strong> Select the next available set.
       </p>
@@ -23,9 +23,11 @@ export default function HowToScreen({ onClose }: HowToScreenProps) {
       <p>
         <strong>4. </strong> Clear all levels to unlock the next set!
       </p>
-      <Button type="modal" onClick={onClose}>
-        <div className={modalText}>Close</div>
-      </Button>
+      <ModalBlockRow>
+        <Button type="modal" onClick={onClose}>
+          <div className={modalText}>Close</div>
+        </Button>
+      </ModalBlockRow>
     </Modal>
   );
 }

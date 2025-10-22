@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
-export default function StartScreen() {
+import styles from "./StartPage.module.css";
+
+export default function StartPage() {
   const navigate = useNavigate();
 
   window.addEventListener(
@@ -12,7 +14,7 @@ export default function StartScreen() {
   );
 
   return (
-    <div className="start-screen">
+    <div className={styles.startScreen}>
       <h1>Click anywhere to start</h1>
     </div>
   );

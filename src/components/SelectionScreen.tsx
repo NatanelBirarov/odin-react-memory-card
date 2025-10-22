@@ -3,7 +3,7 @@ import LocalStorageFactory from "../scripts/localStorageFactory";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
 import Menu from "./Menu/Menu";
-import HowToScreen from "./HowToScreen";
+import HowToPlayPage from "./HowToPlayPage/HowToPlay";
 import { selectionScreenQuery } from "../scripts/queries";
 import { useQuery } from "@tanstack/react-query";
 import { ContextType, SetDataType } from "../scripts/types";
@@ -93,7 +93,7 @@ export default function SelectionScreen() {
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
-      {showHowTo && <HowToScreen onClose={() => setShowHowTo(false)} />}
+      {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
       <div className="selection-screen">
         {/* <div className="pokeball-border border-left">
         <div className="pokeball-border-inner"></div>

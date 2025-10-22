@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Loader from "./Loader/Loader";
-import Card from "./Card";
+import Card from "./Card/Card";
 import Score from "./Scores/Scores";
-import Modal from "./Modal/Modal";
+import Modal, { ModalBlockRow, ModalText } from "./Modal/Modal";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import {
   useNavigate,
@@ -12,7 +12,7 @@ import {
 } from "react-router-dom";
 import SettingsScreen from "./SettingsScreen";
 import Menu from "./Menu/Menu";
-import HowToScreen from "./HowToScreen";
+import HowToPlayPage from "./HowToPlayPage/HowToPlay";
 import Button from "./Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import { gameScreenQuery } from "../scripts/queries";
@@ -149,13 +149,13 @@ export default function GameScreen() {
       {showSettings && (
         <SettingsScreen onClose={() => setShowSettings(false)} />
       )}
-      {showHowTo && <HowToScreen onClose={() => setShowHowTo(false)} />}
+      {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
       {showModal === -1 ? (
-        <Modal>
-          <div className={modalStyles.modalText}>
+        <Modal contentType="gameScreenModalContent">
+          <ModalText>
             <p>You failed...</p>
-          </div>
-          <div className={modalStyles.modalButtons}>
+          </ModalText>
+          <ModalBlockRow>
             <Button
               type="modal"
               onClick={() => handleEndLevelScreen(-1, false)}
@@ -165,31 +165,31 @@ export default function GameScreen() {
             <Button type="modal" onClick={() => handleEndLevelScreen(0, false)}>
               <div className={modalStyles.modalText}>Try again</div>
             </Button>
-          </div>
+          </ModalBlockRow>
         </Modal>
       ) : showModal === 1 ? (
         currentLevel >= levels ? (
-          <Modal>
-            <div className={modalStyles.modalText}>
+          <Modal contentType="gameScreenModalContent">
+            <ModalText>
               <p>You have completed the set!</p>
               <p>Congratulations!</p>
-            </div>
-            <div className={modalStyles.modalButtons}>
+            </ModalText>
+            <ModalBlockRow>
               <Button
                 type="modal"
                 onClick={() => handleEndLevelScreen(-1, true)}
               >
                 <div className={modalStyles.modalText}>Select next set</div>
               </Button>
-            </div>
+            </ModalBlockRow>
           </Modal>
         ) : (
-          <Modal>
-            <div className={modalStyles.modalText}>
+          <Modal contentType="gameScreenModalContent">
+            <ModalText>
               <p>You have completed the level!</p>
               <p>Congratulations!</p>
-            </div>
-            <div className={modalStyles.modalButtons}>
+            </ModalText>
+            <ModalBlockRow>
               <Button
                 type="modal"
                 onClick={() => handleEndLevelScreen(-1, true)}
@@ -200,9 +200,9 @@ export default function GameScreen() {
                 type="modal"
                 onClick={() => handleEndLevelScreen(1, true)}
               >
-                <div className={modalStyles.modalButtons}>Next level</div>
+                <div className={modalStyles.modalText}>Next level</div>
               </Button>
-            </div>
+            </ModalBlockRow>
           </Modal>
         )
       ) : (
