@@ -18,6 +18,8 @@ import { useQuery } from "@tanstack/react-query";
 import { gameScreenQuery } from "../scripts/queries";
 import { CardData, SetDataType, ContextType } from "../scripts/types";
 
+import modalStyles from "./Modal/Modal.module.css";
+
 type GameDataType = SetDataType[];
 
 export default function GameScreen() {
@@ -150,55 +152,55 @@ export default function GameScreen() {
       {showHowTo && <HowToScreen onClose={() => setShowHowTo(false)} />}
       {showModal === -1 ? (
         <Modal>
-          <div className="modal-text">
+          <div className={modalStyles.modalText}>
             <p>You failed...</p>
           </div>
-          <div className="modal-buttons">
+          <div className={modalStyles.modalButtons}>
             <Button
               type="modal"
               onClick={() => handleEndLevelScreen(-1, false)}
             >
-              <div className="modal-button-text">Select set</div>
+              <div className={modalStyles.modalText}>Select set</div>
             </Button>
             <Button type="modal" onClick={() => handleEndLevelScreen(0, false)}>
-              <div className="modal-button-text">Try again</div>
+              <div className={modalStyles.modalText}>Try again</div>
             </Button>
           </div>
         </Modal>
       ) : showModal === 1 ? (
         currentLevel >= levels ? (
           <Modal>
-            <div className="modal-text">
+            <div className={modalStyles.modalText}>
               <p>You have completed the set!</p>
               <p>Congratulations!</p>
             </div>
-            <div className="modal-buttons">
+            <div className={modalStyles.modalButtons}>
               <Button
                 type="modal"
                 onClick={() => handleEndLevelScreen(-1, true)}
               >
-                <div className="modal-button-text">Select next set</div>
+                <div className={modalStyles.modalText}>Select next set</div>
               </Button>
             </div>
           </Modal>
         ) : (
           <Modal>
-            <div className="modal-text">
+            <div className={modalStyles.modalText}>
               <p>You have completed the level!</p>
               <p>Congratulations!</p>
             </div>
-            <div className="modal-buttons">
+            <div className={modalStyles.modalButtons}>
               <Button
                 type="modal"
                 onClick={() => handleEndLevelScreen(-1, true)}
               >
-                <div className="modal-button-text">Select set</div>
+                <div className={modalStyles.modalText}>Select set</div>
               </Button>
               <Button
                 type="modal"
                 onClick={() => handleEndLevelScreen(1, true)}
               >
-                <div className="modal-button-text">Next level</div>
+                <div className={modalStyles.modalButtons}>Next level</div>
               </Button>
             </div>
           </Modal>

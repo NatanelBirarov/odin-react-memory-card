@@ -6,6 +6,8 @@ import { ContextType } from "../scripts/types";
 import { ChangeEvent, WheelEvent } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 
+import modalStyles from "./Modal/Modal.module.css";
+
 type SettingsScreenProps = {
   onClose: () => void;
 };
@@ -52,12 +54,12 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
   }
 
   return (
-    <Modal className="settings-screen">
-      <div className="modal-block-col">
-        <label htmlFor="music-volume" className="modal-text">
+    <Modal type="settingsModalContent">
+      <div className={modalStyles.modalBlockCol}>
+        <label htmlFor="music-volume" className={modalStyles.modalText}>
           <p>Music volume</p>
         </label>
-        <div className="modal-block-row">
+        <div className={modalStyles.modalBlockRow}>
           <input
             id="music-volume"
             className="range-slider"
@@ -81,11 +83,11 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
           </Button>
         </div>
       </div>
-      <div className="modal-block-col">
-        <label htmlFor="music-volume" className="modal-text">
+      <div className={modalStyles.modalBlockCol}>
+        <label htmlFor="music-volume" className={modalStyles.modalText}>
           <p>SFX volume</p>
         </label>
-        <div className="modal-block-row">
+        <div className={modalStyles.modalBlockRow}>
           <input
             id="sfx-volume"
             className="range-slider"
@@ -109,12 +111,12 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
           </Button>
         </div>
       </div>
-      <div className="modal-block-col">
+      <div className={modalStyles.modalBlockCol}>
         <Button type="modal" onClick={() => handleClearData()}>
-          <div className="modal-button-text">Clear game date</div>
+          <div className={modalStyles.modalText}>Clear game date</div>
         </Button>
         <Button type="modal" onClick={onClose}>
-          <div className="modal-button-text">Close</div>
+          <div className={modalStyles.modalText}>Close</div>
         </Button>
       </div>
     </Modal>

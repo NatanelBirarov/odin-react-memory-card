@@ -1,10 +1,11 @@
 import { useEffect } from "react";
+import styles from "./Modal.module.css";
 
 type ModalProps = {
-  className?: "how-to-screen" | "settings-screen";
+  type?: string;
   children: React.ReactNode;
 };
-export default function Modal({ className, children }: ModalProps) {
+export default function Modal({ type, children }: ModalProps) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     // document.body.style.paddingRight = "0px";
@@ -15,8 +16,8 @@ export default function Modal({ className, children }: ModalProps) {
   }, []);
 
   return (
-    <div className={`modal ${className}`}>
-      <div className="modal-content">{children}</div>
+    <div className={`${styles.modal}`}>
+      <div className={styles[type]}>{children}</div>
     </div>
   );
 }
