@@ -10,7 +10,7 @@ import {
   useOutletContext,
   useParams,
 } from "react-router-dom";
-import SettingsScreen from "./SettingsScreen";
+import SettingsPage from "./SettingsPage/SettingsPage";
 import Menu from "./Menu/Menu";
 import HowToPlayPage from "./HowToPlayPage/HowToPlay";
 import Button from "./Button/Button";
@@ -19,6 +19,7 @@ import { gameScreenQuery } from "../scripts/queries";
 import { CardData, SetDataType, ContextType } from "../scripts/types";
 
 import modalStyles from "./Modal/Modal.module.css";
+import Img from "./Img/Img";
 
 type GameDataType = SetDataType[];
 
@@ -146,9 +147,7 @@ export default function GameScreen() {
   return (
     <>
       <audio ref={bgAudioRef} src="/audio/gameBg.mp3" autoPlay loop />
-      {showSettings && (
-        <SettingsScreen onClose={() => setShowSettings(false)} />
-      )}
+      {showSettings && <SettingsPage onClose={() => setShowSettings(false)} />}
       {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
       {showModal === -1 ? (
         <Modal contentType="gameScreenModalContent">
@@ -213,20 +212,12 @@ export default function GameScreen() {
       ) : (
         <>
           <div className="header">
-            <img
-              className="header-img"
-              src="/images/pokeball-main.png"
-              alt="Logo"
-            />
+            <Img type="small" src="/images/pokeball-main.png" alt="Logo" />
             <div className="logo-container">
-              <img src="/images/logo1.png" alt="Logo" className="logo1" />
-              <img src="/images/logo2.png" alt="Logo" className="logo2" />
+              <Img src="/images/logo1.png" alt="Logo" type="medium" />
+              <Img src="/images/logo2.png" alt="Logo" type="medium" />
             </div>
-            <img
-              className="header-img"
-              src="/images/pokeball-main.png"
-              alt="Logo"
-            />
+            <Img type="small" src="/images/pokeball-main.png" alt="Logo" />
           </div>
           <>
             <div className="main-text">

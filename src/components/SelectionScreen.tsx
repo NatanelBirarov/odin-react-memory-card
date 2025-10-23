@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import SettingsScreen from "./SettingsScreen";
+import SettingsPage from "./SettingsPage/SettingsPage";
 import Menu from "./Menu/Menu";
 import HowToPlayPage from "./HowToPlayPage/HowToPlay";
 import { selectionScreenQuery } from "../scripts/queries";
 import { useQuery } from "@tanstack/react-query";
 import { ContextType, SetDataType } from "../scripts/types";
 import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
+import Img from "./Img/Img";
 
 type SetLogo = {
   id: string;
@@ -90,9 +91,7 @@ export default function SelectionScreen() {
         autoPlay
         loop
       />
-      {showSettings && (
-        <SettingsScreen onClose={() => setShowSettings(false)} />
-      )}
+      {showSettings && <SettingsPage onClose={() => setShowSettings(false)} />}
       {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
       <div className="selection-screen">
         {/* <div className="pokeball-border border-left">
@@ -113,11 +112,7 @@ export default function SelectionScreen() {
                   onClick={() => handleSelectGame(set.id)}
                 >
                   <span className="selection-name">{set.name}</span>
-                  <img
-                    className="selection-image"
-                    src={set.image}
-                    alt={set.name}
-                  />
+                  <Img type="selection" src={set.image} alt={set.name} />
                   <span className="selection-level">
                     {gameData.current[index].completedLevels} / {set.levels}
                   </span>

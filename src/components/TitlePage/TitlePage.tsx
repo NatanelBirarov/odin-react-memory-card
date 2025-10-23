@@ -1,16 +1,18 @@
 import { useEffect, useMemo, useRef } from "react";
 import Tilt from "react-parallax-tilt";
-import Loader from "./Loader/Loader";
-import SettingsScreen from "./SettingsScreen";
+import Loader from "../Loader/Loader";
+import SettingsPage from "../SettingsPage/SettingsPage";
 import { useNavigate, useNavigation, useOutletContext } from "react-router-dom";
-import HowToPlayPage from "./HowToPlayPage/HowToPlay";
-import Button from "./Button/Button";
+import HowToPlayPage from "../HowToPlayPage/HowToPlay";
+import Button from "../Button/Button";
 import { useQuery } from "@tanstack/react-query";
-import { titleScreenQuery } from "../scripts/queries";
+import { titleScreenQuery } from "../../scripts/queries";
+import { CardData, ContextType } from "../../scripts/types";
 
-import { CardData, ContextType } from "../scripts/types";
+import styles from "./TitlePage.module.css";
+import Img from "../Img/Img";
 
-export default function TitleScreen() {
+export default function TitlePage() {
   const {
     showSettings,
     setShowSettings,
@@ -54,22 +56,14 @@ export default function TitleScreen() {
 
   return (
     <>
-      <audio
-        className="title-screen-audio"
-        ref={bgAudioRef}
-        src="/audio/titleBg.mp3"
-        autoPlay
-        loop
-      />
-      {showSettings && (
-        <SettingsScreen onClose={() => setShowSettings(false)} />
-      )}
+      <audio ref={bgAudioRef} src="/audio/titleBg.mp3" autoPlay loop />
+      {showSettings && <SettingsPage onClose={() => setShowSettings(false)} />}
       {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
-      <div className="title-screen">
+      <div className={styles.main}>
         {/* <div className="title-screen-border border-left">
         <div className="title-screen-border-inner"></div>
       </div> */}
-        <div className="title-screen-background">
+        <div className={styles.background}>
           {backgroundCards.current.map((card: CardData) => (
             <Tilt
               key={card.id}
@@ -83,47 +77,35 @@ export default function TitleScreen() {
               glareReverse={true}
               glareBorderRadius="20px"
             >
-              <img
+              <Img
                 // key={card.image}
                 src={card.images.large}
                 alt="Background Card"
-                className="title-screen-background-card"
+                type="backgroundCard"
               />
             </Tilt>
           ))}
-          <div className="title-screen-text">
-            <div className="title-screen-container">
-              <div className="title-screen-logo">
-                <img
-                  width={1691}
-                  height={361}
-                  src="/images/logo1.png"
-                  alt="Logo"
-                  className="logo1 logo-large"
-                />
-                <img
-                  width={1691}
-                  height={361}
-                  src="/images/logo2.png"
-                  alt="Logo"
-                  className="logo2 logo-large"
-                />
+          <div className={styles.container}>
+            <div className={styles.content}>
+              <div className={styles.logo}>
+                <Img src="/images/logo1.png" alt="Logo" type="large" />
+                <Img src="/images/logo2.png" alt="Logo" type="large" />
               </div>
-              <div className="title-screen-buttons">
+              <div className={styles.buttons}>
                 <Button
                   type="titleScreen"
                   onClick={() => navigate("/selectionscreen")}
                 >
-                  <div className="title-screen-button-text">Play Game</div>
+                  <div className={styles.buttonText}>Play Game</div>
                 </Button>
                 <Button type="titleScreen" onClick={() => setShowHowTo(true)}>
-                  <div className="title-screen-button-text">How to Play</div>
+                  <div className={styles.buttonText}>How to Play</div>
                 </Button>
                 <Button
                   type="titleScreen"
                   onClick={() => setShowSettings(true)}
                 >
-                  <div className="title-screen-button-text">Settings</div>
+                  <div className={styles.buttonText}>Settings</div>
                 </Button>
               </div>
             </div>

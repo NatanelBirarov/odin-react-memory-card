@@ -3,6 +3,7 @@ import Tilt from "react-parallax-tilt";
 import { StateUpdater, CardData } from "../../scripts/types";
 
 import styles from "./Card.module.css";
+import Img from "../Img/Img";
 
 type CardProps = {
   name: string;
@@ -109,9 +110,9 @@ export default function Card({
             isShuffling ? styles.cardFlip : ""
           }`}
         >
-          <img className={styles.cardFace} src={image} alt={name + "-front"} />
-          <img
-            className={styles.cardFace}
+          <Img type="cardFace" src={image} alt={name + "-front"} />
+          <Img
+            type="cardFace"
             src="/images/card-back.png"
             alt={name + "-back"}
           />
