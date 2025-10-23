@@ -12,7 +12,7 @@ import queryClient from "./scripts/queryClient.js";
 import pokemonLoader from "./scripts/pokemonLoader.js";
 
 import App from "./components/App.tsx";
-import TitleScreen from "./components/TitleScreen.tsx";
+import TitlePage from "./components/TitlePage/TitlePage.js";
 import SelectionScreen from "./components/SelectionScreen.jsx";
 import GameScreen from "./components/GameScreen.tsx";
 import Loader from "./components/Loader/Loader.js";
@@ -29,7 +29,7 @@ const router = createBrowserRouter(
       <Route index element={<StartPage />}></Route>
       <Route
         path="titlescreen"
-        element={<TitleScreen />}
+        element={<TitlePage />}
         loader={pokemonLoader}
       />
       <Route

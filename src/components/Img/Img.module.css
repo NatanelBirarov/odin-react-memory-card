@@ -1,0 +1,61 @@
+.image {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+
+.logo {
+  height: auto;
+}
+
+.small {
+  composes: image logo;
+  width: 10%;
+}
+
+.medium {
+  composes: image logo;
+  width: 40%;
+}
+
+.large {
+  composes: image logo;
+  width: 90%;
+}
+
+.loader {
+  composes: image;
+  width: 15%;
+  height: auto;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.backgroundCard {
+  composes: image;
+  width: 100%;
+}
+
+.cardFace {
+  composes: image;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  top: 0;
+  left: 0;
+}
+
+.selection {
+  composes: image;
+  object-fit: contain;
+  max-height: 100px;
+}

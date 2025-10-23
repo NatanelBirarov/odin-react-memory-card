@@ -5,8 +5,22 @@
 }
 
 html {
-  scroll-behavior: smooth;
   font-size: 62.5%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
 }
 
 .glass-effect {
@@ -100,33 +114,12 @@ button {
   border-bottom: 7px solid black;
 }
 
-.header-img {
-  width: 10%;
-  height: auto;
-}
-
 .logo-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 60%;
-}
-
-.logo1 {
-  width: 50%;
-  height: auto;
-  margin-bottom: -30px;
-}
-
-.logo2 {
-  width: 40%;
-  height: auto;
-}
-
-.logo-large {
-  width: 90%;
-  height: auto;
 }
 
 .main-text {
@@ -196,43 +189,6 @@ button {
   }
 }
 
-.title-screen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  animation-name: fadeInOpacity;
-  animation: fadeInOpacity 1s ease-in;
-}
-
-.title-screen-background {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  /* grid-template-columns: repeat(6, minmax(0, 1fr)); */
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.title-screen-background-card {
-  width: 100%;
-}
-
-.title-screen-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 30px;
-  background-color: #fffefe63;
-  border-radius: 5px;
-}
-
 /* .title-screen-container { */
 /* display: flex;
   justify-content: center;
@@ -250,22 +206,6 @@ button {
   grid-row: 2 / 5;
   grid-column: 5 / 11;
 } */
-
-.title-screen-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.title-screen-logo {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
 
 @keyframes fadeInOpacity {
   0% {
@@ -306,22 +246,6 @@ button {
 .border-right .pokeball-border-inner {
   animation: move 500000s linear infinite;
   animation-direction: reverse;
-}
-
-.title-screen-buttons {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  width: 50%;
-}
-
-.title-screen-button-text {
-  width: 100%;
-  padding: 10px 20px;
-  border: 2.5px solid #ffffff;
-  border-radius: 6px;
 }
 
 .selection-screen {
@@ -393,28 +317,12 @@ button {
   text-align: center;
 }
 
-.selection-image {
-  object-fit: contain;
-  max-width: 100%;
-  max-height: 100px;
-}
-
 .selection-level {
   font-size: 1.5rem;
 }
 
 .hidden {
   display: none;
-}
-
-.settings-screen {
-  .range-slider {
-    width: 35rem;
-  }
-
-  p {
-    margin: 0;
-  }
 }
 
 @media screen and (max-width: 768px) {
@@ -428,10 +336,6 @@ button {
   .instructions {
     align-items: center;
   }
-
-  .title-screen-text {
-    width: 100%;
-  }
 }
 
 @media screen and (max-width: 650px) {
@@ -442,10 +346,6 @@ button {
   .cards-container {
     grid-template-columns: 1fr 1fr;
   }
-
-  .title-screen-background {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
 }
 
 @media screen and (max-width: 400px) {
@@ -453,16 +353,8 @@ button {
     -webkit-text-stroke: 1px #345ca1;
   }
 
-  .title-screen-background {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .card-name {
     font-size: 1.5rem;
-  }
-
-  .title-screen-buttons {
-    width: 70%;
   }
 }
 

@@ -1,22 +1,23 @@
 import { useOutletContext } from "react-router-dom";
-import Button from "./Button/Button";
+import Button from "../Button/Button";
 import Modal, {
   ModalBlockColumn,
   ModalBlockRow,
   ModalText,
-} from "./Modal/Modal";
-import LocalStorageFactory from "../scripts/localStorageFactory";
-import { ContextType } from "../scripts/types";
+} from "../Modal/Modal";
+import LocalStorageFactory from "../../scripts/localStorageFactory";
+import { ContextType } from "../../scripts/types";
 import { ChangeEvent, WheelEvent } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 
-import modalStyles from "./Modal/Modal.module.css";
+import styles from "./SettingsPage.module.css";
+import modalStyles from "../Modal/Modal.module.css";
 
 type SettingsScreenProps = {
   onClose: () => void;
 };
 
-export default function SettingsScreen({ onClose }: SettingsScreenProps) {
+export default function SettingsPage({ onClose }: SettingsScreenProps) {
   const { musicVolume, setMusicVolume, sfxVolume, setSfxVolume } =
     useOutletContext<ContextType>();
 
@@ -68,7 +69,7 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
         <ModalBlockRow>
           <input
             id="music-volume"
-            className="range-slider"
+            className={styles.volumeSlider}
             type="range"
             min="0"
             max="100"
@@ -98,7 +99,7 @@ export default function SettingsScreen({ onClose }: SettingsScreenProps) {
         <ModalBlockRow>
           <input
             id="sfx-volume"
-            className="range-slider"
+            className={styles.volumeSlider}
             type="range"
             min="0"
             max="100"
