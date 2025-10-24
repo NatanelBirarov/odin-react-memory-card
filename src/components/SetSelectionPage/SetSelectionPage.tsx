@@ -1,14 +1,16 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import LocalStorageFactory from "../scripts/localStorageFactory";
+import LocalStorageFactory from "../../scripts/localStorageFactory";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import SettingsPage from "./SettingsPage/SettingsPage";
-import Menu from "./Menu/Menu";
-import HowToPlayPage from "./HowToPlayPage/HowToPlay";
-import { selectionScreenQuery } from "../scripts/queries";
+import SettingsPage from "../SettingsPage/SettingsPage";
+import Menu from "../Menu/Menu";
+import HowToPlayPage from "../HowToPlayPage/HowToPlay";
+import { selectionScreenQuery } from "../../scripts/queries";
 import { useQuery } from "@tanstack/react-query";
-import { ContextType, SetDataType } from "../scripts/types";
+import { ContextType, SetDataType } from "../../scripts/types";
 import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
-import Img from "./Img/Img";
+import Img from "../Img/Img";
+
+import styles from "./SetSelectionPage.module.css";
 
 type SetLogo = {
   id: string;
@@ -17,7 +19,7 @@ type SetLogo = {
   levels: number;
 };
 
-export default function SelectionScreen() {
+export default function SetSelectionPage() {
   const {
     showSettings,
     setShowSettings,
@@ -84,40 +86,36 @@ export default function SelectionScreen() {
 
   return (
     <>
-      <audio
-        className="title-screen-audio"
-        ref={bgAudioRef}
-        src="/audio/selectionBg.mp3"
-        autoPlay
-        loop
-      />
+      <audio ref={bgAudioRef} src="/audio/selectionBg.mp3" autoPlay loop />
       {showSettings && <SettingsPage onClose={() => setShowSettings(false)} />}
       {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
-      <div className="selection-screen">
+      <div className={styles.main}>
         {/* <div className="pokeball-border border-left">
         <div className="pokeball-border-inner"></div>
       </div> */}
-        <div className="selections">
+        <div className={styles.selections}>
           {pokemonSets.current.map((set, index) => {
             const unlocked =
               index === 0 || gameData.current[index - 1].completed;
             return (
               <React.Fragment key={set.id}>
                 <div
-                  className={`selection ${
+                  className={`${styles.selection} ${
                     unlocked && !gameData.current[index].completed
                       ? ""
-                      : "selection-locked"
+                      : styles.locked
                   }`}
                   onClick={() => handleSelectGame(set.id)}
                 >
-                  <span className="selection-name">{set.name}</span>
+                  <span className={styles.name}>{set.name}</span>
                   <Img type="selection" src={set.image} alt={set.name} />
-                  <span className="selection-level">
+                  <span className={styles.level}>
                     {gameData.current[index].completedLevels} / {set.levels}
                   </span>
                   <div
-                    className={`selection-overlay ${unlocked ? "hidden" : ""}`}
+                    className={`${styles.overlay} ${
+                      unlocked ? styles.hidden : ""
+                    }`}
                   >
                     <span>Complete the previous set to unlock this one!</span>
                   </div>

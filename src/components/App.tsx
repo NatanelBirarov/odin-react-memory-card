@@ -1,7 +1,7 @@
 import Loader from "./Loader/Loader";
 import { Outlet, useNavigation } from "react-router-dom";
 
-import "../styles/styles.css";
+import "../styles/global.css";
 import { useState } from "react";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import { ContextType } from "../scripts/types";
