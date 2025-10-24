@@ -1,0 +1,65 @@
+.main {
+  background-color: #ddebff;
+}
+
+.selections {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.selection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.selection:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+  border: 2px solid #0000;
+  background: linear-gradient(#ddebff, #ddebff) padding-box,
+    linear-gradient(var(--angle), #000, #ff0000) border-box;
+  animation: 4s rotate linear infinite;
+}
+
+.locked {
+  pointer-events: none;
+}
+
+.name {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.level {
+  font-size: 1.5rem;
+}
+
+.overlay {
+  composes: glassEffectDark from "../../styles/styles.css";
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 2rem;
+  border-radius: 5px;
+}
+
+.hidden {
+  display: none;
+}

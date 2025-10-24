@@ -54,6 +54,11 @@
   left: 0;
 }
 
+.cardFaceBack {
+  composes: cardFace;
+  transform: rotateY(180deg);
+}
+
 .selection {
   composes: image;
   object-fit: contain;

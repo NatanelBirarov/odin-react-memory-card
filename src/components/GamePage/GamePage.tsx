@@ -1,29 +1,30 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Loader from "./Loader/Loader";
-import Card from "./Card/Card";
-import Score from "./Scores/Scores";
-import Modal, { ModalBlockRow, ModalText } from "./Modal/Modal";
-import LocalStorageFactory from "../scripts/localStorageFactory";
+import Loader from "../Loader/Loader";
+import Card from "../Card/Card";
+import Score from "../Scores/Scores";
+import Modal, { ModalBlockRow, ModalText } from "../Modal/Modal";
+import LocalStorageFactory from "../../scripts/localStorageFactory";
 import {
   useNavigate,
   useNavigation,
   useOutletContext,
   useParams,
 } from "react-router-dom";
-import SettingsPage from "./SettingsPage/SettingsPage";
-import Menu from "./Menu/Menu";
-import HowToPlayPage from "./HowToPlayPage/HowToPlay";
-import Button from "./Button/Button";
+import SettingsPage from "../SettingsPage/SettingsPage";
+import Menu from "../Menu/Menu";
+import HowToPlayPage from "../HowToPlayPage/HowToPlay";
+import Button from "../Button/Button";
 import { useQuery } from "@tanstack/react-query";
-import { gameScreenQuery } from "../scripts/queries";
-import { CardData, SetDataType, ContextType } from "../scripts/types";
+import { gameScreenQuery } from "../../scripts/queries";
+import { CardData, SetDataType, ContextType } from "../../scripts/types";
 
-import modalStyles from "./Modal/Modal.module.css";
-import Img from "./Img/Img";
+import modalStyles from "../Modal/Modal.module.css";
+import Img from "../Img/Img";
+import styles from "./GamePage.module.css";
 
 type GameDataType = SetDataType[];
 
-export default function GameScreen() {
+export default function GamePage() {
   const {
     showSettings,
     setShowSettings,
@@ -211,43 +212,39 @@ export default function GameScreen() {
         <Loader />
       ) : (
         <>
-          <div className="header">
+          <div className={styles.header}>
             <Img type="small" src="/images/pokeball-main.png" alt="Logo" />
-            <div className="logo-container">
+            <div className={styles.logo}>
               <Img src="/images/logo1.png" alt="Logo" type="medium" />
               <Img src="/images/logo2.png" alt="Logo" type="medium" />
             </div>
             <Img type="small" src="/images/pokeball-main.png" alt="Logo" />
           </div>
           <>
-            <div className="main-text">
-              <div className="instructions">
-                {/* <p>Try to click on all the cards without</p>
-                <p>clicking on the same card twice!</p> */}
-                <span className="game-level">Level: {currentLevel}</span>
-              </div>
+            <div className={styles.gameState}>
+              <span className={styles.level}>Level: {currentLevel}</span>
               <Score currentScore={currentScore} highScore={highScore} />
             </div>
-            <div className="container">
-              <div className="cards-container">
-                {currentLevelCards.map((card) => (
-                  <Card
-                    key={card.id}
-                    name={card.name}
-                    image={card.image}
-                    isShuffling={isShuffling}
-                    setIsShuffling={setIsShuffling}
-                    currentScore={currentScore}
-                    setCurrentScore={setCurrentScore}
-                    highScore={highScore}
-                    setHighScore={setHighScore}
-                    currentLevelCards={currentLevelCards}
-                    setCurrentLevelCards={setCurrentLevelCards}
-                    setShowModal={setShowModal}
-                  />
-                ))}
-              </div>
+            {/* <div className="container"> */}
+            <div className={styles.cards}>
+              {currentLevelCards.map((card) => (
+                <Card
+                  key={card.id}
+                  name={card.name}
+                  image={card.image}
+                  isShuffling={isShuffling}
+                  setIsShuffling={setIsShuffling}
+                  currentScore={currentScore}
+                  setCurrentScore={setCurrentScore}
+                  highScore={highScore}
+                  setHighScore={setHighScore}
+                  currentLevelCards={currentLevelCards}
+                  setCurrentLevelCards={setCurrentLevelCards}
+                  setShowModal={setShowModal}
+                />
+              ))}
             </div>
+            {/* </div> */}
           </>
         </>
       )}

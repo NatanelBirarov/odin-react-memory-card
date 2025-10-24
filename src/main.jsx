@@ -13,8 +13,8 @@ import pokemonLoader from "./scripts/pokemonLoader.js";
 
 import App from "./components/App.tsx";
 import TitlePage from "./components/TitlePage/TitlePage.js";
-import SelectionScreen from "./components/SelectionScreen.jsx";
-import GameScreen from "./components/GameScreen.tsx";
+import SetSelectionPage from "./components/SetSelectionPage/SetSelectionPage.js";
+import GamePage from "./components/GamePage/GamePage.js";
 import Loader from "./components/Loader/Loader.js";
 import StartPage from "./components/StartPage/StartPage.js";
 
@@ -34,13 +34,13 @@ const router = createBrowserRouter(
       />
       <Route
         path="selectionscreen"
-        element={<SelectionScreen />}
+        element={<SetSelectionPage />}
         loader={pokemonLoader}
         hydrateFallbackElement={<Loader />}
       />
       <Route
         path="gamescreen/:setId"
-        element={<GameScreen />}
+        element={<GamePage />}
         loader={pokemonLoader}
       />
       <Route path="*" element={<div>404</div>} />

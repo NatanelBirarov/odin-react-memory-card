@@ -112,7 +112,7 @@ export default function Card({
         >
           <Img type="cardFace" src={image} alt={name + "-front"} />
           <Img
-            type="cardFace"
+            type="cardFaceBack"
             src="/images/card-back.png"
             alt={name + "-back"}
           />

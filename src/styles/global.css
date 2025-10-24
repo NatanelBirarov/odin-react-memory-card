@@ -23,20 +23,28 @@ h6 {
   text-wrap: balance;
 }
 
-.glass-effect {
-  width: 240px;
-  height: 360px;
+.glassEffect {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  overflow: hidden;
+}
+
+.glassEffectLight {
+  composes: glassEffect;
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 -1px 0 rgba(255, 255, 255, 0.1),
     inset 0 0 10px 5px rgba(255, 255, 255, 0.5);
-  position: relative;
-  overflow: hidden;
+}
+
+.glassEffectDark {
+  composes: glassEffect;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(0, 0, 0, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1), inset 0 0 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 /* For browsers that support clamp and container queries */
@@ -103,52 +111,6 @@ button {
 .icon {
   width: 30px;
   height: auto;
-}
-
-.header {
-  background-color: red;
-  padding: 10px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-bottom: 7px solid black;
-}
-
-.logo-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 60%;
-}
-
-.main-text {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 30px;
-}
-
-.instructions {
-  display: flex;
-  flex-direction: column;
-  font-size: 2.5rem;
-}
-
-.instructions p {
-  margin: 10px 0;
-}
-
-.game-level {
-  font-size: 4rem;
-}
-
-.cards-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  justify-items: center;
-  margin: 0 10px;
-  gap: 10px;
 }
 
 .card-back {
@@ -248,58 +210,6 @@ button {
   animation-direction: reverse;
 }
 
-.selection-screen {
-  background-color: #ddebff;
-}
-
-.selections {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.selection {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 10px;
-  transition: all 0.2s;
-  position: relative;
-}
-
-.selection:hover {
-  cursor: pointer;
-  transform: scale(1.03);
-  border: 2px solid #0000;
-  background: linear-gradient(#ddebff, #ddebff) padding-box,
-    linear-gradient(var(--angle), #000, #ff0000) border-box;
-  animation: 4s rotate linear infinite;
-}
-
-.selection-overlay {
-  padding: 1px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 2rem;
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-.selection-locked {
-  pointer-events: none;
-}
-
 @keyframes rotate {
   to {
     --angle: 360deg;
@@ -312,39 +222,9 @@ button {
   inherits: false;
 }
 
-.selection-name {
-  font-size: 2rem;
-  text-align: center;
-}
-
-.selection-level {
-  font-size: 1.5rem;
-}
-
-.hidden {
-  display: none;
-}
-
 @media screen and (max-width: 768px) {
-  .main-text {
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    gap: 10px;
-  }
-
   .instructions {
     align-items: center;
-  }
-}
-
-@media screen and (max-width: 650px) {
-  .instructions {
-    text-align: center;
-  }
-
-  .cards-container {
-    grid-template-columns: 1fr 1fr;
   }
 }
 

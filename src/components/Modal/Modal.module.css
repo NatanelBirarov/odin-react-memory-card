@@ -1,4 +1,5 @@
 .modal {
+  composes: glassEffectDark from "../../styles/styles.css";
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +28,7 @@
 
 .gameScreenModalContent {
   composes: modalContent;
-  width: 80%;
+  width: 60%;
 }
 
 .howToModalContent {
