@@ -1,5 +1,5 @@
 .modal {
-  composes: glassEffectDark from "../../styles/styles.css";
+  composes: glassEffectDark from "../../styles/global.css";
   display: flex;
   justify-content: center;
   align-items: center;
