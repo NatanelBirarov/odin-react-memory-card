@@ -22,3 +22,5 @@ public/data/card-original/
 *.njsproj
 *.sln
 *.sw?
+
+/src/generated/prisma

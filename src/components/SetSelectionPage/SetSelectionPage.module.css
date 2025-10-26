@@ -45,7 +45,7 @@
 }
 
 .overlay {
-  composes: glassEffectDark from "../../styles/styles.css";
+  composes: glassEffectDark from "../../styles/global.css";
   padding: 5px;
   position: absolute;
   top: 0;

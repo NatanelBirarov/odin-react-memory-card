@@ -1,0 +1,46 @@
+// Generator configuration for Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Datasource configuration for connecting to the PostgreSQL database
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Model representing users, including authentication details and game data relations  
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  passwordHash String     
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  settings     Settings?  
+  gameData     LevelData[]
+}
+
+// Model representing game data
+model LevelData {
+  id               String   @id @default(uuid())
+  completed        Boolean  @default(false)
+  completedLevels  Int      @default(0)
+  highScore        Int      @default(0)
+  setId            String   @unique
+  levels           Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  userId           String   
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Model representing user settings, such as volume preferences
+model Settings {
+  id           String   @id @default(uuid())
+  musicVolume  Float    @default(0.5)
+  sfxVolume    Float    @default(0.5)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
+}

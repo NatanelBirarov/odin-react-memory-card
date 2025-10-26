@@ -5,10 +5,12 @@
     "checkJs": false,
     "jsx": "react-jsx",
     "moduleResolution": "node",
+    "module": "es2022",
     "noEmit": true,
     "esModuleInterop": true,
     "lib": ["dom", "es2019"],
-    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "types": ["node", "vite/client"]
   },
-  "include": ["src"]
+  "include": ["src", ".vscode/server/src/databaseService.ts"]
 }
