@@ -11,6 +11,7 @@ import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
 import Img from "../Img/Img";
 
 import styles from "./SetSelectionPage.module.css";
+import ApiClient from "../../scripts/ApiClient";
 
 type SetLogo = {
   id: string;
@@ -44,39 +45,46 @@ export default function SetSelectionPage() {
     bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
 
-  gameData.current = useMemo(() => {
-    let newGameData: SetDataType[] = [];
-    if (pokemonData) {
-      pokemonSets.current = pokemonData.map((set: PokemonTCG.ISet) => {
-        return {
-          id: set.id,
-          name: set.name,
-          image: set.images.logo,
-          levels:
-            set.total % 10 > 5
-              ? Math.floor(set.total / 10 + 1)
-              : Math.floor(set.total / 10),
-        };
-      });
-      pokemonSets.current = pokemonSets.current.filter((set: SetLogo) => {
-        return set.name !== "Journey Together";
-      });
-      newGameData = LocalStorageFactory.get("gameData");
-      if (!newGameData) {
-        newGameData = [];
-        pokemonSets.current.forEach((set: SetLogo) => {
-          newGameData.push({
+  useEffect(() => {
+    const fetchGameData = async () => {
+      let newGameData: SetDataType[] = [];
+      if (pokemonData) {
+        pokemonSets.current = pokemonData.map((set: PokemonTCG.ISet) => {
+          return {
             id: set.id,
-            completedLevels: 0,
-            levels: set.levels,
-            highScore: 0,
-            completed: false,
-          });
+            name: set.name,
+            image: set.images.logo,
+            levels:
+              set.total % 10 > 5
+                ? Math.floor(set.total / 10 + 1)
+                : Math.floor(set.total / 10),
+          };
         });
-        LocalStorageFactory.set("gameData", newGameData);
+        pokemonSets.current = pokemonSets.current.filter((set: SetLogo) => {
+          return set.name !== "Journey Together";
+        });
+        newGameData = LocalStorageFactory.get("gameData");
+        if (!newGameData) {
+          newGameData = await ApiClient.getAllGameData("local-user");
+          if (newGameData.length === 0) {
+            newGameData = [];
+            pokemonSets.current.forEach((set: SetLogo) => {
+              newGameData.push({
+                id: set.id,
+                completedLevels: 0,
+                levels: set.levels,
+                highScore: 0,
+                completed: false,
+              });
+            });
+            LocalStorageFactory.set("gameData", newGameData);
+          }
+        }
       }
-    }
-    return newGameData;
+      gameData.current = newGameData;
+    };
+
+    fetchGameData();
   }, [pokemonData]);
 
   function handleSelectGame(id: string) {

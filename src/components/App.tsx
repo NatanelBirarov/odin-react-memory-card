@@ -2,31 +2,37 @@ import Loader from "./Loader/Loader";
 import { Outlet, useNavigation } from "react-router-dom";
 
 import "../styles/global.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import { ContextType } from "../scripts/types";
+import ApiClient from "../scripts/ApiClient";
 
-type VolumeType = {
+type SettingsType = {
   musicVolume: number;
   sfxVolume: number;
 };
 
 function App() {
-  const volume: VolumeType = LocalStorageFactory.get("volume");
-  if (!volume) {
-    LocalStorageFactory.set("volume", {
-      musicVolumeInit: 0.5,
-      sfxVolumeInit: 0.5,
-    });
-  }
-  const initialMusicVolume = volume?.musicVolume || 0.5;
-  const initialSfxVolume = volume?.sfxVolume || 0.5;
   const [showSettings, setShowSettings] = useState(false);
   const [showHowTo, setShowHowTo] = useState(false);
-  const [musicVolume, setMusicVolume] = useState(initialMusicVolume);
-  const [sfxVolume, setSfxVolume] = useState(initialSfxVolume);
+  const [musicVolume, setMusicVolume] = useState(0.5);
+  const [sfxVolume, setSfxVolume] = useState(0.5);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    async function loadSettings() {
+      let settings: SettingsType = LocalStorageFactory.get("settings");
+      if (!settings) {
+        settings = await ApiClient.getSettings("local-user");
+        LocalStorageFactory.set("settings", {
+          musicVolumeInit: settings.musicVolume,
+          sfxVolumeInit: settings.sfxVolume,
+        });
+      }
+    }
+    loadSettings();
+  }, []);
 
   // if (pokemonData.isError) return <div>Error</div>;
   if (navigation.state === "loading") return <Loader />;
@@ -42,28 +48,7 @@ function App() {
     setSfxVolume,
   };
 
-  return (
-    <Outlet context={context} />
-    // <>
-    //   {/* {isLoading && <Loader />} */}
-    //   {showTitleScreen && (
-    //     <TitleScreen onShowSelectionScreen={handleShowSelectionScreen} />
-    //   )}
-    //   {showSelectionScreen && (
-    //     <SelectionScreen
-    //       onSelectSet={handleSelectSet}
-    //       pokemonSets={pokemonSets.current}
-    //     />
-    //   )}
-    //   {showGameScreen && (
-    //     <GameScreen
-    //       currentSetCards={pokemonSetCards.current}
-    //       onShowSelectionScreen={handleShowSelectionScreen}
-    //       gameData={gameData.current}
-    //     />
-    //   )}
-    // </>
-  );
+  return <Outlet context={context} />;
 }
 
 export default App;
