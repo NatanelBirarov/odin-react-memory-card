@@ -63,7 +63,7 @@ export class DatabaseService {
    * @param userId - The ID of the user.
    * @param gameData - The game data to upsert.
    */
-  static async upsertGameData(
+  static async upsertLevelData(
     userId: string,
     gameData: SetDataType
   ): Promise<void> {

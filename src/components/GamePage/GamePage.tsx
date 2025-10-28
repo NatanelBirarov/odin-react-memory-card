@@ -21,6 +21,7 @@ import { CardData, SetDataType, ContextType } from "../../scripts/types";
 import modalStyles from "../Modal/Modal.module.css";
 import Img from "../Img/Img";
 import styles from "./GamePage.module.css";
+import ApiClient from "../../scripts/ApiClient";
 
 type GameDataType = SetDataType[];
 
@@ -101,7 +102,7 @@ export default function GamePage() {
     setIsLoading(false);
   }, [currentLevel]);
 
-  function handleEndLevelScreen(state, isSuccess) {
+  function handleEndLevelScreen(state: number, isSuccess: boolean) {
     setShowModal(0);
     if (isSuccess) {
       setCurrentLevel(currentLevel + 1);
@@ -116,6 +117,12 @@ export default function GamePage() {
         } else {
           return set;
         }
+      });
+      ApiClient.saveGameData("local-user", {
+        ...setData,
+        completedLevels: currentLevel,
+        completed: currentLevel === levels,
+        highScore: highScore,
       });
       LocalStorageFactory.set("gameData", newGameDataArray);
     }
