@@ -21,7 +21,7 @@ import { CardData, SetDataType, ContextType } from "../../scripts/types";
 import modalStyles from "../Modal/Modal.module.css";
 import Img from "../Img/Img";
 import styles from "./GamePage.module.css";
-import ApiClient from "../../scripts/ApiClient";
+import ApiClient from "../../scripts/apiClient";
 
 type GameDataType = SetDataType[];
 

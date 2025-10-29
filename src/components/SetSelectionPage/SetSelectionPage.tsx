@@ -11,7 +11,7 @@ import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
 import Img from "../Img/Img";
 
 import styles from "./SetSelectionPage.module.css";
-import ApiClient from "../../scripts/ApiClient";
+import ApiClient from "../../scripts/apiClient";
 
 type SetLogo = {
   id: string;

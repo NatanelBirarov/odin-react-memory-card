@@ -14,10 +14,25 @@ model User {
   id           String     @id @default(uuid())
   email        String     @unique
   passwordHash String     
+  verified     Boolean    @default(false)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   settings     Settings?  
   gameData     LevelData[]
+  userProfile  UserProfile?
+}
+
+model UserProfile {
+  id        String   @id @default(uuid())
+  username  String   
+  tag       String   @db.VarChar(4) @default("0001")
+  avatarUrl String?  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([username, tag])
 }
 
 // Model representing game data

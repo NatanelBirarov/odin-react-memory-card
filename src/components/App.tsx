@@ -5,7 +5,7 @@ import "../styles/global.css";
 import { useEffect, useState } from "react";
 import LocalStorageFactory from "../scripts/localStorageFactory";
 import { ContextType } from "../scripts/types";
-import ApiClient from "../scripts/ApiClient";
+import ApiClient from "../scripts/apiClient";
 
 type SettingsType = {
   musicVolume: number;

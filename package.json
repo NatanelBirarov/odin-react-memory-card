@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@devdrc/pokemon-tcg-sdk-ts": "^2.2.2",
+    "@hookform/resolvers": "^5.2.2",
     "@prisma/extension-accelerate": "^2.0.2",
     "@tanstack/react-query": "^5.83.0",
     "@tanstack/react-query-devtools": "^5.83.0",
@@ -21,8 +22,10 @@
     "lucide-react": "^0.546.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.65.0",
     "react-parallax-tilt": "^1.7.297",
-    "react-router-dom": "^7.6.3"
+    "react-router-dom": "^7.6.3",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

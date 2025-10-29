@@ -1,11 +1,11 @@
 // server/index.js
 import express from "express";
-import { PrismaClient } from "@prisma/client";
 import cors from "cors";
-import DatabaseService from "./databaseService.js"; // Import here
+import DatabaseService from "./src/databaseService.js";
+import AuthService from "./src/authService.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
-const prisma = new PrismaClient();
 
 const allowedOrigins = [
   "http://localhost:5173",
@@ -30,17 +30,79 @@ app.use(
 );
 app.use(express.json());
 
-// Settings Routes
-app.get("/api/settings/:userId", async (req, res) => {
+app.use(cookieParser());
+
+// Auth Middleware
+const authMiddleware = async (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ error: "Unauthorized" });
+
+  const decoded = AuthService.verifyToken(token);
+  if (!decoded) return res.status(401).json({ error: "Invalid token" });
+
+  req.userId = decoded.userId;
+  next();
+};
+
+app.post("/api/auth/register", async (req, res) => {
   try {
-    const settings = await DatabaseService.getSettings(req.params.userId);
+    const { username, email, password } = req.body;
+    const hash = await AuthService.hashPassword(password);
+    const user = await DatabaseService.createUser(username, email, hash);
+    const token = AuthService.generateToken(user.id);
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    res.json({ user: { id: user.id, username: user.username, email } });
+  } catch (error) {
+    res.status(400).json({ error: "User already exists" });
+  }
+});
+
+app.post("/api/auth/login", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    const user = await DatabaseService.getUserByEmail(email);
+
+    if (
+      !user ||
+      !(await AuthService.comparePassword(password, user.passwordHash))
+    ) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const token = AuthService.generateToken(user.id);
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    res.json({ user: { id: user.id, username: user.username, email } });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/auth/username", authMiddleware, async (req, res) => {});
+
+app.post("/api/auth/logout", (_, res) => {
+  res.clearCookie("token");
+  res.json({ success: true });
+});
+
+// Settings Routes
+app.get("/api/settings/:userId", authMiddleware, async (req, res) => {
+  try {
+    const settings = await DatabaseService.getOrCreateSettings(
+      req.params.userId
+    );
     res.json(settings);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.put("/api/settings/:userId", async (req, res) => {
+app.put("/api/settings/:userId", authMiddleware, async (req, res) => {
   try {
     const { musicVolume, sfxVolume } = req.body;
     const settings = await DatabaseService.updateSettings(
@@ -55,7 +117,7 @@ app.put("/api/settings/:userId", async (req, res) => {
 });
 
 // Game Data Routes
-app.get("/api/gamedata/:userId", async (req, res) => {
+app.get("/api/gamedata/:userId", authMiddleware, async (req, res) => {
   try {
     const data = await DatabaseService.getAllGameData(req.params.userId);
     res.json(data);
@@ -64,7 +126,7 @@ app.get("/api/gamedata/:userId", async (req, res) => {
   }
 });
 
-app.post("/api/gamedata", async (req, res) => {
+app.post("/api/gamedata", authMiddleware, async (req, res) => {
   try {
     const { userId, setId, completedLevels, levels, highScore, completed } =
       req.body;
