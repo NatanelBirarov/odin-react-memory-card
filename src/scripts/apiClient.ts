@@ -44,6 +44,7 @@ export default class ApiClient {
     const response = await fetch(`${API_BASE}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ email, password }),
     });
     if (!response.ok) throw new Error("Registration failed");
@@ -54,6 +55,7 @@ export default class ApiClient {
     const response = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ email, password }),
     });
     if (!response.ok) throw new Error("Login failed");

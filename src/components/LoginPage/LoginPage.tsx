@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import ApiClient from "../../scripts/apiClient";
 import Modal from "../Modal/Modal";
+import { useOutletContext } from "react-router-dom";
+import { ContextType } from "../../scripts/types";
 
 type IFormInput = {
   email: string;
@@ -16,7 +18,18 @@ const formSchema = z.object({
   password: z
     .string()
     .min(6, "Password must be between 6 and 12 characters")
-    .max(12, "Password must be between 6 and 12 characters"),
+    .max(12, "Password must be between 6 and 12 characters")
+    .refine(
+      // At least one uppercase letter, one lowercase letter, one number, and one special character
+      (password) =>
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/.test(
+          password
+        ),
+      {
+        message:
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+      }
+    ),
 });
 
 export default function AuthPage() {
@@ -25,17 +38,12 @@ export default function AuthPage() {
     formState: { errors },
     handleSubmit,
   } = useForm<IFormInput>({ resolver: zodResolver(formSchema) });
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (isLogin) {
-      await ApiClient.login(email, password);
-    } else {
-      await ApiClient.register(email, password);
-    }
+    await ApiClient.login(email, password);
   }
 
   return (
@@ -63,9 +71,8 @@ export default function AuthPage() {
           />
           {errors.password && <span>{errors.password.message}</span>}
         </div>
-        <button type="submit">{isLogin ? "Login" : "Register"}</button>
         <span>
-          Don't have an account? <a>Sign up</a>
+          Don't have an account? <a href="/register">Sign up</a>
         </span>
       </form>
     </Modal>

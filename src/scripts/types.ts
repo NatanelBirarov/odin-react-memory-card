@@ -19,6 +19,8 @@ export type SetDataType = {
 };
 
 export type ContextType = {
+  isLogged: boolean;
+  setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
   showSettings: boolean;
   setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
   showHowTo: boolean;

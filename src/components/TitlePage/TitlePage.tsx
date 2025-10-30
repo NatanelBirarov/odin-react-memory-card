@@ -14,6 +14,7 @@ import Img from "../Img/Img";
 
 export default function TitlePage() {
   const {
+    isLogged,
     showSettings,
     setShowSettings,
     showHowTo,
@@ -94,7 +95,11 @@ export default function TitlePage() {
               <div className={styles.buttons}>
                 <Button
                   type="titleScreen"
-                  onClick={() => navigate("/selectionscreen")}
+                  onClick={() => {
+                    isLogged
+                      ? navigate("/selectionscreen")
+                      : navigate("/login?redirect=selectionscreen");
+                  }}
                 >
                   <div className={styles.buttonText}>Play Game</div>
                 </Button>
@@ -103,7 +108,11 @@ export default function TitlePage() {
                 </Button>
                 <Button
                   type="titleScreen"
-                  onClick={() => setShowSettings(true)}
+                  onClick={() => {
+                    isLogged
+                      ? setShowSettings(true)
+                      : navigate("/login?redirect=titlescreen");
+                  }}
                 >
                   <div className={styles.buttonText}>Settings</div>
                 </Button>

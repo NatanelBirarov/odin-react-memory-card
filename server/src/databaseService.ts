@@ -77,10 +77,24 @@ export default class DatabaseService {
    * @param userId - The ID of the user to fetch.
    * @returns A promise that resolves to the user or null if not found.
    */
-  static async getUser(email: string) {
+  static async getUserByEmail(email: string) {
     try {
       let user = await prisma.user.findUnique({
         where: { email },
+      });
+      return user;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      throw error;
+    }
+  }
+
+  static async getUserByUsername(user: string) {
+    const [username, tag] = user.split("#");
+    try {
+      let user = await prisma.userProfile.findUnique({
+        where: { username, tag },
+        include: { user: true },
       });
       return user;
     } catch (error) {
