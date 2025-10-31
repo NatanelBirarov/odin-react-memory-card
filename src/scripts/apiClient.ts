@@ -47,7 +47,10 @@ export default class ApiClient {
       credentials: "include",
       body: JSON.stringify({ email, password }),
     });
-    if (!response.ok) throw new Error("Registration failed");
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Login failed");
+    }
     return response.json();
   }
 
@@ -58,7 +61,10 @@ export default class ApiClient {
       credentials: "include",
       body: JSON.stringify({ email, password }),
     });
-    if (!response.ok) throw new Error("Login failed");
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Login failed");
+    }
     return response.json();
   }
 

@@ -36,3 +36,8 @@ export type QueryOptions = {
   type: "card" | "set";
   params?: PokemonTCG.IParameter;
 };
+
+export type IFormInput = {
+  email: string;
+  password: string;
+};

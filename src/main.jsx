@@ -17,6 +17,8 @@ import SetSelectionPage from "./components/SetSelectionPage/SetSelectionPage.js"
 import GamePage from "./components/GamePage/GamePage.js";
 import Loader from "./components/Loader/Loader.js";
 import StartPage from "./components/StartPage/StartPage.js";
+import LoginPage from "./components/LoginPage/LoginPage.js";
+// import RegisterPage from "./components/RegisterPage/RegisterPage.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +34,8 @@ const router = createBrowserRouter(
         element={<TitlePage />}
         loader={pokemonLoader}
       />
+      <Route path="login" element={<LoginPage />} />
+      {/* <Route path="register" element={<RegisterPage />} /> */}
       <Route
         path="selectionscreen"
         element={<SetSelectionPage />}
