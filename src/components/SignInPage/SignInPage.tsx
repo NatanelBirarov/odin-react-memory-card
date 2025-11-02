@@ -7,7 +7,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { ContextType, IFormInput } from "../../scripts/types";
 import Button from "../Button/Button";
 
-export default function LoginPage() {
+export default function SignInPage() {
   const {
     register,
     formState: { errors },
@@ -25,7 +25,7 @@ export default function LoginPage() {
 
   async function onSubmit(data: IFormInput) {
     try {
-      await ApiClient.login(data.email, data.password);
+      await ApiClient.signIn(data.email, data.password);
       setIsLogged(true);
       navigate("/" + redirectTo);
     } catch (error) {
@@ -36,7 +36,7 @@ export default function LoginPage() {
   return (
     <Modal contentType="modalContent">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h2>Register</h2>
+        <h2>Sign In</h2>
         {errorList.length > 0 && (
           <div>
             {errorList.map((error, index) => (
@@ -68,10 +68,11 @@ export default function LoginPage() {
           {errors.password && <span>{errors.password.message}</span>}
         </div>
         <Button type="modal" submit>
-          Login
+          Sign In
         </Button>
         <span>
-          Don't have an account? <a href="/register">Sign up</a>
+          Don't have an account?{" "}
+          <a href={`/signup?redirectTo=${redirectTo}`}>Sign up</a>
         </span>
       </form>
     </Modal>

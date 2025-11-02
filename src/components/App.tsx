@@ -17,6 +17,7 @@ function App() {
   const [showHowTo, setShowHowTo] = useState(false);
   const [musicVolume, setMusicVolume] = useState(0.5);
   const [sfxVolume, setSfxVolume] = useState(0.5);
+  const [user, setUser] = useState(null);
   const [isLogged, setIsLogged] = useState(false);
 
   const navigation = useNavigation();
@@ -39,6 +40,8 @@ function App() {
   if (navigation.state === "loading") return <Loader />;
 
   const context: ContextType = {
+    user,
+    setUser,
     isLogged,
     setIsLogged,
     showSettings,

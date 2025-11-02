@@ -1,61 +1,112 @@
 // Generator configuration for Prisma Client
+
 generator client {
   provider = "prisma-client-js"
 }
 
 // Datasource configuration for connecting to the PostgreSQL database
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// Model representing users, including authentication details and game data relations  
+// Model representing users, including authentication details and game data relations
+
 model User {
-  id           String     @id @default(uuid())
-  email        String     @unique
-  passwordHash String     
-  verified     Boolean    @default(false)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  settings     Settings?  
-  gameData     LevelData[]
-  userProfile  UserProfile?
+  id            String    @id
+  username      String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  tag           String    @db.VarChar(4) @default("0001")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  settings Settings?
+  gameData LevelData[]
+
+  @@unique([email])
+  @@map("user")
 }
 
-model UserProfile {
-  id        String   @id @default(uuid())
-  username  String   
-  tag       String   @db.VarChar(4) @default("0001")
-  avatarUrl String?  
+// Model representing user sessions for authentication
+// Includes optional fields for IP address and user agent for security purposes
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([username, tag])
+  @@unique([token])
+  @@map("session")
+}
+
+// Model representing external accounts linked to users for authentication
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+// Model representing verification tokens for actions like email verification or password reset
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("verification")
 }
 
 // Model representing game data
+
 model LevelData {
-  id               String   @id @default(uuid())
-  completed        Boolean  @default(false)
-  completedLevels  Int      @default(0)
-  highScore        Int      @default(0)
-  setId            String   @unique
-  levels           Int
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  userId           String   
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              String   @id @default(uuid())
+  completed       Boolean  @default(false)
+  completedLevels Int      @default(0)
+  highScore       Int      @default(0)
+  setId           String   @unique
+  levels          Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Model representing user settings, such as volume preferences
+
 model Settings {
-  id           String   @id @default(uuid())
-  musicVolume  Float    @default(0.5)
-  sfxVolume    Float    @default(0.5)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  userId       String   @unique
-  user         User     @relation(fields: [userId], references: [id])
+  id          String   @id @default(uuid())
+  musicVolume Float    @default(0.5)
+  sfxVolume   Float    @default(0.5)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
 }

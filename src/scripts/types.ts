@@ -18,7 +18,16 @@ export type SetDataType = {
   completed: boolean;
 };
 
+type UserType = {
+  id: string;
+  email: string;
+  name: string;
+  image?: string;
+};
+
 export type ContextType = {
+  user: UserType | null;
+  setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
   isLogged: boolean;
   setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
   showSettings: boolean;

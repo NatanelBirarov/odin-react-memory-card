@@ -98,7 +98,7 @@ export default function TitlePage() {
                   onClick={() => {
                     isLogged
                       ? navigate("/selectionscreen")
-                      : navigate("/login?redirectTo=selectionscreen");
+                      : navigate("/signin?redirectTo=selectionscreen");
                   }}
                 >
                   <div className={styles.buttonText}>Play Game</div>
@@ -111,7 +111,7 @@ export default function TitlePage() {
                   onClick={() => {
                     isLogged
                       ? setShowSettings(true)
-                      : navigate("/login?redirectTo=titlescreen");
+                      : navigate("/signin?redirectTo=titlescreen");
                   }}
                 >
                   <div className={styles.buttonText}>Settings</div>

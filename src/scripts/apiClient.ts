@@ -40,8 +40,8 @@ export default class ApiClient {
     return response.json();
   }
 
-  static async register(email: string, password: string) {
-    const response = await fetch(`${API_BASE}/auth/register`, {
+  static async signUp(email: string, password: string) {
+    const response = await fetch(`${API_BASE}/api/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -49,13 +49,13 @@ export default class ApiClient {
     });
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Login failed");
+      throw new Error(errorData.message || "Sign in failed");
     }
     return response.json();
   }
 
-  static async login(email: string, password: string) {
-    const response = await fetch(`${API_BASE}/auth/login`, {
+  static async signIn(email: string, password: string) {
+    const response = await fetch(`${API_BASE}/api/auth/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -63,7 +63,7 @@ export default class ApiClient {
     });
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Login failed");
+      throw new Error(errorData.message || "Sign in failed");
     }
     return response.json();
   }

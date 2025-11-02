@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import prisma from "./prismaClient.js";
 
 type SetDataType = {
   id: string;
@@ -9,68 +8,8 @@ type SetDataType = {
   completed: boolean;
 };
 
-// Initialize Prisma client with Accelerate extension
-const prisma = new PrismaClient().$extends(withAccelerate());
-
 export default class DatabaseService {
   // Service class for interacting with the database
-
-  // User Methods
-
-  // Generate a random 4-digit tag for user identification
-  private static generateTag() {
-    return String(Math.floor(Math.random() * 10000)).padStart(4, "0");
-  }
-
-  /**
-   * Create a new user in the database.
-   * @param email - The email of the user to create.
-   * @param passwordHash - The hashed password of the user to create.
-   * @returns A promise that resolves to the created user.
-   */
-  static async createUser(email: string, passwordHash: string) {
-    try {
-      const user = await prisma.user.create({
-        data: {
-          email,
-          passwordHash,
-        },
-      });
-      return user;
-    } catch (error) {
-      console.error("Error creating user:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * Create user profile in the database.
-   * @param userId - The ID of the user to create profile for.
-   * @param username - The username of the user.
-   * @avatarUrl - An optional avatar URL of the user.
-   * @returns A promise that resolves to the created user profile.
-   */
-  static async createUserProfile(
-    userId: string,
-    username: string,
-    avatarUrl?: string
-  ) {
-    try {
-      const tag = this.generateTag();
-      const profile = await prisma.userProfile.create({
-        data: {
-          userId,
-          username,
-          tag,
-          avatarUrl,
-        },
-      });
-      return profile;
-    } catch (error) {
-      console.error("Error creating user profile:", error);
-      throw error;
-    }
-  }
 
   /**
    * Fetch a user from the database by their ID.
@@ -81,20 +20,6 @@ export default class DatabaseService {
     try {
       let user = await prisma.user.findUnique({
         where: { email },
-      });
-      return user;
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      throw error;
-    }
-  }
-
-  static async getUserByUsername(user: string) {
-    const [username, tag] = user.split("#");
-    try {
-      let user = await prisma.userProfile.findUnique({
-        where: { username, tag },
-        include: { user: true },
       });
       return user;
     } catch (error) {
