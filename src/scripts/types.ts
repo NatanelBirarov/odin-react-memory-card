@@ -26,10 +26,6 @@ type UserType = {
 };
 
 export type ContextType = {
-  user: UserType | null;
-  setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
-  isLogged: boolean;
-  setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
   showSettings: boolean;
   setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
   showHowTo: boolean;
@@ -46,7 +42,15 @@ export type QueryOptions = {
   params?: PokemonTCG.IParameter;
 };
 
-export type IFormInput = {
+export type ISignInFormData = {
   email: string;
   password: string;
+};
+
+export type ISignUpFormData = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  image?: string;
 };

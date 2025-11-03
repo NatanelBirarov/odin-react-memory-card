@@ -11,10 +11,11 @@ import { CardData, ContextType } from "../../scripts/types";
 
 import styles from "./TitlePage.module.css";
 import Img from "../Img/Img";
+import { authClient } from "../../scripts/authClient";
+import LocalStorageFactory from "../../scripts/localStorageFactory";
 
 export default function TitlePage() {
   const {
-    isLogged,
     showSettings,
     setShowSettings,
     showHowTo,
@@ -27,6 +28,9 @@ export default function TitlePage() {
   const firstLoad = useRef(true);
   const navigation = useNavigation();
   const navigate = useNavigate();
+  const userSession = authClient.useSession();
+
+  const isLogged = userSession.data?.user ? true : false;
 
   type TitleScreenData = { data: CardData[] };
   let { data: pokemonData } = useQuery(titleScreenQuery()) as TitleScreenData;
@@ -34,6 +38,11 @@ export default function TitlePage() {
   useEffect(() => {
     bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
+
+  async function handleSignOut() {
+    await authClient.signOut();
+    LocalStorageFactory.clear();
+  }
 
   backgroundCards.current = useMemo<CardData[]>(() => {
     let transformedData: CardData[] = [];
@@ -93,16 +102,23 @@ export default function TitlePage() {
                 <Img src="/images/logo2.png" alt="Logo" type="large" />
               </div>
               <div className={styles.buttons}>
-                <Button
-                  type="titleScreen"
-                  onClick={() => {
-                    isLogged
-                      ? navigate("/selectionscreen")
-                      : navigate("/signin?redirectTo=selectionscreen");
-                  }}
-                >
-                  <div className={styles.buttonText}>Play Game</div>
-                </Button>
+                {isLogged ? (
+                  <Button
+                    type="titleScreen"
+                    onClick={() => {
+                      navigate("/selectionscreen");
+                    }}
+                  >
+                    <div className={styles.buttonText}>Play Game</div>
+                  </Button>
+                ) : (
+                  <Button
+                    type="titleScreen"
+                    onClick={() => navigate("/signin?redirectTo=titlescreen")}
+                  >
+                    <div className={styles.buttonText}>Sign In</div>
+                  </Button>
+                )}
                 <Button type="titleScreen" onClick={() => setShowHowTo(true)}>
                   <div className={styles.buttonText}>How to Play</div>
                 </Button>
@@ -116,6 +132,11 @@ export default function TitlePage() {
                 >
                   <div className={styles.buttonText}>Settings</div>
                 </Button>
+                {isLogged && (
+                  <Button type="titleScreen" onClick={handleSignOut}>
+                    <div className={styles.buttonText}>Sign Out</div>
+                  </Button>
+                )}
               </div>
             </div>
           </div>

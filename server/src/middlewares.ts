@@ -1,7 +1,7 @@
 import express from "express";
-import z from "zod";
-import AuthService from "./authService";
 import { AuthRequest } from "./types";
+import { getCurrentSession } from "./auth";
+import { gameDataSchema, settingsSchema } from "./schemas";
 
 // Data Validation Middleware
 
@@ -11,40 +11,62 @@ export const authMiddleware = async (
   res: express.Response,
   next: express.NextFunction
 ): Promise<void> => {
-  const token = req.cookies.token;
-  if (!token) {
-    res.status(401).json({ error: "Unauthorized" });
+  try {
+    const session = await getCurrentSession(req.headers);
+    if (!session) {
+      res.status(401).json({ error: "Unauthorized" });
+      return;
+    }
+
+    req.session = session.session;
+    req.userId = session.user.id;
+    next();
+  } catch (error) {
+    console.error("Auth middleware error:", error);
+    res.status(401).json({ error: "Authentication failed" });
+  }
+};
+
+// Settings Validation Middleware
+export const validateSettingsMiddleware = (
+  req: AuthRequest,
+  res: express.Response,
+  next: express.NextFunction
+): void => {
+  const { musicVolume, sfxVolume } = req.body;
+
+  const validation = settingsSchema.safeParse({
+    musicVolume,
+    sfxVolume,
+  });
+
+  if (!validation.success) {
+    res.status(400).json({ error: validation.error });
     return;
   }
 
-  const decoded = AuthService.verifyToken(token);
-  if (!decoded || typeof decoded === "string") {
-    res.status(401).json({ error: "Invalid token" });
-    return;
-  }
-
-  req.userId = decoded.userId as string;
   next();
 };
 
-export const validationMiddleware =
-  (schema: z.ZodType) =>
-  async (
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    try {
-      const parsed = await schema.parseAsync(req.body);
-      req.body = parsed;
-      next();
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({
-          error: "Invalid input",
-          details: z.treeifyError(error),
-        });
-      }
-      next(error);
-    }
-  };
+/** Generate middleware for validating game data */
+export const validateGameDataMiddleware = (
+  req: AuthRequest,
+  res: express.Response,
+  next: express.NextFunction
+): void => {
+  const { setId, completedLevels, levels, highScore, completed } = req.body;
+  const validation = gameDataSchema.safeParse({
+    setId,
+    completedLevels,
+    levels,
+    highScore,
+    completed,
+  });
+
+  if (!validation.success) {
+    res.status(400).json({ error: validation.error });
+    return;
+  }
+
+  next();
+};

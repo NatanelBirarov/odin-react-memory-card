@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 
 import ApiClient from "../../scripts/apiClient";
 import Modal from "../Modal/Modal";
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { ContextType, IFormInput } from "../../scripts/types";
+import { useNavigate } from "react-router-dom";
+import { ISignInFormData } from "../../scripts/types";
 import Button from "../Button/Button";
 
 export default function SignInPage() {
@@ -12,22 +12,35 @@ export default function SignInPage() {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<IFormInput>();
+  } = useForm<ISignInFormData>();
 
-  const { setIsLogged } = useOutletContext<ContextType>();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [errorList, setErrorList] = useState<string[]>([]);
+  const [isPending, setIsPending] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const params = new URLSearchParams(window.location.search);
   const redirectTo = params.get("redirectTo") || "/";
 
-  async function onSubmit(data: IFormInput) {
+  async function onSubmit(formData: ISignInFormData) {
     try {
-      await ApiClient.signIn(data.email, data.password);
-      setIsLogged(true);
-      navigate("/" + redirectTo);
+      const { data, error } = await ApiClient.signIn(formData, {
+        onSuccess: () => {
+          // On success
+          navigate("/titlescreen");
+        },
+        onError: (error) => {
+          // On error
+          const errors = Array.isArray(error.message)
+            ? error.message
+            : [error.message || "Sign up failed"];
+          setErrorList(errors);
+        },
+        isPending: (pending) => {
+          setIsPending(pending);
+        },
+      });
     } catch (error) {
       setErrorList(error.issues);
     }
@@ -54,6 +67,7 @@ export default function SignInPage() {
             aria-invalid={errors.email ? "true" : "false"}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={isPending}
           />
           {errors.email && <span>{errors.email.message}</span>}
         </div>
@@ -64,10 +78,11 @@ export default function SignInPage() {
             {...register("password")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={isPending}
           />
           {errors.password && <span>{errors.password.message}</span>}
         </div>
-        <Button type="modal" submit>
+        <Button type="modal" submit disabled={isPending}>
           Sign In
         </Button>
         <span>

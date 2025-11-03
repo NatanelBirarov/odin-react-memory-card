@@ -1,4 +1,5 @@
 import express from "express";
+import { Session } from "better-auth/types";
 
 export type IAuthFormInput = {
   email: string;
@@ -11,4 +12,5 @@ export type IUsernameInput = {
 
 export interface AuthRequest extends express.Request {
   userId?: string;
+  session?: Session;
 }

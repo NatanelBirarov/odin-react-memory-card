@@ -10,6 +10,7 @@ type ButtonProps = {
   animation?: string;
   ref?: React.Ref<HTMLButtonElement>;
   submit?: boolean;
+  disabled?: boolean;
 };
 
 export default function Button({
@@ -19,6 +20,7 @@ export default function Button({
   animation,
   ref = null,
   submit = false,
+  disabled = false,
 }: ButtonProps) {
   const { sfxVolume } = useOutletContext<ContextType>();
   const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
@@ -50,6 +52,7 @@ export default function Button({
       onMouseLeave={(e) => toggleButtonHover(e, animation)}
       ref={ref}
       type={submit ? "submit" : "button"}
+      disabled={disabled}
     >
       {children}
     </button>

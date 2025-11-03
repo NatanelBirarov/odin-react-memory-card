@@ -1,9 +1,77 @@
 // src/scripts/apiClient.ts (client-side)
-import type { SetDataType } from "./types";
+import { authClient } from "./authClient";
+import type { ISignInFormData, ISignUpFormData, SetDataType } from "./types";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
 export default class ApiClient {
+  static async signUp(
+    formData: ISignUpFormData,
+    callbacks?: {
+      onSuccess?: () => void;
+      onError?: (error: any) => void;
+      isPending?: (pending: boolean) => void;
+    }
+  ) {
+    return await authClient.signUp.email(
+      {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        image: formData.image || "",
+        // callbackURL: `${
+        //   import.meta.env.VITE_CLIENT_URL || "http://localhost:5173"
+        // }/titlescreen`,
+      },
+      {
+        onSuccess: (data) => {
+          callbacks.onSuccess?.();
+        },
+        onError: (error) => {
+          callbacks.onError?.(error);
+        },
+        onRequest: () => {
+          callbacks.isPending?.(true);
+        },
+        onResponse: () => {
+          callbacks.isPending?.(false);
+        },
+      }
+    );
+  }
+
+  static async signIn(
+    formData: ISignInFormData,
+    callbacks?: {
+      onSuccess?: () => void;
+      onError?: (error: any) => void;
+      isPending?: (pending: boolean) => void;
+    }
+  ) {
+    return await authClient.signIn.email(
+      {
+        email: formData.email,
+        password: formData.password,
+        rememberMe: true,
+        // callbackURL: "https://example.com/callback",
+      },
+      {
+        onSuccess: (data) => {
+          callbacks.onSuccess?.();
+        },
+        onError: (error) => {
+          callbacks.onError?.(error);
+        },
+        onRequest: () => {
+          callbacks.isPending?.(true);
+        },
+        onResponse: () => {
+          callbacks.isPending?.(false);
+        },
+      }
+    );
+  }
+
   static async getSettings(userId: string) {
     const response = await fetch(`${API_BASE}/settings/${userId}`);
     if (!response.ok) throw new Error("Failed to fetch settings");
@@ -37,44 +105,6 @@ export default class ApiClient {
       body: JSON.stringify({ userId, ...gameData }),
     });
     if (!response.ok) throw new Error("Failed to save game data");
-    return response.json();
-  }
-
-  static async signUp(email: string, password: string) {
-    const response = await fetch(`${API_BASE}/api/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ email, password }),
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Sign in failed");
-    }
-    return response.json();
-  }
-
-  static async signIn(email: string, password: string) {
-    const response = await fetch(`${API_BASE}/api/auth/signin`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ email, password }),
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Sign in failed");
-    }
-    return response.json();
-  }
-
-  static async createUsername(userId: string, username: string) {
-    const response = await fetch(`${API_BASE}/auth/username`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, username }),
-    });
-    if (!response.ok) throw new Error("Failed to create username");
     return response.json();
   }
 }

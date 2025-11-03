@@ -40,10 +40,6 @@ function App() {
   if (navigation.state === "loading") return <Loader />;
 
   const context: ContextType = {
-    user,
-    setUser,
-    isLogged,
-    setIsLogged,
     showSettings,
     setShowSettings,
     showHowTo,

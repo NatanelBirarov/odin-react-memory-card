@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { createAuthMiddleware } from "better-auth/api";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "./prismaClient.ts";
+import { IncomingHttpHeaders } from "http";
 
 // Generate a random 4-digit tag for user identification
 function generateTag() {
@@ -63,3 +64,16 @@ export const auth = betterAuth({
     }),
   },
 });
+
+export async function getCurrentSession(reqHeaders: IncomingHttpHeaders) {
+  const headers = new Headers();
+  Object.entries(reqHeaders).forEach(([key, value]) => {
+    if (value) {
+      headers.set(key, Array.isArray(value) ? value[0] : value);
+    }
+  });
+
+  return await auth.api.getSession({
+    headers: headers,
+  });
+}
