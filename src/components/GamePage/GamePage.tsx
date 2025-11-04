@@ -41,7 +41,7 @@ export default function GamePage() {
 
   type GameScreenData = { data: CardData[] };
   const { data: pokemonData } = useQuery(
-    gameScreenQuery(params.setId)
+    gameScreenQuery(params.setId || "")
   ) as GameScreenData;
   const navigation = useNavigation();
   const navigate = useNavigate();
@@ -51,30 +51,34 @@ export default function GamePage() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [currentScore, setCurrentScore] = useState(0);
-  const [highScore, setHighScore] = useState(setData.highScore);
+  const [highScore, setHighScore] = useState(setData?.highScore || 0);
   const [currentLevelCards, setCurrentLevelCards] = useState<CardData[]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [showModal, setShowModal] = useState(0);
-  const [currentLevel, setCurrentLevel] = useState(setData.completedLevels + 1);
+  const [currentLevel, setCurrentLevel] = useState(
+    setData?.completedLevels ? setData.completedLevels + 1 : 1
+  );
 
   const pokemonSetCards = useRef<CardData[]>([]);
-  const bgAudioRef = useRef(null);
-  const resultAudioRef = useRef(new Audio("/audio/result.mp3"));
+  const bgAudioRef = useRef<HTMLAudioElement>(null);
+  const resultAudioRef = useRef<HTMLAudioElement>(
+    new Audio("/audio/result.mp3")
+  );
 
   useEffect(() => {
-    bgAudioRef.current.volume = musicVolume;
+    if (bgAudioRef.current) bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
 
   if (navigation.state === "loading") return <Loader />;
 
   pokemonSetCards.current = useMemo(() => {
-    let transformedData = [];
+    let transformedData: CardData[] = [];
     if (pokemonData) {
       transformedData = pokemonData.map((card) => {
         return {
           id: card.id,
           name: card.name,
-          image: card.images.large,
+          image: card.images ? card.images.large : "",
           clicked: false,
         };
       });
@@ -82,7 +86,7 @@ export default function GamePage() {
     return transformedData;
   }, [pokemonData]);
 
-  const levels = setData.levels;
+  const levels = setData?.levels || 1;
 
   const updateLevel = useCallback(() => {
     const start = (currentLevel - 1) * 10;
@@ -104,7 +108,7 @@ export default function GamePage() {
 
   function handleEndLevelScreen(state: number, isSuccess: boolean) {
     setShowModal(0);
-    if (isSuccess) {
+    if (isSuccess && setData) {
       setCurrentLevel(currentLevel + 1);
       const newGameDataArray = gameData.map((set) => {
         if (set.id === setId) {
@@ -122,7 +126,7 @@ export default function GamePage() {
         ...setData,
         completedLevels: currentLevel,
         completed: currentLevel === levels,
-        highScore: highScore,
+        highScore: highScore || 0,
       });
       LocalStorageFactory.set("gameData", newGameDataArray);
     }
@@ -132,21 +136,23 @@ export default function GamePage() {
       resultAudioRef.current.pause();
       resultAudioRef.current.currentTime = 0;
       setTimeout(() => {
-        bgAudioRef.current.play();
+        if (bgAudioRef.current) bgAudioRef.current.play();
       }, 500);
       updateLevel();
     } else if (state === 1) {
       resultAudioRef.current.pause();
       resultAudioRef.current.currentTime = 0;
       setTimeout(() => {
-        bgAudioRef.current.play();
+        if (bgAudioRef.current) bgAudioRef.current.play();
       }, 500);
     }
   }
 
   if (showModal !== 0) {
-    bgAudioRef.current.pause();
-    bgAudioRef.current.currentTime = 0;
+    if (bgAudioRef.current) {
+      bgAudioRef.current.pause();
+      bgAudioRef.current.currentTime = 0;
+    }
     setTimeout(() => {
       resultAudioRef.current.play();
     }, 500);
@@ -230,7 +236,7 @@ export default function GamePage() {
           <>
             <div className={styles.gameState}>
               <span className={styles.level}>Level: {currentLevel}</span>
-              <Score currentScore={currentScore} highScore={highScore} />
+              <Score currentScore={currentScore} highScore={highScore || 0} />
             </div>
             {/* <div className="container"> */}
             <div className={styles.cards}>
@@ -238,12 +244,12 @@ export default function GamePage() {
                 <Card
                   key={card.id}
                   name={card.name}
-                  image={card.image}
+                  image={card.image || ""}
                   isShuffling={isShuffling}
                   setIsShuffling={setIsShuffling}
                   currentScore={currentScore}
                   setCurrentScore={setCurrentScore}
-                  highScore={highScore}
+                  highScore={highScore || 0}
                   setHighScore={setHighScore}
                   currentLevelCards={currentLevelCards}
                   setCurrentLevelCards={setCurrentLevelCards}

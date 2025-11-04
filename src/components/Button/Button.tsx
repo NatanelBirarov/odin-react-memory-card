@@ -6,8 +6,8 @@ import styles from "./Button.module.css";
 type ButtonProps = {
   children?: React.ReactNode;
   onClick?: StateUpdater<null>;
-  type?: string;
-  animation?: string;
+  type?: keyof typeof styles;
+  animation?: keyof typeof styles;
   ref?: React.Ref<HTMLButtonElement>;
   submit?: boolean;
   disabled?: boolean;
@@ -16,7 +16,7 @@ type ButtonProps = {
 export default function Button({
   children,
   onClick,
-  type,
+  type = "modal",
   animation,
   ref = null,
   submit = false,
@@ -31,16 +31,16 @@ export default function Button({
 
   function handleClick() {
     selectAudioRef.current.play();
-    onClick();
+    if (onClick) onClick();
   }
 
   function toggleButtonHover(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    animationClass?: string
+    animationClass?: keyof typeof styles
   ) {
     if (animationClass) {
       const targetSvg = e.currentTarget.querySelector("svg");
-      targetSvg.classList.toggle(styles[animationClass]);
+      if (targetSvg) targetSvg.classList.toggle(styles[animationClass]);
     }
   }
 

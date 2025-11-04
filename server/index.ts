@@ -1,5 +1,7 @@
 // server/index.js
 import express from "express";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./src/auth.js";
 import cors from "cors";
 import DatabaseService from "./src/databaseService.js";
 import cookieParser from "cookie-parser";
@@ -8,8 +10,7 @@ import {
   validateGameDataMiddleware,
   validateSettingsMiddleware,
 } from "./src/middlewares.js";
-import { toNodeHandler } from "better-auth/node";
-import { auth } from "./src/auth.js";
+
 import { AuthRequest } from "./src/types.js";
 
 const allowedOrigins = [
@@ -32,17 +33,18 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed HTTP methods
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
 );
+
+// Auth Routes
+app.all("/api/auth/*splat", toNodeHandler(auth));
 
 app.use(express.json());
 app.use(cookieParser());
 
-// Auth Routes
-app.all("/api/auth/*", toNodeHandler(auth));
-
-// Settings Routes
+// // Settings Routes
 app.get("/api/settings/", authMiddleware, async (req: AuthRequest, res) => {
   try {
     if (!req.userId) {
@@ -77,7 +79,7 @@ app.put(
   }
 );
 
-// Game Data Routes
+// // Game Data Routes
 app.get("/api/gamedata/", authMiddleware, async (req: AuthRequest, res) => {
   try {
     if (!req.userId) {

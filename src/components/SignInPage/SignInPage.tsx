@@ -6,6 +6,7 @@ import Modal from "../Modal/Modal";
 import { useNavigate } from "react-router-dom";
 import { ISignInFormData } from "../../scripts/types";
 import Button from "../Button/Button";
+import { APIError } from "better-auth/*";
 
 export default function SignInPage() {
   const {
@@ -30,7 +31,7 @@ export default function SignInPage() {
           // On success
           navigate("/titlescreen");
         },
-        onError: (error) => {
+        onError: (error: APIError) => {
           // On error
           const errors = Array.isArray(error.message)
             ? error.message
@@ -41,7 +42,7 @@ export default function SignInPage() {
           setIsPending(pending);
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       setErrorList(error.issues);
     }
   }

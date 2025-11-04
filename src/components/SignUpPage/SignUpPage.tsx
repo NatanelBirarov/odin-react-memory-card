@@ -63,7 +63,7 @@ export default function SignUpPage() {
           setIsPending(pending);
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       // Handle sign up error (e.g., show error messages)
       setErrorList([error.message || "An unexpected error occurred"]);
     }

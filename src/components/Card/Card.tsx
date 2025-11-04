@@ -11,11 +11,11 @@ type CardProps = {
   isShuffling: boolean;
   setIsShuffling: (isShuffling: boolean) => void;
   currentScore: number;
-  setCurrentScore: StateUpdater<number>;
+  setCurrentScore: React.Dispatch<React.SetStateAction<number>>;
   highScore: number;
-  setHighScore: StateUpdater<number>;
+  setHighScore: React.Dispatch<React.SetStateAction<number>>;
   currentLevelCards: CardData[];
-  setCurrentLevelCards: StateUpdater<CardData[]>;
+  setCurrentLevelCards: React.Dispatch<React.SetStateAction<CardData[]>>;
   setShowModal: (modalType: -1 | 0 | 1) => void;
 };
 
@@ -57,9 +57,8 @@ export default function Card({
 
   function handleClick() {
     selectAudioRef.current.play();
-    const clickedCard: CardData = currentLevelCards.find(
-      (card) => card.name === name
-    );
+    const clickedCard = currentLevelCards.find((card) => card.name === name);
+    if (!clickedCard) return;
     if (clickedCard.clicked) {
       setCurrentScore(0);
       if (currentScore > highScore) {

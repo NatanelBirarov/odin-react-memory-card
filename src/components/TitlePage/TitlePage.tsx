@@ -13,6 +13,12 @@ import styles from "./TitlePage.module.css";
 import Img from "../Img/Img";
 import { authClient } from "../../scripts/authClient";
 import LocalStorageFactory from "../../scripts/localStorageFactory";
+import ApiClient from "../../scripts/apiClient";
+
+type SettingsType = {
+  musicVolume: number;
+  sfxVolume: number;
+};
 
 export default function TitlePage() {
   const {
@@ -36,8 +42,22 @@ export default function TitlePage() {
   let { data: pokemonData } = useQuery(titleScreenQuery()) as TitleScreenData;
 
   useEffect(() => {
-    bgAudioRef.current.volume = musicVolume;
+    if (bgAudioRef.current) bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
+
+  useEffect(() => {
+    async function loadSettings() {
+      let settings: SettingsType = LocalStorageFactory.get("settings");
+      if (!settings) {
+        settings = await ApiClient.getSettings();
+        LocalStorageFactory.set("settings", {
+          musicVolumeInit: settings.musicVolume,
+          sfxVolumeInit: settings.sfxVolume,
+        });
+      }
+    }
+    if (isLogged) loadSettings();
+  }, []);
 
   async function handleSignOut() {
     await authClient.signOut();
@@ -89,7 +109,7 @@ export default function TitlePage() {
             >
               <Img
                 // key={card.image}
-                src={card.images.large}
+                src={card.images ? card.images.large : ""}
                 alt="Background Card"
                 type="backgroundCard"
               />

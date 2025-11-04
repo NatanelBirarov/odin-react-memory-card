@@ -7,7 +7,7 @@ const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 export default class ApiClient {
   static async signUp(
     formData: ISignUpFormData,
-    callbacks?: {
+    callbacks: {
       onSuccess?: () => void;
       onError?: (error: any) => void;
       isPending?: (pending: boolean) => void;
@@ -42,7 +42,7 @@ export default class ApiClient {
 
   static async signIn(
     formData: ISignInFormData,
-    callbacks?: {
+    callbacks: {
       onSuccess?: () => void;
       onError?: (error: any) => void;
       isPending?: (pending: boolean) => void;
@@ -72,18 +72,14 @@ export default class ApiClient {
     );
   }
 
-  static async getSettings(userId: string) {
-    const response = await fetch(`${API_BASE}/settings/${userId}`);
+  static async getSettings() {
+    const response = await fetch(`${API_BASE}/api/settings/`);
     if (!response.ok) throw new Error("Failed to fetch settings");
     return response.json();
   }
 
-  static async updateSettings(
-    userId: string,
-    musicVolume: number,
-    sfxVolume: number
-  ) {
-    const response = await fetch(`${API_BASE}/settings/${userId}`, {
+  static async updateSettings(musicVolume: number, sfxVolume: number) {
+    const response = await fetch(`${API_BASE}/api/settings/`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ musicVolume, sfxVolume }),

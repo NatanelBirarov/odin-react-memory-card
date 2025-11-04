@@ -42,7 +42,7 @@ export default function SetSelectionPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    bgAudioRef.current.volume = musicVolume;
+    if (bgAudioRef.current) bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
 
   useEffect(() => {

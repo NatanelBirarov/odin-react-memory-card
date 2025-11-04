@@ -1,7 +1,7 @@
 import express from "express";
-import { AuthRequest } from "./types";
-import { getCurrentSession } from "./auth";
-import { gameDataSchema, settingsSchema } from "./schemas";
+import { AuthRequest } from "./types.js";
+import { getCurrentSession } from "./auth.js";
+import { gameDataSchema, settingsSchema } from "./schemas.js";
 
 // Data Validation Middleware
 
