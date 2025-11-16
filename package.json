@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "node --loader ts-node/esm server/index.ts"
+    "server": "node --env-file=./server/.env --loader ts-node/esm server/index.ts"
   },
   "dependencies": {
     "@devdrc/pokemon-tcg-sdk-ts": "^2.2.2",
