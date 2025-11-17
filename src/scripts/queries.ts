@@ -8,7 +8,7 @@ const pokemonQuery = (fetchParams: QueryOptions) => ({
   staleTime: Infinity,
 });
 
-export const titleScreenQuery = () => {
+export const titlePageQuery = () => {
   const params: PokemonTCG.IParameter = {
     q: "set.name:Prismatic supertype:Pokémon",
     orderBy: "-tcgplayer.prices.holofoil.mid",
@@ -18,7 +18,7 @@ export const titleScreenQuery = () => {
   return pokemonQuery({ queryKey: ["card", "-1"], type: "card", params });
 };
 
-export const selectionScreenQuery = () => {
+export const selectionPageQuery = () => {
   const params: PokemonTCG.IParameter = {
     orderBy: "releaseDate",
   };
@@ -26,7 +26,7 @@ export const selectionScreenQuery = () => {
   return pokemonQuery({ queryKey: ["set"], type: "set", params });
 };
 
-export const gameScreenQuery = (setId: string) => {
+export const gamePageQuery = (setId: string) => {
   const params: PokemonTCG.IParameter = {
     q: `set.id:${setId}`, // supertype:Pokémon
     orderBy: "tcgplayer.prices.holofoil.mid",

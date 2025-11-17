@@ -8,13 +8,13 @@ export default function StartPage() {
   window.addEventListener(
     "click",
     () => {
-      navigate("/titlescreen", { replace: true });
+      navigate("/titlepage", { replace: true });
     },
     { once: true }
   );
 
   return (
-    <div className={styles.startScreen}>
+    <div className={styles.startPage}>
       <h1>Click anywhere to start</h1>
     </div>
   );

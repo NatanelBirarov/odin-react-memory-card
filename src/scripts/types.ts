@@ -39,18 +39,10 @@ export type ContextType = {
 export type QueryOptions = {
   queryKey: [string] | [string, string];
   type: "card" | "set";
-  params?: PokemonTCG.IParameter;
+  params: PokemonTCG.IParameter;
 };
 
 export type ISignInFormData = {
   email: string;
   password: string;
-};
-
-export type ISignUpFormData = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  image?: string;
 };

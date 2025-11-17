@@ -29,7 +29,7 @@ export default function SignInPage() {
       const { data, error } = await ApiClient.signIn(formData, {
         onSuccess: () => {
           // On success
-          navigate("/titlescreen");
+          navigate("/titlepage");
         },
         onError: (error: APIError) => {
           // On error
@@ -43,7 +43,8 @@ export default function SignInPage() {
         },
       });
     } catch (error: any) {
-      setErrorList(error.issues);
+      console.log("Sign up error:", error);
+      setErrorList([error.message || "An unexpected error occurred"]);
     }
   }
 

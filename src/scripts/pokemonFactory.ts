@@ -40,11 +40,11 @@ export default async function fetchPokemon(
         fetchParams.type === "card" ? "findCardsByQueries" : "findSetsByQueries"
       ];
     const result = await fetchWithRetry(
-      () => pokemonQueryHandler(fetchParams.params)
-      // { timeoutSecs: , tries: 3 }
-    ); // 5-second timeout
+      () => pokemonQueryHandler(fetchParams.params),
+      { timeoutSecs: 1, tries: 3 }
+    );
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching Pokémon data from API:", error);
     console.info("Trying to fetch local data...:");
 
@@ -112,12 +112,13 @@ export default async function fetchPokemon(
           fetch(`/data/set/.set.json`)
         );
         const setsDataJson: PokemonTCG.ISet[] = await setsData.json();
-        console.info("Successfully fetched local sets data.");
+        console.info("Successfully fetched local sets data: ", setsDataJson);
         return setsDataJson;
       } catch (fetchError) {
         console.error("Error fetching local Pokémon sets data:", fetchError);
         throw fetchError;
       }
     }
+    throw new Error("Invalid fetch parameters");
   }
 }

@@ -24,16 +24,10 @@ export const auth = betterAuth({
         defaultValue: "0001",
         input: false, // don't allow user to set role
       },
-      username: {
-        type: "string",
-        required: true,
-      },
     },
   },
   emailAndPassword: {
     enabled: true,
-    minPasswordLength: 6,
-    maxPasswordLength: 12,
   },
   hooks: {
     before: createAuthMiddleware(async (ctx: HookEndpointContext) => {
@@ -57,6 +51,10 @@ export const auth = betterAuth({
       }
     }),
   },
+  trustedOrigins: [
+    "http://localhost:5173", // Example for local development
+    process.env.CLIENT_URL || "", // Example for production
+  ],
 });
 
 export async function getCurrentSession(reqHeaders: IncomingHttpHeaders) {

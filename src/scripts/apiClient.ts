@@ -1,6 +1,7 @@
 // src/scripts/apiClient.ts (client-side)
 import { authClient } from "./authClient";
-import type { ISignInFormData, ISignUpFormData, SetDataType } from "./types";
+import type { ISignInFormData, SetDataType } from "./types";
+import { ISignUpFormData } from "./validationSchemas";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
@@ -13,27 +14,32 @@ export default class ApiClient {
       isPending?: (pending: boolean) => void;
     }
   ) {
+    console.log("ApiClient.signUp called with formData:", formData);
     return await authClient.signUp.email(
       {
-        name: formData.name,
+        name: formData.username,
         email: formData.email,
         password: formData.password,
-        image: formData.image || "",
+        image: formData.image[0]?.name || "",
         // callbackURL: `${
         //   import.meta.env.VITE_CLIENT_URL || "http://localhost:5173"
         // }/titlescreen`,
       },
       {
         onSuccess: (data) => {
+          console.log("Sign up successful:", data);
           callbacks.onSuccess?.();
         },
         onError: (error) => {
+          console.log("Sign up error:", error);
           callbacks.onError?.(error);
         },
         onRequest: () => {
+          console.log("Sign up request started");
           callbacks.isPending?.(true);
         },
         onResponse: () => {
+          console.log("Sign up request ended");
           callbacks.isPending?.(false);
         },
       }

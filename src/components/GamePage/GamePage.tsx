@@ -15,7 +15,7 @@ import Menu from "../Menu/Menu";
 import HowToPlayPage from "../HowToPlayPage/HowToPlay";
 import Button from "../Button/Button";
 import { useQuery } from "@tanstack/react-query";
-import { gameScreenQuery } from "../../scripts/queries";
+import { gamePageQuery } from "../../scripts/queries";
 import { CardData, SetDataType, ContextType } from "../../scripts/types";
 
 import modalStyles from "../Modal/Modal.module.css";
@@ -39,10 +39,10 @@ export default function GamePage() {
   // const pokemonData = useLoaderData();
   const params = useParams();
 
-  type GameScreenData = { data: CardData[] };
+  type GamePageData = { data: CardData[] };
   const { data: pokemonData } = useQuery(
-    gameScreenQuery(params.setId || "")
-  ) as GameScreenData;
+    gamePageQuery(params.setId || "")
+  ) as GamePageData;
   const navigation = useNavigation();
   const navigate = useNavigate();
 
@@ -131,7 +131,7 @@ export default function GamePage() {
       LocalStorageFactory.set("gameData", newGameDataArray);
     }
     if (state === -1) {
-      navigate("/selectionscreen");
+      navigate("/selectionpage");
     } else if (state === 0) {
       resultAudioRef.current.pause();
       resultAudioRef.current.currentTime = 0;
@@ -164,7 +164,7 @@ export default function GamePage() {
       {showSettings && <SettingsPage onClose={() => setShowSettings(false)} />}
       {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
       {showModal === -1 ? (
-        <Modal contentType="gameScreenModalContent">
+        <Modal contentType="gamePageModalContent">
           <ModalText>
             <p>You failed...</p>
           </ModalText>
@@ -182,7 +182,7 @@ export default function GamePage() {
         </Modal>
       ) : showModal === 1 ? (
         currentLevel >= levels ? (
-          <Modal contentType="gameScreenModalContent">
+          <Modal contentType="gamePageModalContent">
             <ModalText>
               <p>You have completed the set!</p>
               <p>Congratulations!</p>
@@ -197,7 +197,7 @@ export default function GamePage() {
             </ModalBlockRow>
           </Modal>
         ) : (
-          <Modal contentType="gameScreenModalContent">
+          <Modal contentType="gamePageModalContent">
             <ModalText>
               <p>You have completed the level!</p>
               <p>Congratulations!</p>
@@ -264,7 +264,7 @@ export default function GamePage() {
       <Menu
         onShowSettings={() => setShowSettings(true)}
         onShowHowTo={() => setShowHowTo(true)}
-        onReturnToSelection={() => navigate("/selectionscreen")}
+        onReturnToSelection={() => navigate("/selectionpage")}
       />
     </>
   );

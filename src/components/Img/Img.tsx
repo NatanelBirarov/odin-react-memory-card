@@ -5,7 +5,7 @@ import { StateUpdater } from "../../scripts/types";
 type ImageProps = {
   src: string;
   alt: string;
-  type?: string;
+  type?: keyof typeof styles;
   onClick?: () => void;
 };
 
@@ -15,7 +15,7 @@ type ImageDimensions = {
 };
 
 interface LoadImageProps {
-  setImageDimensions: StateUpdater<ImageDimensions>;
+  setImageDimensions: React.Dispatch<React.SetStateAction<ImageDimensions>>;
   imageUrl: string;
 }
 

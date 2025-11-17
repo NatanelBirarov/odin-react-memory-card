@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import LocalStorageFactory from "../../scripts/localStorageFactory";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import SettingsPage from "../SettingsPage/SettingsPage";
 import Menu from "../Menu/Menu";
 import HowToPlayPage from "../HowToPlayPage/HowToPlay";
-import { selectionScreenQuery } from "../../scripts/queries";
+import { selectionPageQuery } from "../../scripts/queries";
 import { useQuery } from "@tanstack/react-query";
 import { ContextType, SetDataType } from "../../scripts/types";
 import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
@@ -29,16 +29,16 @@ export default function SetSelectionPage() {
     musicVolume,
   } = useOutletContext<ContextType>();
 
+  const [pokemonSets, setPokemonSets] = useState<SetLogo[]>([]);
   const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
   const bgAudioRef = useRef<HTMLAudioElement>(null);
-  const pokemonSets = useRef<SetLogo[]>([]);
   const gameData = useRef<SetDataType[]>([]);
   // const pokemonData = useLoaderData();
 
-  type SelectionScreenData = { data: PokemonTCG.ISet[] };
+  type SelectionPageData = { data: PokemonTCG.ISet[] };
   const { data: pokemonData } = useQuery(
-    selectionScreenQuery()
-  ) as SelectionScreenData;
+    selectionPageQuery()
+  ) as SelectionPageData;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,8 +48,9 @@ export default function SetSelectionPage() {
   useEffect(() => {
     const fetchGameData = async () => {
       let newGameData: SetDataType[] = [];
+      let pokemonSetsData: SetLogo[] = [];
       if (pokemonData) {
-        pokemonSets.current = pokemonData.map((set: PokemonTCG.ISet) => {
+        pokemonSetsData = pokemonData.map((set: PokemonTCG.ISet) => {
           return {
             id: set.id,
             name: set.name,
@@ -60,7 +61,7 @@ export default function SetSelectionPage() {
                 : Math.floor(set.total / 10),
           };
         });
-        pokemonSets.current = pokemonSets.current.filter((set: SetLogo) => {
+        pokemonSetsData = pokemonSetsData.filter((set: SetLogo) => {
           return set.name !== "Journey Together";
         });
         newGameData = LocalStorageFactory.get("gameData");
@@ -68,7 +69,7 @@ export default function SetSelectionPage() {
           newGameData = await ApiClient.getAllGameData("local-user");
           if (newGameData.length === 0) {
             newGameData = [];
-            pokemonSets.current.forEach((set: SetLogo) => {
+            pokemonSetsData.forEach((set: SetLogo) => {
               newGameData.push({
                 id: set.id,
                 completedLevels: 0,
@@ -81,15 +82,16 @@ export default function SetSelectionPage() {
           }
         }
       }
+      setPokemonSets(pokemonSetsData);
       gameData.current = newGameData;
     };
 
     fetchGameData();
-  }, [pokemonData]);
+  }, []);
 
   function handleSelectGame(id: string) {
     selectAudioRef.current.play();
-    navigate(`/gamescreen/${id}`);
+    navigate(`/gamepage/${id}`);
   }
 
   return (
@@ -102,7 +104,7 @@ export default function SetSelectionPage() {
         <div className="pokeball-border-inner"></div>
       </div> */}
         <div className={styles.selections}>
-          {pokemonSets.current.map((set, index) => {
+          {pokemonSets.map((set, index) => {
             const unlocked =
               index === 0 || gameData.current[index - 1].completed;
             return (
@@ -144,7 +146,7 @@ export default function SetSelectionPage() {
         <Menu
           onShowSettings={() => setShowSettings(true)}
           onShowHowTo={() => setShowHowTo(true)}
-          onReturnToSelection={() => navigate("/selectionscreen")}
+          onReturnToSelection={() => navigate("/selectionpage")}
         />
       </div>
     </>

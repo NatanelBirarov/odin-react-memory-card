@@ -6,7 +6,7 @@ import { useNavigate, useNavigation, useOutletContext } from "react-router-dom";
 import HowToPlayPage from "../HowToPlayPage/HowToPlay";
 import Button from "../Button/Button";
 import { useQuery } from "@tanstack/react-query";
-import { titleScreenQuery } from "../../scripts/queries";
+import { titlePageQuery } from "../../scripts/queries";
 import { CardData, ContextType } from "../../scripts/types";
 
 import styles from "./TitlePage.module.css";
@@ -38,8 +38,8 @@ export default function TitlePage() {
 
   const isLogged = userSession.data?.user ? true : false;
 
-  type TitleScreenData = { data: CardData[] };
-  let { data: pokemonData } = useQuery(titleScreenQuery()) as TitleScreenData;
+  type TitlePageData = { data: CardData[] };
+  let { data: pokemonData } = useQuery(titlePageQuery()) as TitlePageData;
 
   useEffect(() => {
     if (bgAudioRef.current) bgAudioRef.current.volume = musicVolume;
@@ -124,36 +124,36 @@ export default function TitlePage() {
               <div className={styles.buttons}>
                 {isLogged ? (
                   <Button
-                    type="titleScreen"
+                    type="titlePage"
                     onClick={() => {
-                      navigate("/selectionscreen");
+                      navigate("/selectionpage");
                     }}
                   >
                     <div className={styles.buttonText}>Play Game</div>
                   </Button>
                 ) : (
                   <Button
-                    type="titleScreen"
-                    onClick={() => navigate("/signin?redirectTo=titlescreen")}
+                    type="titlePage"
+                    onClick={() => navigate("/signin?redirectTo=titlepage")}
                   >
                     <div className={styles.buttonText}>Sign In</div>
                   </Button>
                 )}
-                <Button type="titleScreen" onClick={() => setShowHowTo(true)}>
+                <Button type="titlePage" onClick={() => setShowHowTo(true)}>
                   <div className={styles.buttonText}>How to Play</div>
                 </Button>
                 <Button
-                  type="titleScreen"
+                  type="titlePage"
                   onClick={() => {
                     isLogged
                       ? setShowSettings(true)
-                      : navigate("/signin?redirectTo=titlescreen");
+                      : navigate("/signin?redirectTo=titlepage");
                   }}
                 >
                   <div className={styles.buttonText}>Settings</div>
                 </Button>
                 {isLogged && (
-                  <Button type="titleScreen" onClick={handleSignOut}>
+                  <Button type="titlePage" onClick={handleSignOut}>
                     <div className={styles.buttonText}>Sign Out</div>
                   </Button>
                 )}

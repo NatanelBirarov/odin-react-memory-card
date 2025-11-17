@@ -3,11 +3,11 @@ import Modal, { ModalBlockRow } from "../Modal/Modal";
 
 import { modalText } from "../Modal/Modal.module.css";
 
-type HowToScreenProps = {
+type HowToPageProps = {
   onClose: () => void;
 };
 
-export default function HowToPlayPage({ onClose }: HowToScreenProps) {
+export default function HowToPlayPage({ onClose }: HowToPageProps) {
   return (
     <Modal contentType="howToModalContent">
       <p>

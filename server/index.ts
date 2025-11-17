@@ -14,9 +14,10 @@ import {
 import { AuthRequest } from "./src/types.js";
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174", // Backup local port
   process.env.CLIENT_URL, // Production frontend URL
+  "http://localhost:5173", // Local development frontend URL
+  "http://localhost:5174", // Backup local port
+  "https://api.pokemontcg.io/v2",
 ].filter(Boolean); // Filter out any undefined values
 
 const app = express();

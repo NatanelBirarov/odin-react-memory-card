@@ -13,11 +13,11 @@ import { Volume2, VolumeX } from "lucide-react";
 import styles from "./SettingsPage.module.css";
 import modalStyles from "../Modal/Modal.module.css";
 
-type SettingsScreenProps = {
+type SettingsPageProps = {
   onClose: () => void;
 };
 
-export default function SettingsPage({ onClose }: SettingsScreenProps) {
+export default function SettingsPage({ onClose }: SettingsPageProps) {
   const { musicVolume, setMusicVolume, sfxVolume, setSfxVolume } =
     useOutletContext<ContextType>();
 

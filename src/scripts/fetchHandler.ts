@@ -22,7 +22,7 @@ export async function fetchWithRetry<T>(
   while (attempt < options.tries) {
     try {
       return await withTimeout(fetchFunction(), options.timeoutSecs);
-    } catch (error) {
+    } catch (error: any) {
       attempt++;
       console.error(`Attempt ${attempt} failed:`, error);
       if (attempt >= options.tries) {

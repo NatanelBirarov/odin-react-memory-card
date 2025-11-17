@@ -18,7 +18,7 @@ import GamePage from "./components/GamePage/GamePage.js";
 import Loader from "./components/Loader/Loader.js";
 import StartPage from "./components/StartPage/StartPage.js";
 import SignInPage from "./components/SignInPage/SignInPage.js";
-// import SignUpPage from "./components/SignUpPage/SignUpPage.js";
+import SignUpPage from "./components/SignUpPage/SignUpPage.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,21 +29,17 @@ const router = createBrowserRouter(
       errorElement={<Loader />}
     >
       <Route index element={<StartPage />}></Route>
-      <Route
-        path="titlescreen"
-        element={<TitlePage />}
-        loader={pokemonLoader}
-      />
+      <Route path="titlepage" element={<TitlePage />} loader={pokemonLoader} />
       <Route path="signin" element={<SignInPage />} />
-      {/* <Route path="signup" element={<SignUpPage />} /> */}
+      <Route path="signup" element={<SignUpPage />} />
       <Route
-        path="selectionscreen"
+        path="selectionpage"
         element={<SetSelectionPage />}
         loader={pokemonLoader}
         hydrateFallbackElement={<Loader />}
       />
       <Route
-        path="gamescreen/:setId"
+        path="gamepage/:setId"
         element={<GamePage />}
         loader={pokemonLoader}
       />
