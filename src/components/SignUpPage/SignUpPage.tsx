@@ -6,9 +6,9 @@ import Button from "../Button/Button";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import ApiClient from "../../scripts/apiClient";
+import { formSchema, ISignUpFormData } from "../../scripts/validationSchemas";
 
 import styles from "./SignUpPage.module.css";
-import { formSchema, ISignUpFormData } from "../../scripts/validationSchemas";
 
 export default function SignUpPage() {
   const {
@@ -50,8 +50,8 @@ export default function SignUpPage() {
 
   return (
     <Modal contentType="modalContent">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h2>Sign Up</h2>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <h2 className={styles.title}>Sign Up</h2>
         {errorList.length > 0 && (
           <div>
             {errorList.map((error, index) => (
@@ -61,7 +61,7 @@ export default function SignUpPage() {
             ))}
           </div>
         )}
-        <div>
+        <div className={styles.inputGroup}>
           <label>Username:</label>
           <input
             type="text"
@@ -71,7 +71,7 @@ export default function SignUpPage() {
           />
           {errors.username && <span>{errors.username.message}</span>}
         </div>
-        <div>
+        <div className={styles.inputGroup}>
           <label>Email:</label>
           <input
             type="email"
@@ -81,7 +81,7 @@ export default function SignUpPage() {
           />
           {errors.email && <span>{errors.email.message}</span>}
         </div>
-        <div>
+        <div className={styles.inputGroup}>
           <label>Password:</label>
           <input
             type="password"
@@ -90,7 +90,7 @@ export default function SignUpPage() {
           />
           {errors.password && <span>{errors.password.message}</span>}
         </div>
-        <div>
+        <div className={styles.inputGroup}>
           <label>Confirm Password:</label>
           <input
             type="password"
@@ -101,7 +101,7 @@ export default function SignUpPage() {
             <span>{errors.confirmPassword.message}</span>
           )}
         </div>
-        <div>
+        <div className={styles.inputGroup}>
           <label>Image (optional):</label>
           <input type="file" {...register("image")} disabled={isPending} />
           {errors.image && (

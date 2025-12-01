@@ -1,0 +1,41 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  gap: 25px;
+  font-size: 2rem;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inputGroup input[type="email"],
+.inputGroup input[type="password"] {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form button[type="submit"] {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.redirectText {
+  font-size: 18px;
+  text-align: center;
+  margin-top: 15px;
+}

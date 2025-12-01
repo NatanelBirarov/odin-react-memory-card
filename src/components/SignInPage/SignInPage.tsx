@@ -8,6 +8,8 @@ import { ISignInFormData } from "../../scripts/types";
 import Button from "../Button/Button";
 import { APIError } from "better-auth/*";
 
+import styles from "./SignInPage.module.css";
+
 export default function SignInPage() {
   const {
     register,
@@ -50,8 +52,8 @@ export default function SignInPage() {
 
   return (
     <Modal contentType="modalContent">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h2>Sign In</h2>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <h2 className={styles.title}>Sign In</h2>
         {errorList.length > 0 && (
           <div>
             {errorList.map((error, index) => (
@@ -61,7 +63,7 @@ export default function SignInPage() {
             ))}
           </div>
         )}
-        <div>
+        <div className={styles.inputGroup}>
           <label>Email:</label>
           <input
             type="email"
@@ -73,7 +75,7 @@ export default function SignInPage() {
           />
           {errors.email && <span>{errors.email.message}</span>}
         </div>
-        <div>
+        <div className={styles.inputGroup}>
           <label>Password:</label>
           <input
             type="password"
@@ -87,7 +89,7 @@ export default function SignInPage() {
         <Button type="modal" submit disabled={isPending}>
           Sign In
         </Button>
-        <span>
+        <span className={styles.redirectText}>
           Don't have an account?{" "}
           <a href={`/signup?redirectTo=${redirectTo}`}>Sign up</a>
         </span>
