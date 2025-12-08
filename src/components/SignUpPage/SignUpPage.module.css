@@ -17,6 +17,7 @@
   gap: 5px;
 }
 
+.inputGroup input[type="text"],
 .inputGroup input[type="email"],
 .inputGroup input[type="password"] {
   padding: 8px;
@@ -38,4 +39,13 @@
   font-size: 18px;
   text-align: center;
   margin-top: 15px;
+}
+
+@keyframes progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
 }

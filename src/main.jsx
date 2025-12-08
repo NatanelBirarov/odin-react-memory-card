@@ -19,6 +19,7 @@ import Loader from "./components/Loader/Loader.js";
 import StartPage from "./components/StartPage/StartPage.js";
 import SignInPage from "./components/SignInPage/SignInPage.js";
 import SignUpPage from "./components/SignUpPage/SignUpPage.js";
+import EmailVerificationPage from "./components/emailVerificationPage/EmailVerificationPage.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
       <Route path="titlepage" element={<TitlePage />} loader={pokemonLoader} />
       <Route path="signin" element={<SignInPage />} />
       <Route path="signup" element={<SignUpPage />} />
+      <Route path="verify" element={<EmailVerificationPage />} />
       <Route
         path="selectionpage"
         element={<SetSelectionPage />}

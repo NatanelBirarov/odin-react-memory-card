@@ -22,8 +22,9 @@ export default class ApiClient {
         password: formData.password,
         image: formData.image[0]?.name || "",
         // callbackURL: `${
-        //   import.meta.env.VITE_CLIENT_URL || "http://localhost:5173"
-        // }/titlescreen`,
+        //   import.meta.env.VITE_CLIENT_URL || "http://localhost:5173/"
+        // }titlescreen`,
+        callbackURL: "http://localhost:5173/verify",
       },
       {
         onSuccess: (data) => {
