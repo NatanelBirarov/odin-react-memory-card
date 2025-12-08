@@ -5,12 +5,23 @@ import { authClient } from "../../scripts/authClient";
 
 export default function EmailVerificationPage() {
   const [countdown, setCountdown] = useState(5);
+  const [searchParams] = useSearchParams();
   const [verificationStatus, setVerificationStatus] = useState<
     "loading" | "success" | "error"
   >("loading");
+  const [errorReason, setErrorReason] = useState<string>("");
 
   useEffect(() => {
     const verifyEmail = async () => {
+      // Check for invalid-token parameter
+      const invalidToken = searchParams.get("invalid-token");
+
+      if (invalidToken) {
+        setVerificationStatus("error");
+        setErrorReason("invalid-token");
+        return;
+      }
+
       // Get verification token from URL
       const userSession = await authClient.getSession();
 
@@ -18,26 +29,26 @@ export default function EmailVerificationPage() {
         setVerificationStatus("success");
       } else {
         setVerificationStatus("error");
+        setErrorReason("verification-failed");
       }
     };
 
     verifyEmail();
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     if (verificationStatus === "success") {
-      const timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(timer);
-            window.close();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-
-      return () => clearInterval(timer);
+      // const timer = setInterval(() => {
+      //   setCountdown((prev) => {
+      //     if (prev <= 1) {
+      //       clearInterval(timer);
+      //       window.close();
+      //       return 0;
+      //     }
+      //     return prev - 1;
+      //   });
+      // }, 1000);
+      // return () => clearInterval(timer);
     }
   }, [verificationStatus]);
 
@@ -76,8 +87,9 @@ export default function EmailVerificationPage() {
         <div className={styles.errorIcon}>✗</div>
         <h1 className={styles.title}>Verification Failed</h1>
         <p className={styles.message}>
-          We couldn't verify your email. The verification link may be invalid or
-          expired.
+          {errorReason === "invalid-token"
+            ? "The verification link is invalid or has expired."
+            : "We couldn't verify your email. The verification link may be invalid or expired."}
         </p>
         <p className={styles.submessage}>
           Please request a new verification email or contact support if the
