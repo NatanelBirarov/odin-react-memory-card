@@ -85,6 +85,9 @@ export default function SignInPage() {
             disabled={isPending}
           />
           {errors.password && <span>{errors.password.message}</span>}
+          <a href="/forgot-password" className={styles.forgotPassword}>
+            Forgot password?
+          </a>
         </div>
         <Button type="modal" submit disabled={isPending}>
           Sign In

@@ -20,6 +20,8 @@ import StartPage from "./components/StartPage/StartPage.js";
 import SignInPage from "./components/SignInPage/SignInPage.js";
 import SignUpPage from "./components/SignUpPage/SignUpPage.js";
 import EmailVerificationPage from "./components/emailVerificationPage/EmailVerificationPage.js";
+import ResetPasswordRequestPage from "./components/ResetPasswordRequestPage/ResetPasswordRequestPage.js";
+import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +36,8 @@ const router = createBrowserRouter(
       <Route path="signin" element={<SignInPage />} />
       <Route path="signup" element={<SignUpPage />} />
       <Route path="verify" element={<EmailVerificationPage />} />
+      <Route path="forgot-password" element={<ResetPasswordRequestPage />} />
+      <Route path="reset-password" element={<ResetPasswordPage />} />
       <Route
         path="selectionpage"
         element={<SetSelectionPage />}

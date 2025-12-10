@@ -29,6 +29,13 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
+    sendResetPassword: async ({ user, url, token }, request) => {
+      await sendEmail({
+        to: user.email,
+        subject: "Reset your password",
+        text: `Click the link to reset your password: ${url}`,
+      });
+    },
   },
   emailVerification: {
     sendOnSignUp: true,
@@ -48,7 +55,7 @@ export const auth = betterAuth({
           </a>
           <p>Or copy and paste this link into your browser:</p>
           <p style="word-break: break-all; color: #666;">${url}</p>
-          <p>This link will expire in 24 hours.</p>
+          <p>This link will expire in 1 hour.</p>
           <p>If you didn't sign up for this account, you can safely ignore this email.</p>
         </div>
       `,
