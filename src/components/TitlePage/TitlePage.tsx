@@ -146,8 +146,9 @@ export default function TitlePage() {
                   type="titlePage"
                   onClick={() => {
                     isLogged
-                      ? setShowSettings(true)
-                      : navigate("/signin?redirectTo=titlepage");
+                      ? navigate("/profile")
+                      : // ? setShowSettings(true)
+                        navigate("/signin?redirectTo=titlepage");
                   }}
                 >
                   <div className={styles.buttonText}>Settings</div>

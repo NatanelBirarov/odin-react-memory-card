@@ -22,6 +22,7 @@ import SignUpPage from "./components/SignUpPage/SignUpPage.js";
 import EmailVerificationPage from "./components/emailVerificationPage/EmailVerificationPage.js";
 import ResetPasswordRequestPage from "./components/ResetPasswordRequestPage/ResetPasswordRequestPage.js";
 import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage.js";
+import UserProfile from "./components/UserProfile/UserProfile.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
       <Route path="verify" element={<EmailVerificationPage />} />
       <Route path="forgot-password" element={<ResetPasswordRequestPage />} />
       <Route path="reset-password" element={<ResetPasswordPage />} />
+      <Route path="profile" element={<UserProfile />} />
       <Route
         path="selectionpage"
         element={<SetSelectionPage />}

@@ -1,0 +1,59 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  gap: 25px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ccc;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inputLabel {
+  font-size: 2rem;
+}
+
+.inputGroup input[type="text"],
+.inputGroup input[type="email"] {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.inputGroup span {
+  color: red;
+  font-size: 14px;
+}
+
+.success {
+  padding: 10px;
+  background-color: #d4edda;
+  color: #155724;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.error {
+  padding: 10px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border-radius: 4px;
+  text-align: center;
+}
