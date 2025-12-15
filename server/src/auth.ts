@@ -15,6 +15,9 @@ export const auth = betterAuth({
     provider: "postgresql",
   }),
   user: {
+    changeEmail: {
+      enabled: true,
+    },
     fields: {
       name: "username",
     },
@@ -26,6 +29,10 @@ export const auth = betterAuth({
         input: false, // don't allow user to set role
       },
     },
+  },
+  session: {
+    expiresIn: 60 * 60 * 12, // 12 hours
+    disableSessionRefresh: true,
   },
   emailAndPassword: {
     enabled: true,
@@ -40,7 +47,8 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    sendVerificationEmail: async ({ user, url, token }, request) => {
+    sendVerificationEmail: async ({ user, url, token }) => {
+      console.log("Sending verification email to:", user.email);
       await sendEmail({
         to: user.email,
         subject: "Verify your email address",

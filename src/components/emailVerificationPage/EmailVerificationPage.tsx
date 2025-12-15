@@ -38,17 +38,17 @@ export default function EmailVerificationPage() {
 
   useEffect(() => {
     if (verificationStatus === "success") {
-      // const timer = setInterval(() => {
-      //   setCountdown((prev) => {
-      //     if (prev <= 1) {
-      //       clearInterval(timer);
-      //       window.close();
-      //       return 0;
-      //     }
-      //     return prev - 1;
-      //   });
-      // }, 1000);
-      // return () => clearInterval(timer);
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            window.close();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
     }
   }, [verificationStatus]);
 
