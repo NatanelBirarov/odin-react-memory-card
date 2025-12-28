@@ -13,6 +13,7 @@ export const authMiddleware = async (
 ): Promise<void> => {
   try {
     const session = await getCurrentSession(req.headers);
+    console.log("Auth middleware session:", session);
     if (!session) {
       res.status(401).json({ error: "Unauthorized" });
       return;

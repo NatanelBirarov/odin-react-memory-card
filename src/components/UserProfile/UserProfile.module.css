@@ -1,7 +1,8 @@
 .form {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  width: 100%;
+  min-width: 500px;
   gap: 25px;
 }
 
@@ -40,6 +41,8 @@
 .inputGroup span {
   color: red;
   font-size: 14px;
+  max-width: 60ch;
+  /* min-height: 20px; */
 }
 
 .notification {

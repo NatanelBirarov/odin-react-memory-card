@@ -80,7 +80,10 @@ export default class ApiClient {
   }
 
   static async getSettings() {
-    const response = await fetch(`${API_BASE}/api/settings/`);
+    const response = await fetch(`${API_BASE}/api/settings/`, {
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    });
     if (!response.ok) throw new Error("Failed to fetch settings");
     return response.json();
   }
@@ -96,16 +99,20 @@ export default class ApiClient {
   }
 
   static async getAllGameData(userId: string): Promise<SetDataType[]> {
-    const response = await fetch(`${API_BASE}/gamedata/${userId}`);
+    const response = await fetch(`${API_BASE}/api/gamedata/`, {
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    });
     if (!response.ok) throw new Error("Failed to fetch game data");
     return response.json();
   }
 
   static async saveGameData(userId: string, gameData: SetDataType) {
-    const response = await fetch(`${API_BASE}/gamedata`, {
+    const response = await fetch(`${API_BASE}/api/gamedata`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId, ...gameData }),
+      credentials: "include",
     });
     if (!response.ok) throw new Error("Failed to save game data");
     return response.json();

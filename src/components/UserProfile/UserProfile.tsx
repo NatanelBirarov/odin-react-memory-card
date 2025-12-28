@@ -4,6 +4,7 @@ import styles from "./UserProfile.module.css";
 import { authClient } from "../../scripts/authClient";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
+import { useNavigate } from "react-router";
 
 interface IUserProfileFormData {
   username: string;
@@ -36,6 +37,7 @@ export default function UserProfile() {
   const [isPasswordPending, setIsPasswordPending] = useState(false);
   const [passwordMessage, setPasswordMessage] = useState("");
   const userSession = authClient.useSession();
+  const navigate = useNavigate();
 
   const currentData = useRef<IUserProfileFormData>({
     username: userSession.data?.user?.name || "",
@@ -122,14 +124,26 @@ export default function UserProfile() {
 
     try {
       // Call authClient.changePassword here
-      await authClient.changePassword({
+      const { data, error } = await authClient.changePassword({
         newPassword: formData.newPassword, // required
         currentPassword: formData.oldPassword, // required
         revokeOtherSessions: true,
       });
 
-      setPasswordMessage("Password updated successfully!");
-      resetPasswordForm();
+      if (error) {
+        // Handle error (e.g., show an error message)
+        console.error(error);
+      } else {
+        // Password changed successfully. The current session remains active,
+        // but all other sessions on different devices are revoked.
+        setPasswordMessage("Password updated successfully!");
+        resetPasswordForm();
+        console.log("Password updated and other sessions logged out.");
+        await authClient.signOut();
+        setTimeout(() => {
+          navigate("/signin?redirectTo=titlepage");
+        }, 3000);
+      }
     } catch (error: any) {
       console.error("Error updating password:", error);
       setPasswordMessage(error.message || "Failed to update password");
@@ -227,9 +241,7 @@ export default function UserProfile() {
               aria-invalid={passwordErrors.oldPassword ? "true" : "false"}
               disabled={isPasswordPending}
             />
-            {passwordErrors.oldPassword && (
-              <span>{passwordErrors.oldPassword.message}</span>
-            )}
+            <span>{passwordErrors.oldPassword?.message}</span>
           </div>
 
           <div className={styles.inputGroup}>
@@ -250,15 +262,13 @@ export default function UserProfile() {
                   value:
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/,
                   message:
-                    "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+                    "Must include at least one: uppercase, lowercase, number, and special character",
                 },
               })}
               aria-invalid={passwordErrors.newPassword ? "true" : "false"}
               disabled={isPasswordPending}
             />
-            {passwordErrors.newPassword && (
-              <span>{passwordErrors.newPassword.message}</span>
-            )}
+            <span>{passwordErrors.newPassword?.message}</span>
           </div>
 
           <div className={styles.inputGroup}>
@@ -273,9 +283,7 @@ export default function UserProfile() {
               aria-invalid={passwordErrors.confirmPassword ? "true" : "false"}
               disabled={isPasswordPending}
             />
-            {passwordErrors.confirmPassword && (
-              <span>{passwordErrors.confirmPassword.message}</span>
-            )}
+            <span>{passwordErrors.confirmPassword?.message}</span>
           </div>
 
           <Button type="modal" submit disabled={isPasswordPending}>

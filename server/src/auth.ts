@@ -1,4 +1,5 @@
 import { betterAuth, HookEndpointContext } from "better-auth";
+import { fromNodeHeaders } from "better-auth/node";
 import { createAuthMiddleware } from "better-auth/api";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "./prismaClient.js";
@@ -136,12 +137,13 @@ export const auth = betterAuth({
 });
 
 export async function getCurrentSession(reqHeaders: IncomingHttpHeaders) {
-  const headers = new Headers();
-  Object.entries(reqHeaders).forEach(([key, value]) => {
-    if (value) {
-      headers.set(key, Array.isArray(value) ? value[0] : value);
-    }
-  });
+  // const headers = new Headers();
+  // Object.entries(reqHeaders).forEach(([key, value]) => {
+  //   if (value) {
+  //     headers.set(key, Array.isArray(value) ? value[0] : value);
+  //   }
+  // });
+  const headers = fromNodeHeaders(reqHeaders);
 
   return await auth.api.getSession({
     headers: headers,
