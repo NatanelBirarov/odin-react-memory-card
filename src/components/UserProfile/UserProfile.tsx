@@ -39,6 +39,14 @@ export default function UserProfile() {
   const userSession = authClient.useSession();
   const navigate = useNavigate();
 
+  const [passwordRequirements, setPasswordRequirements] = useState({
+    hasCorrectLength: false,
+    hasUpperCase: false,
+    hasLowerCase: false,
+    hasNumber: false,
+    hasSpecialChar: false,
+  });
+
   const currentData = useRef<IUserProfileFormData>({
     username: userSession.data?.user?.name || "",
     email: userSession.data?.user?.email || "",
@@ -152,6 +160,16 @@ export default function UserProfile() {
     }
   };
 
+  const validatePasswordRequirements = (password: string) => {
+    setPasswordRequirements({
+      hasCorrectLength: password.length >= 6 && password.length <= 12,
+      hasUpperCase: /[A-Z]/.test(password),
+      hasLowerCase: /[a-z]/.test(password),
+      hasNumber: /\d/.test(password),
+      hasSpecialChar: /[@$!%*?&]/.test(password),
+    });
+  };
+
   return (
     <>
       {message && (
@@ -252,22 +270,71 @@ export default function UserProfile() {
                 required: "New password is required",
                 minLength: {
                   value: 6,
-                  message: "Password must be between 6 and 12 characters",
+                  message: "Password is not valid",
                 },
                 maxLength: {
                   value: 12,
-                  message: "Password must be between 6 and 12 characters",
+                  message: "Password is not valid",
                 },
                 pattern: {
                   value:
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/,
-                  message:
-                    "Must include at least one: uppercase, lowercase, number, and special character",
+                  message: "Password is not valid",
                 },
+                onChange: (e) => validatePasswordRequirements(e.target.value),
               })}
               aria-invalid={passwordErrors.newPassword ? "true" : "false"}
               disabled={isPasswordPending}
             />
+
+            <div className={styles.requirementsContainer}>
+              <div
+                className={styles.requirement}
+                data-met={passwordRequirements.hasCorrectLength}
+              >
+                <div className={styles.indicator}>
+                  <span>&times;</span>
+                </div>
+                <span>Between 6 and 12 characters</span>
+              </div>
+              <div
+                className={styles.requirement}
+                data-met={passwordRequirements.hasUpperCase}
+              >
+                <div className={styles.indicator}>
+                  <span>&times;</span>
+                </div>
+                <span>One uppercase letter</span>
+              </div>
+              <div
+                className={styles.requirement}
+                data-met={passwordRequirements.hasLowerCase}
+              >
+                <div className={styles.indicator}>
+                  <span>&times;</span>
+                </div>
+                <span>One lowercase letter</span>
+              </div>
+              <div
+                className={styles.requirement}
+                data-met={passwordRequirements.hasNumber}
+              >
+                <div className={styles.indicator}>
+                  <span>&times;</span>
+                </div>
+                <span>One number</span>
+              </div>
+              <div
+                className={styles.requirement}
+                data-met={passwordRequirements.hasSpecialChar}
+              >
+                <div className={styles.indicator}>
+                  <span>&times;</span>
+                </div>
+                <span>One special character</span>
+              </div>
+            </div>
+
             <span>{passwordErrors.newPassword?.message}</span>
           </div>
 

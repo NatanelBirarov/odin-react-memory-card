@@ -31,7 +31,8 @@
 }
 
 .inputGroup input[type="text"],
-.inputGroup input[type="email"] {
+.inputGroup input[type="email"],
+.inputGroup input[type="password"] {
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -39,10 +40,7 @@
 }
 
 .inputGroup span {
-  color: red;
   font-size: 14px;
-  max-width: 60ch;
-  /* min-height: 20px; */
 }
 
 .notification {
@@ -92,4 +90,55 @@
   border-radius: 4px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.requirementsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.requirement {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: color 0.2s ease;
+}
+
+.requirement span {
+  text-shadow: -2px 2px 1px #000;
+  -webkit-text-stroke: 1px #345ca1;
+}
+
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 25%;
+  background-color: #9f9f9f;
+  color: white;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  border: 1px solid white;
+}
+
+.indicator[data-met="true"] {
+  color: #10b981;
+}
+
+.indicator span {
+  font-family: initial;
+  text-shadow: none;
+  -webkit-text-stroke: initial;
+  padding-left: 2px;
+  padding-top: 1px;
+}
+
+.requirement[data-met="true"] .indicator {
+  background-color: #10b981;
+  color: white;
 }

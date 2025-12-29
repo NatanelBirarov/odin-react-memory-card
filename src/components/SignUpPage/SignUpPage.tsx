@@ -25,6 +25,14 @@ export default function SignUpPage() {
     useState<boolean>(false);
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  const [passwordRequirements, setPasswordRequirements] = useState({
+    hasCorrectLength: false,
+    hasUpperCase: false,
+    hasLowerCase: false,
+    hasNumber: false,
+    hasSpecialChar: false,
+  });
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,6 +87,16 @@ export default function SignUpPage() {
       setErrorList([error.message || "An unexpected error occurred"]);
     }
   }
+
+  const validatePasswordRequirements = (password: string) => {
+    setPasswordRequirements({
+      hasCorrectLength: password.length >= 6 && password.length <= 12,
+      hasUpperCase: /[A-Z]/.test(password),
+      hasLowerCase: /[a-z]/.test(password),
+      hasNumber: /\d/.test(password),
+      hasSpecialChar: /[@$!%*?&]/.test(password),
+    });
+  };
 
   return (
     <Modal contentType="modalContent">
@@ -139,7 +157,11 @@ export default function SignUpPage() {
               aria-invalid={errors.username ? "true" : "false"}
               disabled={isPending}
             />
-            {errors.username && <span>{errors.username.message}</span>}
+            {errors.username && (
+              <span className={styles.errorMessage}>
+                {errors.username.message}
+              </span>
+            )}
           </div>
           <div className={styles.inputGroup}>
             <label>Email:</label>
@@ -149,7 +171,11 @@ export default function SignUpPage() {
               aria-invalid={errors.email ? "true" : "false"}
               disabled={isPending}
             />
-            {errors.email && <span>{errors.email.message}</span>}
+            {errors.email && (
+              <span className={styles.errorMessage}>
+                {errors.email.message}
+              </span>
+            )}
           </div>
           <div className={styles.inputGroup}>
             <label>Password:</label>
@@ -157,8 +183,61 @@ export default function SignUpPage() {
               type="password"
               {...register("password")}
               disabled={isPending}
+              onChange={(e) => validatePasswordRequirements(e.target.value)}
             />
-            {errors.password && <span>{errors.password.message}</span>}
+            {errors.password && (
+              <span className={styles.errorMessage}>
+                {errors.password.message}
+              </span>
+            )}
+
+            <div className={styles.requirementsContainer}>
+              <div
+                className={styles.requirement}
+                data-met={passwordRequirements.hasCorrectLength}
+              >
+                <div className={styles.indicator}>
+                  <span>&times;</span>
+                </div>
+                <span>Between 6 and 12 characters</span>
+              </div>
+              <div
+                className={styles.requirement}
+                data-met={passwordRequirements.hasUpperCase}
+              >
+                <div className={styles.indicator}>
+                  <span>&times;</span>
+                </div>
+                <span>One uppercase letter</span>
+              </div>
+              <div
+                className={styles.requirement}
+                data-met={passwordRequirements.hasLowerCase}
+              >
+                <div className={styles.indicator}>
+                  <span>&times;</span>
+                </div>
+                <span>One lowercase letter</span>
+              </div>
+              <div
+                className={styles.requirement}
+                data-met={passwordRequirements.hasNumber}
+              >
+                <div className={styles.indicator}>
+                  <span>&times;</span>
+                </div>
+                <span>One number</span>
+              </div>
+              <div
+                className={styles.requirement}
+                data-met={passwordRequirements.hasSpecialChar}
+              >
+                <div className={styles.indicator}>
+                  <span>&times;</span>
+                </div>
+                <span>One special character</span>
+              </div>
+            </div>
           </div>
           <div className={styles.inputGroup}>
             <label>Confirm Password:</label>
@@ -168,7 +247,9 @@ export default function SignUpPage() {
               disabled={isPending}
             />
             {errors.confirmPassword && (
-              <span>{errors.confirmPassword.message}</span>
+              <span className={styles.errorMessage}>
+                {errors.confirmPassword.message}
+              </span>
             )}
           </div>
           <div className={styles.inputGroup}>
