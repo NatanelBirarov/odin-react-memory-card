@@ -52,17 +52,12 @@ export default async function fetchPokemon(
       try {
         const res = await fetchWithRetry(() => fetch("/data/card/.card.json"));
         const files: string[] = await res.json();
-        const results: CardWithMarket[] = await Promise.all(
-          files.map(async (file) => {
-            const fileRes = await fetchWithRetry(() =>
-              fetch(`/data/card/${file}`)
-            );
-            return fileRes.json();
-          })
-        );
         console.info("Successfully fetched local cards data.");
         if (fetchParams.queryKey[1] === "-1") {
           // If the queryKey is -1, filter for cards from the "Prismatic" set
+          const results: CardWithMarket[] = await fetchCardsFromFiles([
+            "sv8pt5.json",
+          ]);
           return results
             .flat()
             .filter(
@@ -81,6 +76,7 @@ export default async function fetchPokemon(
             });
         } else {
           // Otherwise, filter by set ID
+          const results: CardWithMarket[] = await fetchCardsFromFiles(files);
           const sortedRetults = results
             .flat()
             .filter(
@@ -121,4 +117,12 @@ export default async function fetchPokemon(
     }
     throw new Error("Invalid fetch parameters");
   }
+}
+async function fetchCardsFromFiles(files: string[]): Promise<CardWithMarket[]> {
+  return await Promise.all(
+    files.map(async (file) => {
+      const fileRes = await fetchWithRetry(() => fetch(`/data/card/${file}`));
+      return fileRes.json();
+    })
+  );
 }
