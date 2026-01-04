@@ -1,5 +1,6 @@
 import { betterAuth, HookEndpointContext } from "better-auth";
 import { fromNodeHeaders } from "better-auth/node";
+import { emailOTP } from "better-auth/plugins";
 import { createAuthMiddleware } from "better-auth/api";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "./prismaClient.js";
@@ -31,6 +32,36 @@ export const auth = betterAuth({
       },
     },
   },
+  plugins: [
+    emailOTP({
+      expiresIn: 10 * 60, // 10 minutes
+      disableSignUp: true,
+      async sendVerificationOTP({ email, otp, type }) {
+        if (type === "sign-in") {
+          // Send the OTP for sign in
+          await sendEmail({
+            to: email,
+            subject: "Your sign-in OTP",
+            text: `Your one-time password (OTP) for sign-in is: ${otp}. It will expire in 10 minutes.`,
+          });
+        } else if (type === "email-verification") {
+          // Send the OTP for email verification
+          await sendEmail({
+            to: email,
+            subject: "Your email verification OTP",
+            text: `Your one-time password (OTP) for email verification is: ${otp}. It will expire in 10 minutes.`,
+          });
+        } else {
+          // Send the OTP for password reset
+          await sendEmail({
+            to: email,
+            subject: "Your password reset OTP",
+            text: `Your one-time password (OTP) for password reset is: ${otp}. It will expire in 10 minutes.`,
+          });
+        }
+      },
+    }),
+  ],
   session: {
     expiresIn: 60 * 60 * 12, // 12 hours
     disableSessionRefresh: true,

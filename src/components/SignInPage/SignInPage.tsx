@@ -4,7 +4,12 @@ import { useForm } from "react-hook-form";
 import ApiClient from "../../scripts/apiClient";
 import Modal from "../Modal/Modal";
 import { useNavigate } from "react-router-dom";
-import { ISignInFormData } from "../../scripts/types";
+import {
+  ISignInCombinedFormData,
+  ISignInFormData,
+  ISignInOTPFormData,
+  ISignInWithPasswordFormData,
+} from "../../scripts/types";
 import Button from "../Button/Button";
 import { APIError } from "better-auth/*";
 
@@ -15,10 +20,11 @@ export default function SignInPage() {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<ISignInFormData>();
+  } = useForm<ISignInCombinedFormData>();
 
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [otp, setOtp] = useState<string>("");
+  const [isOTPSent, setIsOTPSent] = useState<boolean>(false);
   const [errorList, setErrorList] = useState<string[]>([]);
   const [isPending, setIsPending] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -26,12 +32,15 @@ export default function SignInPage() {
   const params = new URLSearchParams(window.location.search);
   const redirectTo = params.get("redirectTo") || "/";
 
-  async function onSubmit(formData: ISignInFormData) {
+  async function onOTPSubmit(formData: ISignInOTPFormData) {}
+
+  async function onSignInSubmit(formData: ISignInFormData) {
     try {
-      const { data, error } = await ApiClient.signIn(formData, {
+      const { data, error } = await ApiClient.signInWithOTP(formData, {
         onSuccess: () => {
           // On success
-          navigate("/titlepage");
+          // navigate("/titlepage");
+          setIsOTPSent(true);
         },
         onError: (error: APIError) => {
           // On error
@@ -52,51 +61,110 @@ export default function SignInPage() {
 
   return (
     <Modal contentType="modalContent">
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <h2 className={styles.title}>Sign In</h2>
-        {errorList.length > 0 && (
-          <div>
-            {errorList.map((error, index) => (
-              <p key={index} style={{ color: "red" }}>
-                {error}
-              </p>
-            ))}
+      {isOTPSent ? (
+        <form className={styles.form} onSubmit={handleSubmit(onOTPSubmit)}>
+          <h2 className={styles.title}>Enter OTP</h2>
+          {errorList.length > 0 && (
+            <div>
+              {errorList.map((error, index) => (
+                <p key={index} style={{ color: "red" }}>
+                  {error}
+                </p>
+              ))}
+            </div>
+          )}
+          <div className={styles.inputGroup}>
+            <label>One-Time Password:</label>
+            <div className={styles.otpInputs}>
+              <input
+                type="number"
+                maxLength={1}
+                {...register("digit1")}
+                // value={otp}
+                // onChange={(e) => setOtp(e.target.value)}
+                disabled={isPending}
+              />
+              <input
+                type="number"
+                maxLength={1}
+                {...register("digit2")}
+                // value={otp}
+                // onChange={(e) => setOtp(e.target.value)}
+                disabled={isPending}
+              />
+              <input
+                type="number"
+                maxLength={1}
+                {...register("digit3")}
+                // value={otp}
+                // onChange={(e) => setOtp(e.target.value)}
+                disabled={isPending}
+              />
+              <input
+                type="number"
+                maxLength={1}
+                {...register("digit4")}
+                // value={otp}
+                // onChange={(e) => setOtp(e.target.value)}
+                disabled={isPending}
+              />
+              <input
+                type="number"
+                maxLength={1}
+                {...register("digit5")}
+                // value={otp}
+                // onChange={(e) => setOtp(e.target.value)}
+                disabled={isPending}
+              />
+              <input
+                type="number"
+                maxLength={1}
+                {...register("digit6")}
+                // value={otp}
+                // onChange={(e) => setOtp(e.target.value)}
+                disabled={isPending}
+              />
+            </div>
           </div>
-        )}
-        <div className={styles.inputGroup}>
-          <label>Email:</label>
-          <input
-            type="email"
-            {...register("email")}
-            aria-invalid={errors.email ? "true" : "false"}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={isPending}
-          />
-          {errors.email && <span>{errors.email.message}</span>}
-        </div>
-        <div className={styles.inputGroup}>
-          <label>Password:</label>
-          <input
-            type="password"
-            {...register("password")}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={isPending}
-          />
-          {errors.password && <span>{errors.password.message}</span>}
-          <a href="/forgot-password" className={styles.forgotPassword}>
-            Forgot password?
-          </a>
-        </div>
-        <Button type="modal" submit disabled={isPending}>
-          Sign In
-        </Button>
-        <span className={styles.redirectText}>
-          Don't have an account?{" "}
-          <a href={`/signup?redirectTo=${redirectTo}`}>Sign up</a>
-        </span>
-      </form>
+
+          <Button type="modal" submit disabled={isPending}>
+            Verify OTP
+          </Button>
+        </form>
+      ) : (
+        <form className={styles.form} onSubmit={handleSubmit(onSignInSubmit)}>
+          <h2 className={styles.title}>Sign In</h2>
+          {errorList.length > 0 && (
+            <div>
+              {errorList.map((error, index) => (
+                <p key={index} style={{ color: "red" }}>
+                  {error}
+                </p>
+              ))}
+            </div>
+          )}
+          <div className={styles.inputGroup}>
+            <label>Email:</label>
+            <input
+              type="email"
+              {...register("email")}
+              aria-invalid={errors.email ? "true" : "false"}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={isPending}
+            />
+            {errors.email && <span>{errors.email.message}</span>}
+          </div>
+
+          <Button type="modal" submit disabled={isPending}>
+            Sign In
+          </Button>
+          <span className={styles.redirectText}>
+            Don't have an account?{" "}
+            <a href={`/signup?redirectTo=${redirectTo}`}>Sign up</a>
+          </span>
+        </form>
+      )}
     </Modal>
   );
 }

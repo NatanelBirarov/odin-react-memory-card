@@ -1,6 +1,12 @@
 // src/scripts/apiClient.ts (client-side)
+import { form } from "../components/SignInPage/SignInPage.module.css";
 import { authClient } from "./authClient";
-import type { ISignInFormData, SetDataType } from "./types";
+import type {
+  ISignInFormData,
+  ISignInOTPFormData,
+  ISignInWithPasswordFormData,
+  SetDataType,
+} from "./types";
 import { ISignUpFormData } from "./validationSchemas";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
@@ -47,8 +53,38 @@ export default class ApiClient {
     );
   }
 
-  static async signIn(
+  static async signInWithOTP(
     formData: ISignInFormData,
+    callbacks: {
+      onSuccess?: () => void;
+      onError?: (error: any) => void;
+      isPending?: (pending: boolean) => void;
+    }
+  ) {
+    return await authClient.emailOtp.sendVerificationOtp(
+      {
+        email: formData.email, // required
+        type: "sign-in",
+      },
+      {
+        onSuccess: (data) => {
+          callbacks.onSuccess?.();
+        },
+        onError: (error) => {
+          callbacks.onError?.(error);
+        },
+        onRequest: () => {
+          callbacks.isPending?.(true);
+        },
+        onResponse: () => {
+          callbacks.isPending?.(false);
+        },
+      }
+    );
+  }
+
+  static async signInWithPassword(
+    formData: ISignInWithPasswordFormData,
     callbacks: {
       onSuccess?: () => void;
       onError?: (error: any) => void;
