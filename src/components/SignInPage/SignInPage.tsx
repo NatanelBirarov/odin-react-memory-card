@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import ApiClient from "../../scripts/apiClient";
@@ -20,10 +20,10 @@ export default function SignInPage() {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm<ISignInCombinedFormData>();
 
   const [email, setEmail] = useState<string>("");
-  const [otp, setOtp] = useState<string>("");
   const [isOTPSent, setIsOTPSent] = useState<boolean>(false);
   const [errorList, setErrorList] = useState<string[]>([]);
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -32,31 +32,84 @@ export default function SignInPage() {
   const params = new URLSearchParams(window.location.search);
   const redirectTo = params.get("redirectTo") || "/";
 
-  async function onOTPSubmit(formData: ISignInOTPFormData) {}
+  const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  async function onSignInSubmit(formData: ISignInFormData) {
+  const handleOTPChange = (index: number, target: HTMLInputElement) => {
+    // Only allow single digit
+    if (target.value.length > target.maxLength) {
+      target.value = target.value.slice(0, target.maxLength);
+      return;
+    }
+
+    setValue(`digit${index + 1}` as keyof ISignInOTPFormData, target.value);
+
+    // Move to next input if value is entered
+    if (target.value && index < 5) {
+      otpInputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleOTPKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    // Move to previous input on backspace if current input is empty
+    // setValue(`digit${index + 1}` as keyof ISignInOTPFormData, "");
+    if (e.key === "Backspace" && !e.currentTarget.value && index > 0) {
+      otpInputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  async function onOTPSubmit(formData: ISignInOTPFormData) {
     try {
-      const { data, error } = await ApiClient.signInWithOTP(formData, {
-        onSuccess: () => {
-          // On success
-          // navigate("/titlepage");
-          setIsOTPSent(true);
-        },
-        onError: (error: APIError) => {
-          // On error
-          const errors = Array.isArray(error.message)
-            ? error.message
-            : [error.message || "Sign up failed"];
-          setErrorList(errors);
-        },
-        isPending: (pending) => {
-          setIsPending(pending);
-        },
-      });
+      const otpCode =
+        (formData.digit1 || "") +
+        (formData.digit2 || "") +
+        (formData.digit3 || "") +
+        (formData.digit4 || "") +
+        (formData.digit5 || "") +
+        (formData.digit6 || "");
+
+      console.log("OTP code:", otpCode); // Debug log
+
+      const { data, error } = await ApiClient.verifyOTP(
+        { email, otp: otpCode },
+        {
+          onSuccess: () => {
+            // On success
+            navigate(`/${redirectTo}`);
+          },
+        }
+      );
     } catch (error: any) {
-      console.log("Sign up error:", error);
+      console.log("OTP verification error:", error);
       setErrorList([error.message || "An unexpected error occurred"]);
     }
+  }
+
+  async function onSignInSubmit(formData: ISignInFormData) {
+    setIsOTPSent(true);
+    // try {
+    //   const { data, error } = await ApiClient.signInWithOTP(formData, {
+    //     onSuccess: () => {
+    //       // On success
+    //       setIsOTPSent(true);
+    //     },
+    //     onError: (error: APIError) => {
+    //       // On error
+    //       const errors = Array.isArray(error.message)
+    //         ? error.message
+    //         : [error.message || "Sign up failed"];
+    //       setErrorList(errors);
+    //     },
+    //     isPending: (pending) => {
+    //       setIsPending(pending);
+    //     },
+    //   });
+    // } catch (error: any) {
+    //   console.log("Sign up error:", error);
+    //   setErrorList([error.message || "An unexpected error occurred"]);
+    // }
   }
 
   return (
@@ -76,54 +129,20 @@ export default function SignInPage() {
           <div className={styles.inputGroup}>
             <label>One-Time Password:</label>
             <div className={styles.otpInputs}>
-              <input
-                type="number"
-                maxLength={1}
-                {...register("digit1")}
-                // value={otp}
-                // onChange={(e) => setOtp(e.target.value)}
-                disabled={isPending}
-              />
-              <input
-                type="number"
-                maxLength={1}
-                {...register("digit2")}
-                // value={otp}
-                // onChange={(e) => setOtp(e.target.value)}
-                disabled={isPending}
-              />
-              <input
-                type="number"
-                maxLength={1}
-                {...register("digit3")}
-                // value={otp}
-                // onChange={(e) => setOtp(e.target.value)}
-                disabled={isPending}
-              />
-              <input
-                type="number"
-                maxLength={1}
-                {...register("digit4")}
-                // value={otp}
-                // onChange={(e) => setOtp(e.target.value)}
-                disabled={isPending}
-              />
-              <input
-                type="number"
-                maxLength={1}
-                {...register("digit5")}
-                // value={otp}
-                // onChange={(e) => setOtp(e.target.value)}
-                disabled={isPending}
-              />
-              <input
-                type="number"
-                maxLength={1}
-                {...register("digit6")}
-                // value={otp}
-                // onChange={(e) => setOtp(e.target.value)}
-                disabled={isPending}
-              />
+              {[0, 1, 2, 3, 4, 5].map((_, index) => (
+                <input
+                  key={index}
+                  type="number"
+                  maxLength={1}
+                  {...register(`digit${index + 1}` as keyof ISignInOTPFormData)}
+                  ref={(el) => {
+                    otpInputRefs.current[index] = el;
+                  }}
+                  onChange={(e) => handleOTPChange(index, e.target)}
+                  onKeyDown={(e) => handleOTPKeyDown(index, e)}
+                  disabled={isPending}
+                />
+              ))}
             </div>
           </div>
 

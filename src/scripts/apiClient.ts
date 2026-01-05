@@ -83,6 +83,36 @@ export default class ApiClient {
     );
   }
 
+  static async verifyOTP(
+    formData: { email: string; otp: string },
+    callbacks: {
+      onSuccess?: () => void;
+      onError?: (error: any) => void;
+      isPending?: (pending: boolean) => void;
+    }
+  ) {
+    return authClient.signIn.emailOtp(
+      {
+        email: formData.email, // required
+        otp: formData.otp, // required
+      },
+      {
+        onSuccess: (data) => {
+          callbacks.onSuccess?.();
+        },
+        onError: (error) => {
+          callbacks.onError?.(error);
+        },
+        onRequest: () => {
+          callbacks.isPending?.(true);
+        },
+        onResponse: () => {
+          callbacks.isPending?.(false);
+        },
+      }
+    );
+  }
+
   static async signInWithPassword(
     formData: ISignInWithPasswordFormData,
     callbacks: {
