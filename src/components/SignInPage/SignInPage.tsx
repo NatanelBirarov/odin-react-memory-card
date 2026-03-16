@@ -11,9 +11,9 @@ import {
   ISignInWithPasswordFormData,
 } from "../../scripts/types";
 import Button from "../Button/Button";
-import { APIError } from "better-auth/*";
 
 import styles from "./SignInPage.module.css";
+import { set } from "zod";
 
 export default function SignInPage() {
   const {
@@ -51,7 +51,7 @@ export default function SignInPage() {
 
   const handleOTPKeyDown = (
     index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
+    e: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     // Move to previous input on backspace if current input is empty
     // setValue(`digit${index + 1}` as keyof ISignInOTPFormData, "");
@@ -72,44 +72,37 @@ export default function SignInPage() {
 
       console.log("OTP code:", otpCode); // Debug log
 
-      const { data, error } = await ApiClient.verifyOTP(
-        { email, otp: otpCode },
-        {
-          onSuccess: () => {
-            // On success
-            navigate(`/${redirectTo}`);
-          },
-        }
-      );
+      await ApiClient.verifyOTP({
+        email,
+        otp: otpCode,
+      });
+      setErrorList([]);
+      navigate(`/${redirectTo}`);
     } catch (error: any) {
       console.log("OTP verification error:", error);
-      setErrorList([error.message || "An unexpected error occurred"]);
+      const errors = Array.isArray(error.message)
+        ? error.message
+        : [error.message || "Sign up failed"];
+      setErrorList(errors);
     }
   }
 
   async function onSignInSubmit(formData: ISignInFormData) {
-    setIsOTPSent(true);
-    // try {
-    //   const { data, error } = await ApiClient.signInWithOTP(formData, {
-    //     onSuccess: () => {
-    //       // On success
-    //       setIsOTPSent(true);
-    //     },
-    //     onError: (error: APIError) => {
-    //       // On error
-    //       const errors = Array.isArray(error.message)
-    //         ? error.message
-    //         : [error.message || "Sign up failed"];
-    //       setErrorList(errors);
-    //     },
-    //     isPending: (pending) => {
-    //       setIsPending(pending);
-    //     },
-    //   });
-    // } catch (error: any) {
-    //   console.log("Sign up error:", error);
-    //   setErrorList([error.message || "An unexpected error occurred"]);
-    // }
+    // setIsOTPSent(true);
+    setIsPending(true);
+    try {
+      await ApiClient.signInWithOTP(formData);
+      setIsOTPSent(true);
+      setErrorList([]); // Clear any previous errors on success
+    } catch (error: any) {
+      console.log("Sign up error:", error);
+      const errors = Array.isArray(error.message)
+        ? error.message
+        : [error.message || "Sign up failed"];
+      setErrorList(errors);
+    } finally {
+      setIsPending(false);
+    }
   }
 
   return (

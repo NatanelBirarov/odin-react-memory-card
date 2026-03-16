@@ -1,5 +1,4 @@
 // src/scripts/apiClient.ts (client-side)
-import { form } from "../components/SignInPage/SignInPage.module.css";
 import { authClient } from "./authClient";
 import type {
   ISignInFormData,
@@ -12,105 +11,32 @@ import { ISignUpFormData } from "./validationSchemas";
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
 export default class ApiClient {
-  static async signUp(
-    formData: ISignUpFormData,
-    callbacks: {
-      onSuccess?: () => void;
-      onError?: (error: any) => void;
-      isPending?: (pending: boolean) => void;
-    }
-  ) {
+  static async signUp(formData: ISignUpFormData) {
     console.log("ApiClient.signUp called with formData:", formData);
-    return await authClient.signUp.email(
-      {
-        name: formData.username,
-        email: formData.email,
-        password: formData.password,
-        image: formData.image[0]?.name || "",
-        // callbackURL: `${
-        //   import.meta.env.VITE_CLIENT_URL || "http://localhost:5173/"
-        // }titlescreen`,
-        callbackURL: "http://localhost:5173/verify",
-      },
-      {
-        onSuccess: (data) => {
-          console.log("Sign up successful:", data);
-          callbacks.onSuccess?.();
-        },
-        onError: (error) => {
-          console.log("Sign up error:", error);
-          callbacks.onError?.(error);
-        },
-        onRequest: () => {
-          console.log("Sign up request started");
-          callbacks.isPending?.(true);
-        },
-        onResponse: () => {
-          console.log("Sign up request ended");
-          callbacks.isPending?.(false);
-        },
-      }
-    );
+    return await authClient.signUp.email({
+      name: formData.username,
+      email: formData.email,
+      password: formData.password,
+      image: formData.image[0]?.name || "",
+      // callbackURL: `${
+      //   import.meta.env.VITE_CLIENT_URL || "http://localhost:5173/"
+      // }titlescreen`,
+      callbackURL: "http://localhost:5173/verify",
+    });
   }
 
-  static async signInWithOTP(
-    formData: ISignInFormData,
-    callbacks: {
-      onSuccess?: () => void;
-      onError?: (error: any) => void;
-      isPending?: (pending: boolean) => void;
-    }
-  ) {
-    return await authClient.emailOtp.sendVerificationOtp(
-      {
-        email: formData.email, // required
-        type: "sign-in",
-      },
-      {
-        onSuccess: (data) => {
-          callbacks.onSuccess?.();
-        },
-        onError: (error) => {
-          callbacks.onError?.(error);
-        },
-        onRequest: () => {
-          callbacks.isPending?.(true);
-        },
-        onResponse: () => {
-          callbacks.isPending?.(false);
-        },
-      }
-    );
+  static async signInWithOTP(formData: ISignInFormData) {
+    return await authClient.emailOtp.sendVerificationOtp({
+      email: formData.email, // required
+      type: "sign-in",
+    });
   }
 
-  static async verifyOTP(
-    formData: { email: string; otp: string },
-    callbacks: {
-      onSuccess?: () => void;
-      onError?: (error: any) => void;
-      isPending?: (pending: boolean) => void;
-    }
-  ) {
-    return authClient.signIn.emailOtp(
-      {
-        email: formData.email, // required
-        otp: formData.otp, // required
-      },
-      {
-        onSuccess: (data) => {
-          callbacks.onSuccess?.();
-        },
-        onError: (error) => {
-          callbacks.onError?.(error);
-        },
-        onRequest: () => {
-          callbacks.isPending?.(true);
-        },
-        onResponse: () => {
-          callbacks.isPending?.(false);
-        },
-      }
-    );
+  static async verifyOTP(formData: { email: string; otp: string }) {
+    return authClient.signIn.emailOtp({
+      email: formData.email, // required
+      otp: formData.otp, // required
+    });
   }
 
   static async signInWithPassword(
@@ -119,7 +45,7 @@ export default class ApiClient {
       onSuccess?: () => void;
       onError?: (error: any) => void;
       isPending?: (pending: boolean) => void;
-    }
+    },
   ) {
     return await authClient.signIn.email(
       {
@@ -141,12 +67,12 @@ export default class ApiClient {
         onResponse: () => {
           callbacks.isPending?.(false);
         },
-      }
+      },
     );
   }
 
   static async getSettings() {
-    const response = await fetch(`${API_BASE}/api/settings/`, {
+    const response = await fetch(`${API_BASE}/settings/`, {
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
@@ -155,8 +81,9 @@ export default class ApiClient {
   }
 
   static async updateSettings(musicVolume: number, sfxVolume: number) {
-    const response = await fetch(`${API_BASE}/api/settings/`, {
+    const response = await fetch(`${API_BASE}/settings/`, {
       method: "PUT",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ musicVolume, sfxVolume }),
     });
@@ -165,7 +92,7 @@ export default class ApiClient {
   }
 
   static async getAllGameData(userId: string): Promise<SetDataType[]> {
-    const response = await fetch(`${API_BASE}/api/gamedata/`, {
+    const response = await fetch(`${API_BASE}/gamedata/`, {
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
@@ -174,7 +101,7 @@ export default class ApiClient {
   }
 
   static async saveGameData(userId: string, gameData: SetDataType) {
-    const response = await fetch(`${API_BASE}/api/gamedata`, {
+    const response = await fetch(`${API_BASE}/gamedata`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId, ...gameData }),

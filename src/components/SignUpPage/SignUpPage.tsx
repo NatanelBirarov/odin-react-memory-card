@@ -1,5 +1,5 @@
 import { useForm, FieldError } from "react-hook-form";
-import z from "zod";
+import z, { set } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
@@ -60,31 +60,24 @@ export default function SignUpPage() {
 
   async function onSubmit(formData: ISignUpFormData) {
     console.log("Submitting form data:", formData);
+    setIsPending(true);
     try {
-      const { data, error } = await ApiClient.signUp(formData, {
-        onSuccess: () => {
-          setSuccessMessage(
-            "Please check your email to verify your account. Once verified, the page will automatically redirect."
-          );
-          setWaitingForVerification(true);
-        },
-        onError: (error) => {
-          // On error
-          console.log("Sign up error:", error);
-          const errors = Array.isArray(error.message)
-            ? error.message
-            : [error.message || "Sign up failed"];
-          setErrorList(errors);
-          setWaitingForVerification(false);
-        },
-        isPending: (pending) => {
-          setIsPending(pending);
-        },
-      });
+      await ApiClient.signUp(formData);
+      setSuccessMessage(
+        "Please check your email to verify your account. Once verified, the page will automatically redirect.",
+      );
+      setWaitingForVerification(true);
+      setErrorList([]);
     } catch (error: any) {
       // Handle sign up error (e.g., show error messages)
       console.log("Sign up error:", error);
-      setErrorList([error.message || "An unexpected error occurred"]);
+      const errors = Array.isArray(error.message)
+        ? error.message
+        : [error.message || "Sign up failed"];
+      setErrorList(errors);
+      setWaitingForVerification(false);
+    } finally {
+      setIsPending(false);
     }
   }
 
@@ -260,8 +253,8 @@ export default function SignUpPage() {
                 {"message" in errors.image
                   ? (errors.image.message as string)
                   : "image" in errors.image
-                  ? (errors.image.image?.message as string)
-                  : "Invalid file"}
+                    ? (errors.image.image?.message as string)
+                    : "Invalid file"}
               </span>
             )}
           </div>
