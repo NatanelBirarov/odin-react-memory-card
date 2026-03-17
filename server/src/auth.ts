@@ -134,10 +134,9 @@ export const auth = betterAuth({
           const payload = JSON.parse(
             Buffer.from(
               parts[1].replace(/-/g, "+").replace(/_/g, "/"),
-              "base64"
-            ).toString()
+              "base64",
+            ).toString(),
           );
-
           console.log("Decoded token payload:", payload);
           const email = payload.email;
           const user = await prisma.user.findUnique({

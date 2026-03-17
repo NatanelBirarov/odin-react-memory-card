@@ -72,12 +72,20 @@ export default function SignInPage() {
 
       console.log("OTP code:", otpCode); // Debug log
 
-      await ApiClient.verifyOTP({
+      const { data, error } = await ApiClient.verifyOTP({
         email,
         otp: otpCode,
       });
-      setErrorList([]);
-      navigate(`/${redirectTo}`);
+      if (error) {
+        console.log("OTP verification error:", error);
+        const errors = Array.isArray(error.message)
+          ? error.message
+          : [error.message || "Sign up failed"];
+        setErrorList(errors);
+      } else {
+        setErrorList([]);
+        navigate(`/${redirectTo}`);
+      }
     } catch (error: any) {
       console.log("OTP verification error:", error);
       const errors = Array.isArray(error.message)
@@ -91,9 +99,17 @@ export default function SignInPage() {
     // setIsOTPSent(true);
     setIsPending(true);
     try {
-      await ApiClient.signInWithOTP(formData);
-      setIsOTPSent(true);
-      setErrorList([]); // Clear any previous errors on success
+      const { data, error } = await ApiClient.signInWithOTP(formData);
+      if (error) {
+        console.log("Sign in error:", error);
+        const errors = Array.isArray(error.message)
+          ? error.message
+          : [error.message || "Sign in failed"];
+        setErrorList(errors);
+      } else {
+        setIsOTPSent(true);
+        setErrorList([]); // Clear any previous errors on success
+      }
     } catch (error: any) {
       console.log("Sign up error:", error);
       const errors = Array.isArray(error.message)

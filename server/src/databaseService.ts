@@ -39,7 +39,7 @@ export default class DatabaseService {
     const data = await prisma.levelData.findMany({
       where: { userId },
     });
-    return data.map((item) => ({
+    return data.map((item: any) => ({
       id: item.setId,
       completedLevels: item.completedLevels,
       levels: item.levels,
@@ -56,7 +56,7 @@ export default class DatabaseService {
    */
   static async getGameDataBySet(
     userId: string,
-    setId: string
+    setId: string,
   ): Promise<SetDataType | null> {
     const data = await prisma.levelData.findUnique({
       where: { userId, setId }, // Composite unique key
@@ -78,7 +78,7 @@ export default class DatabaseService {
    */
   static async upsertLevelData(
     userId: string,
-    gameData: SetDataType
+    gameData: SetDataType,
   ): Promise<void> {
     await prisma.levelData.upsert({
       where: { userId, setId: gameData.id }, // Composite unique key
@@ -149,7 +149,7 @@ export default class DatabaseService {
   static async updateSettings(
     userId: string,
     musicVolume: number,
-    sfxVolume: number
+    sfxVolume: number,
   ) {
     const existing = await prisma.settings.findFirst({
       where: { userId },

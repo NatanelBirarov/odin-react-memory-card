@@ -28,4 +28,4 @@ public/data/card-original/
 *.sln
 *.sw?
 
-/src/generated/prisma
+server/src/generated/prisma

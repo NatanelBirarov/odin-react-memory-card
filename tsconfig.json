@@ -12,5 +12,9 @@
     "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "types": ["node", "vite/client"]
   },
-  "include": ["src", ".vscode/server/src/databaseService.ts"]
+  "include": [
+    "src",
+    ".vscode/server/src/databaseService.ts",
+    "server/src/prisma"
+  ]
 }

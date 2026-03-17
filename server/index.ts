@@ -1,4 +1,3 @@
-// server/index.js
 import express from "express";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./src/auth.js";
@@ -36,7 +35,7 @@ app.use(
     },
     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed HTTP methods
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  })
+  }),
 );
 
 // Auth Routes
@@ -45,7 +44,7 @@ app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use(express.json());
 app.use(cookieParser());
 
-// // Settings Routes
+// Settings Routes
 app.get("/api/settings/", authMiddleware, async (req: AuthRequest, res) => {
   try {
     if (!req.userId) {
@@ -71,13 +70,13 @@ app.put(
       const settings = await DatabaseService.updateSettings(
         req.userId,
         musicVolume,
-        sfxVolume
+        sfxVolume,
       );
       res.json(settings);
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }
-  }
+  },
 );
 
 // // Game Data Routes
@@ -114,7 +113,7 @@ app.post(
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }
-  }
+  },
 );
 
 app.listen(process.env.PORT, () => console.log("Server running on port 3001"));
