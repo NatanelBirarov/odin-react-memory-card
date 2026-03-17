@@ -9,19 +9,9 @@ export default function EmailVerificationPage() {
   const [verificationStatus, setVerificationStatus] = useState<
     "loading" | "success" | "error"
   >("loading");
-  const [errorReason, setErrorReason] = useState<string>("");
 
   useEffect(() => {
     const verifyEmail = async () => {
-      // Check for invalid-token parameter
-      const invalidToken = searchParams.get("invalid-token");
-
-      if (invalidToken) {
-        setVerificationStatus("error");
-        setErrorReason("invalid-token");
-        return;
-      }
-
       // Get verification token from URL
       const userSession = await authClient.getSession();
 
@@ -29,7 +19,6 @@ export default function EmailVerificationPage() {
         setVerificationStatus("success");
       } else {
         setVerificationStatus("error");
-        setErrorReason("verification-failed");
       }
     };
 
@@ -87,9 +76,7 @@ export default function EmailVerificationPage() {
         <div className={styles.errorIcon}>✗</div>
         <h1 className={styles.title}>Verification Failed</h1>
         <p className={styles.message}>
-          {errorReason === "invalid-token"
-            ? "The verification link is invalid or has expired."
-            : "We couldn't verify your email. The verification link may be invalid or expired."}
+          "The verification link is invalid or has expired."
         </p>
         <p className={styles.submessage}>
           Please request a new verification email or contact support if the

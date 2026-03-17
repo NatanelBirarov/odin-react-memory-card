@@ -126,37 +126,6 @@ export const auth = betterAuth({
           },
         };
       }
-      if (ctx.path === "/verify-email") {
-        const token = ctx.query?.token as string;
-        const parts = token.split(".");
-        if (parts.length === 3) {
-          // Decode the payload (second part)
-          const payload = JSON.parse(
-            Buffer.from(
-              parts[1].replace(/-/g, "+").replace(/_/g, "/"),
-              "base64",
-            ).toString(),
-          );
-          console.log("Decoded token payload:", payload);
-          const email = payload.email;
-          const user = await prisma.user.findUnique({
-            where: { email },
-          });
-          if (user?.emailVerified) {
-            const callbackURL = ctx.query?.callbackURL as string;
-            console.log("Email alrerady verified, " + callbackURL);
-            return {
-              context: {
-                ...ctx,
-                query: {
-                  ...ctx.query,
-                  callbackURL: callbackURL + "?token-invalid=true",
-                },
-              },
-            };
-          }
-        }
-      }
       return { context: ctx };
     }),
   },

@@ -1,15 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Loader from "../Loader/Loader";
 import Card from "../Card/Card";
 import Score from "../Scores/Scores";
 import Modal, { ModalBlockRow, ModalText } from "../Modal/Modal";
 import LocalStorageFactory from "../../scripts/localStorageFactory";
-import {
-  useNavigate,
-  useNavigation,
-  useOutletContext,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import SettingsPage from "../SettingsPage/SettingsPage";
 import Menu from "../Menu/Menu";
 import HowToPlayPage from "../HowToPlayPage/HowToPlay";
@@ -34,77 +28,126 @@ export default function GamePage() {
     musicVolume,
   } = useOutletContext<ContextType>();
 
-  const gameData: GameDataType = LocalStorageFactory.get("gameData");
+  const gameData: GameDataType = LocalStorageFactory.get("gameData") || [];
 
   // const pokemonData = useLoaderData();
   const params = useParams();
 
-  type GamePageData = { data: CardData[] };
-  const { data: pokemonData } = useQuery(
-    gamePageQuery(params.setId || "")
-  ) as GamePageData;
-  const navigation = useNavigation();
+  type GamePageData = {
+    data: CardData[] | undefined;
+    isError: boolean;
+    refetch: () => void;
+  };
+  const {
+    data: pokemonData,
+    isError: isPokemonError,
+    refetch,
+  } = useQuery(gamePageQuery(params.setId || "")) as GamePageData;
   const navigate = useNavigate();
 
-  const setId = pokemonData[0].id.split("-")[0];
+  const setId = pokemonData?.[0]?.id?.split("-")[0] || params.setId;
   const setData = gameData.find((set) => set.id === setId);
 
-  const [isLoading, setIsLoading] = useState(true);
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(setData?.highScore || 0);
   const [currentLevelCards, setCurrentLevelCards] = useState<CardData[]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [showModal, setShowModal] = useState(0);
   const [currentLevel, setCurrentLevel] = useState(
-    setData?.completedLevels ? setData.completedLevels + 1 : 1
+    setData?.completedLevels ? setData.completedLevels + 1 : 1,
   );
 
-  const pokemonSetCards = useRef<CardData[]>([]);
+  const pokemonSetCards = useMemo(() => {
+    if (!pokemonData) return [];
+
+    return pokemonData.map((card) => {
+      return {
+        id: card.id,
+        name: card.name,
+        image: card.images ? card.images.large : "",
+        clicked: false,
+      };
+    });
+  }, [pokemonData]);
   const bgAudioRef = useRef<HTMLAudioElement>(null);
   const resultAudioRef = useRef<HTMLAudioElement>(
-    new Audio("/audio/result.mp3")
+    new Audio("/audio/result.mp3"),
   );
-
-  useEffect(() => {
-    if (bgAudioRef.current) bgAudioRef.current.volume = musicVolume;
-  }, [musicVolume]);
-
-  if (navigation.state === "loading") return <Loader />;
-
-  pokemonSetCards.current = useMemo(() => {
-    let transformedData: CardData[] = [];
-    if (pokemonData) {
-      transformedData = pokemonData.map((card) => {
-        return {
-          id: card.id,
-          name: card.name,
-          image: card.images ? card.images.large : "",
-          clicked: false,
-        };
-      });
-    }
-    return transformedData;
-  }, [pokemonData]);
 
   const levels = setData?.levels || 1;
 
   const updateLevel = useCallback(() => {
     const start = (currentLevel - 1) * 10;
     const end =
-      pokemonSetCards.current.length - ((currentLevel - 1) * 10 + 10) > 5
+      pokemonSetCards.length - ((currentLevel - 1) * 10 + 10) > 5
         ? (currentLevel - 1) * 10 + 10
-        : pokemonSetCards.current.length;
-    const newLevelCards = pokemonSetCards.current.slice(start, end);
+        : pokemonSetCards.length;
+    const newLevelCards = pokemonSetCards.slice(start, end);
     setCurrentLevelCards(newLevelCards);
   }, [currentLevel, pokemonSetCards]);
 
   useEffect(() => {
-    setIsLoading(true);
+    if (bgAudioRef.current) bgAudioRef.current.volume = musicVolume;
+  }, [musicVolume]);
+
+  useEffect(() => {
     updateLevel();
     setCurrentScore(0);
     setHighScore(0);
-    setIsLoading(false);
-  }, [currentLevel]);
+  }, [updateLevel]);
+
+  if (isPokemonError) {
+    return (
+      <>
+        <audio ref={bgAudioRef} src="/audio/gameBg.mp3" autoPlay loop />
+        {showSettings && (
+          <SettingsPage onClose={() => setShowSettings(false)} />
+        )}
+        {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
+        <div className={styles.gameState}>
+          <span className={styles.level}>Could not load cards.</span>
+          <ModalBlockRow>
+            <Button type="modal" onClick={() => refetch()}>
+              <div className={modalStyles.modalText}>Retry</div>
+            </Button>
+            <Button type="modal" onClick={() => navigate("/selectionpage")}>
+              <div className={modalStyles.modalText}>Select set</div>
+            </Button>
+          </ModalBlockRow>
+        </div>
+        <Menu
+          onShowSettings={() => setShowSettings(true)}
+          onShowHowTo={() => setShowHowTo(true)}
+          onReturnToSelection={() => navigate("/selectionpage")}
+        />
+      </>
+    );
+  }
+
+  if (!pokemonData?.length) {
+    return (
+      <>
+        <audio ref={bgAudioRef} src="/audio/gameBg.mp3" autoPlay loop />
+        {showSettings && (
+          <SettingsPage onClose={() => setShowSettings(false)} />
+        )}
+        {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
+        <div className={styles.gameState}>
+          <span className={styles.level}>No cards found for this set.</span>
+          <ModalBlockRow>
+            <Button type="modal" onClick={() => navigate("/selectionpage")}>
+              <div className={modalStyles.modalText}>Back to sets</div>
+            </Button>
+          </ModalBlockRow>
+        </div>
+        <Menu
+          onShowSettings={() => setShowSettings(true)}
+          onShowHowTo={() => setShowHowTo(true)}
+          onReturnToSelection={() => navigate("/selectionpage")}
+        />
+      </>
+    );
+  }
 
   function handleEndLevelScreen(state: number, isSuccess: boolean) {
     setShowModal(0);
@@ -221,46 +264,42 @@ export default function GamePage() {
       ) : (
         ""
       )}
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <div className={styles.header}>
-            <Img type="small" src="/images/pokeball-main.png" alt="Logo" />
-            <div className={styles.logo}>
-              <Img src="/images/logo1.png" alt="Logo" type="medium" />
-              <Img src="/images/logo2.png" alt="Logo" type="medium" />
-            </div>
-            <Img type="small" src="/images/pokeball-main.png" alt="Logo" />
+      <>
+        <div className={styles.header}>
+          <Img type="small" src="/images/pokeball-main.png" alt="Logo" />
+          <div className={styles.logo}>
+            <Img src="/images/logo1.png" alt="Logo" type="medium" />
+            <Img src="/images/logo2.png" alt="Logo" type="medium" />
           </div>
-          <>
-            <div className={styles.gameState}>
-              <span className={styles.level}>Level: {currentLevel}</span>
-              <Score currentScore={currentScore} highScore={highScore || 0} />
-            </div>
-            {/* <div className="container"> */}
-            <div className={styles.cards}>
-              {currentLevelCards.map((card) => (
-                <Card
-                  key={card.id}
-                  name={card.name}
-                  image={card.image || ""}
-                  isShuffling={isShuffling}
-                  setIsShuffling={setIsShuffling}
-                  currentScore={currentScore}
-                  setCurrentScore={setCurrentScore}
-                  highScore={highScore || 0}
-                  setHighScore={setHighScore}
-                  currentLevelCards={currentLevelCards}
-                  setCurrentLevelCards={setCurrentLevelCards}
-                  setShowModal={setShowModal}
-                />
-              ))}
-            </div>
-            {/* </div> */}
-          </>
+          <Img type="small" src="/images/pokeball-main.png" alt="Logo" />
+        </div>
+        <>
+          <div className={styles.gameState}>
+            <span className={styles.level}>Level: {currentLevel}</span>
+            <Score currentScore={currentScore} highScore={highScore || 0} />
+          </div>
+          {/* <div className="container"> */}
+          <div className={styles.cards}>
+            {currentLevelCards.map((card) => (
+              <Card
+                key={card.id}
+                name={card.name}
+                image={card.image || ""}
+                isShuffling={isShuffling}
+                setIsShuffling={setIsShuffling}
+                currentScore={currentScore}
+                setCurrentScore={setCurrentScore}
+                highScore={highScore || 0}
+                setHighScore={setHighScore}
+                currentLevelCards={currentLevelCards}
+                setCurrentLevelCards={setCurrentLevelCards}
+                setShowModal={setShowModal}
+              />
+            ))}
+          </div>
+          {/* </div> */}
         </>
-      )}
+      </>
       <Menu
         onShowSettings={() => setShowSettings(true)}
         onShowHowTo={() => setShowHowTo(true)}

@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import Tilt from "react-parallax-tilt";
-import Loader from "../Loader/Loader";
 import SettingsPage from "../SettingsPage/SettingsPage";
-import { useNavigate, useNavigation, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import HowToPlayPage from "../HowToPlayPage/HowToPlay";
 import Button from "../Button/Button";
 import { useQuery } from "@tanstack/react-query";
@@ -30,16 +29,33 @@ export default function TitlePage() {
   } = useOutletContext<ContextType>();
 
   const bgAudioRef = useRef<HTMLAudioElement | null>(null);
-  const backgroundCards = useRef<CardData[]>([]);
-  const firstLoad = useRef(true);
-  const navigation = useNavigation();
   const navigate = useNavigate();
   const userSession = authClient.useSession();
 
   const isLogged = userSession.data?.user ? true : false;
 
-  type TitlePageData = { data: CardData[] };
-  let { data: pokemonData } = useQuery(titlePageQuery()) as TitlePageData;
+  type TitlePageData = {
+    data: CardData[] | undefined;
+  };
+  const { data: pokemonData } = useQuery(
+    titlePageQuery() as any,
+  ) as TitlePageData;
+
+  const backgroundCards = useMemo<CardData[]>(() => {
+    if (!pokemonData?.length) return [];
+
+    const pool = [...pokemonData];
+    const selectedCards: CardData[] = [];
+    const cardCount = Math.min(30, pool.length);
+
+    for (let i = 0; i < cardCount; i += 1) {
+      const randomIndex = Math.floor(Math.random() * pool.length);
+      const [randomCard] = pool.splice(randomIndex, 1);
+      if (randomCard) selectedCards.push(randomCard);
+    }
+
+    return selectedCards;
+  }, [pokemonData]);
 
   useEffect(() => {
     if (bgAudioRef.current) bgAudioRef.current.volume = musicVolume;
@@ -57,32 +73,12 @@ export default function TitlePage() {
       }
     }
     if (isLogged) loadSettings();
-  }, []);
+  }, [isLogged]);
 
   async function handleSignOut() {
     await authClient.signOut();
     LocalStorageFactory.clear();
   }
-
-  backgroundCards.current = useMemo<CardData[]>(() => {
-    let transformedData: CardData[] = [];
-    if (pokemonData) {
-      if (firstLoad.current) {
-        transformedData = Array.from(Array(30).keys()).map(() => {
-          const randomCard: CardData =
-            pokemonData[Math.floor(Math.random() * pokemonData.length)];
-          pokemonData = pokemonData.filter(
-            (card: CardData) => card.id !== randomCard.id
-          );
-          return randomCard;
-        });
-        firstLoad.current = false;
-      }
-    }
-    return transformedData;
-  }, [pokemonData]);
-
-  if (navigation.state === "loading") return <Loader />;
 
   return (
     <>
@@ -94,7 +90,7 @@ export default function TitlePage() {
         <div className="title-screen-border-inner"></div>
       </div> */}
         <div className={styles.background}>
-          {backgroundCards.current.map((card: CardData) => (
+          {backgroundCards.map((card: CardData) => (
             <Tilt
               key={card.id}
               perspective={500}
