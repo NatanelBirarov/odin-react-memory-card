@@ -130,8 +130,9 @@ export const auth = betterAuth({
     }),
   },
   trustedOrigins: [
-    "http://localhost:5173", // Example for local development
-    process.env.CLIENT_URL || "", // Example for production
+    process.env.NODE_ENV === "production"
+      ? process.env.CLIENT_URL_PROD || "http://localhost:5173"
+      : process.env.CLIENT_URL_DEV || "http://localhost:5173", // Example for local development
   ],
 });
 

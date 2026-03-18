@@ -28,7 +28,11 @@ export default function ResetPasswordRequestPage() {
     try {
       await authClient.requestPasswordReset({
         email: formData.email,
-        redirectTo: "http://localhost:5173/reset-password",
+        redirectTo: `${
+          import.meta.env.VITE_ENV === "production"
+            ? import.meta.env.VITE_CLIENT_URL
+            : import.meta.env.VITE_CLIENT_URL_DEV
+        }reset-password`, // URL to redirect to after password reset
       });
       setIsEmailSent(true);
     } catch (error: any) {

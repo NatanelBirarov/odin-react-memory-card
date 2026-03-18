@@ -13,6 +13,7 @@ import Button from "../Button/Button";
 
 import styles from "./SetSelectionPage.module.css";
 import ApiClient from "../../scripts/apiClient";
+import { authClient } from "../../scripts/authClient";
 
 type SetLogo = {
   id: string;
@@ -34,6 +35,7 @@ export default function SetSelectionPage() {
   const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
   const bgAudioRef = useRef<HTMLAudioElement>(null);
   const gameData = useRef<SetDataType[]>([]);
+  const userSession = authClient.useSession();
   // const pokemonData = useLoaderData();
 
   type SelectionPageData = {
@@ -73,7 +75,9 @@ export default function SetSelectionPage() {
         });
         newGameData = LocalStorageFactory.get("gameData");
         if (!newGameData) {
-          newGameData = await ApiClient.getAllGameData("local-user");
+          newGameData = await ApiClient.getAllGameData(
+            userSession.data?.user.id || "local-user",
+          );
           if (newGameData.length === 0) {
             newGameData = [];
             pokemonSetsData.forEach((set: SetLogo) => {
@@ -166,16 +170,19 @@ export default function SetSelectionPage() {
             const currentSetData = gameData.current[index];
             const unlocked =
               index === 0 || gameData.current[index - 1]?.completed;
-            const isCompleted = currentSetData?.completed ?? false;
+            const isCompleted = currentSetData?.completed ?? false; // Add UX to completed sets
             const completedLevels = currentSetData?.completedLevels ?? 0;
 
             return (
               <React.Fragment key={set.id}>
                 <div
-                  className={`${styles.selection} ${
-                    unlocked && !isCompleted ? "" : styles.locked
-                  }`}
-                  onClick={() => handleSelectGame(set.id)}
+                  className={styles.selection}
+                  onClick={() => {
+                    if (!unlocked) return;
+                    handleSelectGame(set.id);
+                  }}
+                  aria-disabled={!unlocked}
+                  style={{ cursor: unlocked ? "pointer" : "not-allowed" }}
                 >
                   <span className={styles.name}>{set.name}</span>
                   <Img type="selection" src={set.image} alt={set.name} />

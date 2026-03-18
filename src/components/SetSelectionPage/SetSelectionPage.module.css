@@ -23,16 +23,12 @@
 }
 
 .selection:hover {
-  cursor: pointer;
   transform: scale(1.03);
   border: 2px solid #0000;
-  background: linear-gradient(#ddebff, #ddebff) padding-box,
+  background:
+    linear-gradient(#ddebff, #ddebff) padding-box,
     linear-gradient(var(--angle), #000, #ff0000) border-box;
   animation: 4s rotate linear infinite;
-}
-
-.locked {
-  pointer-events: none;
 }
 
 .name {

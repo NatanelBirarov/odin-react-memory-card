@@ -1,27 +1,26 @@
 // src/scripts/apiClient.ts (client-side)
 import { authClient } from "./authClient";
-import type {
-  ISignInFormData,
-  ISignInOTPFormData,
-  ISignInWithPasswordFormData,
-  SetDataType,
-} from "./types";
-import { ISignUpFormData } from "./validationSchemas";
+import type { ISignInWithPasswordFormData, SetDataType } from "./types";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+import { ISignInFormData, ISignUpFormData } from "./validationSchemas";
+
+const API_BASE =
+  import.meta.env.VITE_ENV === "production"
+    ? import.meta.env.VITE_API_URL_PROD
+    : import.meta.env.VITE_API_URL_DEV;
 
 export default class ApiClient {
   static async signUp(formData: ISignUpFormData) {
-    console.log("ApiClient.signUp called with formData:", formData);
     return await authClient.signUp.email({
       name: formData.username,
       email: formData.email,
       password: formData.password,
       image: formData.image[0]?.name || "",
-      // callbackURL: `${
-      //   import.meta.env.VITE_CLIENT_URL || "http://localhost:5173/"
-      // }titlescreen`,
-      callbackURL: "http://localhost:5173/verify",
+      callbackURL: `${
+        import.meta.env.VITE_ENV === "production"
+          ? import.meta.env.VITE_CLIENT_URL
+          : import.meta.env.VITE_CLIENT_URL_DEV
+      }verify`,
     });
   }
 

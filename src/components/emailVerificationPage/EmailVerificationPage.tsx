@@ -25,21 +25,21 @@ export default function EmailVerificationPage() {
     verifyEmail();
   }, [searchParams]);
 
-  useEffect(() => {
-    if (verificationStatus === "success") {
-      const timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(timer);
-            window.close();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [verificationStatus]);
+  // useEffect(() => {
+  //   if (verificationStatus === "success") {
+  //     const timer = setInterval(() => {
+  //       setCountdown((prev) => {
+  //         if (prev <= 1) {
+  //           clearInterval(timer);
+  //           window.close();
+  //           return 0;
+  //         }
+  //         return prev - 1;
+  //       });
+  //     }, 1000);
+  //     return () => clearInterval(timer);
+  //   }
+  // }, [verificationStatus]);
 
   if (verificationStatus === "loading") {
     return (
@@ -62,7 +62,8 @@ export default function EmailVerificationPage() {
             window.
           </p>
           <p className={styles.countdown}>
-            This page will automatically close in {countdown} second
+            {/* This page will automatically close in {countdown} second */}
+            You can now close this window.
             {countdown !== 1 ? "s" : ""}.
           </p>
         </div>
@@ -76,7 +77,7 @@ export default function EmailVerificationPage() {
         <div className={styles.errorIcon}>✗</div>
         <h1 className={styles.title}>Verification Failed</h1>
         <p className={styles.message}>
-          "The verification link is invalid or has expired."
+          The verification link is invalid or has expired.
         </p>
         <p className={styles.submessage}>
           Please request a new verification email or contact support if the

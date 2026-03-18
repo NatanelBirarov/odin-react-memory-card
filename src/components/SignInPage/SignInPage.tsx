@@ -1,27 +1,38 @@
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import ApiClient from "../../scripts/apiClient";
 import Modal from "../Modal/Modal";
 import { useNavigate } from "react-router-dom";
 import {
-  ISignInCombinedFormData,
   ISignInFormData,
   ISignInOTPFormData,
-  ISignInWithPasswordFormData,
-} from "../../scripts/types";
+} from "../../scripts/validationSchemas";
 import Button from "../Button/Button";
+import {
+  signInFormSchema,
+  signInOTPFormSchema,
+} from "../../scripts/validationSchemas";
 
 import styles from "./SignInPage.module.css";
-import { set } from "zod";
+// import { set } from "zod";
 
 export default function SignInPage() {
   const {
-    register,
+    register: registerSignIn,
     formState: { errors },
-    handleSubmit,
+    handleSubmit: handleSubmitSignIn,
+  } = useForm<ISignInFormData>({ resolver: zodResolver(signInFormSchema) });
+
+  const {
+    register: registerOTP,
+    formState: { errors: otpErrors },
+    handleSubmit: handleSubmitOTP,
     setValue,
-  } = useForm<ISignInCombinedFormData>();
+  } = useForm<ISignInOTPFormData>({
+    resolver: zodResolver(signInOTPFormSchema),
+  });
 
   const [email, setEmail] = useState<string>("");
   const [isOTPSent, setIsOTPSent] = useState<boolean>(false);
@@ -61,6 +72,7 @@ export default function SignInPage() {
   };
 
   async function onOTPSubmit(formData: ISignInOTPFormData) {
+    setIsPending(true);
     try {
       const otpCode =
         (formData.digit1 || "") +
@@ -92,6 +104,8 @@ export default function SignInPage() {
         ? error.message
         : [error.message || "Sign up failed"];
       setErrorList(errors);
+    } finally {
+      setIsPending(false);
     }
   }
 
@@ -124,7 +138,7 @@ export default function SignInPage() {
   return (
     <Modal contentType="modalContent">
       {isOTPSent ? (
-        <form className={styles.form} onSubmit={handleSubmit(onOTPSubmit)}>
+        <form className={styles.form} onSubmit={handleSubmitOTP(onOTPSubmit)}>
           <h2 className={styles.title}>Enter OTP</h2>
           {errorList.length > 0 && (
             <div>
@@ -143,7 +157,9 @@ export default function SignInPage() {
                   key={index}
                   type="number"
                   maxLength={1}
-                  {...register(`digit${index + 1}` as keyof ISignInOTPFormData)}
+                  {...registerOTP(
+                    `digit${index + 1}` as keyof ISignInOTPFormData,
+                  )}
                   ref={(el) => {
                     otpInputRefs.current[index] = el;
                   }}
@@ -153,6 +169,16 @@ export default function SignInPage() {
                 />
               ))}
             </div>
+            {(otpErrors.digit1 ||
+              otpErrors.digit2 ||
+              otpErrors.digit3 ||
+              otpErrors.digit4 ||
+              otpErrors.digit5 ||
+              otpErrors.digit6) && (
+              <span>
+                {otpErrors.digit1?.message || "Please enter a valid OTP"}
+              </span>
+            )}
           </div>
 
           <Button type="modal" submit disabled={isPending}>
@@ -160,7 +186,10 @@ export default function SignInPage() {
           </Button>
         </form>
       ) : (
-        <form className={styles.form} onSubmit={handleSubmit(onSignInSubmit)}>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmitSignIn(onSignInSubmit)}
+        >
           <h2 className={styles.title}>Sign In</h2>
           {errorList.length > 0 && (
             <div>
@@ -175,7 +204,7 @@ export default function SignInPage() {
             <label>Email:</label>
             <input
               type="email"
-              {...register("email")}
+              {...registerSignIn("email")}
               aria-invalid={errors.email ? "true" : "false"}
               value={email}
               onChange={(e) => setEmail(e.target.value)}

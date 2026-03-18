@@ -112,7 +112,11 @@ export default function UserProfile() {
       if (trimmedEmail && trimmedEmail !== currentData.current.email) {
         await authClient.changeEmail({
           newEmail: trimmedEmail,
-          callbackURL: "http://localhost:5173/verify", // to redirect after verification
+          callbackURL: `${
+            import.meta.env.VITE_ENV === "production"
+              ? import.meta.env.VITE_CLIENT_URL_PROD
+              : import.meta.env.VITE_CLIENT_URL_DEV
+          }verify`, // to redirect after verification
         });
         currentData.current.email = trimmedEmail;
         setMessage("Email has been changed! Please verify your new email.");

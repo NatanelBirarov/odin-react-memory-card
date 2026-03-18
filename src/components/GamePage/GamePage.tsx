@@ -16,6 +16,7 @@ import modalStyles from "../Modal/Modal.module.css";
 import Img from "../Img/Img";
 import styles from "./GamePage.module.css";
 import ApiClient from "../../scripts/apiClient";
+import { authClient } from "../../scripts/authClient";
 
 type GameDataType = SetDataType[];
 
@@ -56,6 +57,7 @@ export default function GamePage() {
   const [currentLevel, setCurrentLevel] = useState(
     setData?.completedLevels ? setData.completedLevels + 1 : 1,
   );
+  const userSession = authClient.useSession();
 
   const pokemonSetCards = useMemo(() => {
     if (!pokemonData) return [];
@@ -93,7 +95,7 @@ export default function GamePage() {
   useEffect(() => {
     updateLevel();
     setCurrentScore(0);
-    setHighScore(0);
+    // setHighScore(0);
   }, [updateLevel]);
 
   if (isPokemonError) {
@@ -165,7 +167,7 @@ export default function GamePage() {
           return set;
         }
       });
-      ApiClient.saveGameData("local-user", {
+      ApiClient.saveGameData(userSession.data?.user.id || "local-user", {
         ...setData,
         completedLevels: currentLevel,
         completed: currentLevel === levels,
@@ -191,15 +193,17 @@ export default function GamePage() {
     }
   }
 
-  if (showModal !== 0) {
-    if (bgAudioRef.current) {
-      bgAudioRef.current.pause();
-      bgAudioRef.current.currentTime = 0;
+  useEffect(() => {
+    if (showModal !== 0) {
+      if (bgAudioRef.current) {
+        bgAudioRef.current.pause();
+        bgAudioRef.current.currentTime = 0;
+      }
+      setTimeout(() => {
+        resultAudioRef.current.play();
+      }, 500);
     }
-    setTimeout(() => {
-      resultAudioRef.current.play();
-    }, 500);
-  }
+  }, [showModal]);
 
   return (
     <>

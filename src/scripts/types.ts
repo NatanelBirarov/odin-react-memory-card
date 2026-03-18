@@ -42,22 +42,7 @@ export type QueryOptions = {
   params: PokemonTCG.IParameter;
 };
 
-export type ISignInFormData = {
-  email: string;
-};
-
 export type ISignInWithPasswordFormData = {
   email: string;
   password: string;
 };
-
-export type ISignInOTPFormData = {
-  digit1: string;
-  digit2: string;
-  digit3: string;
-  digit4: string;
-  digit5: string;
-  digit6: string;
-};
-
-export type ISignInCombinedFormData = ISignInFormData & ISignInOTPFormData;

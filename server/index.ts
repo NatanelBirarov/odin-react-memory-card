@@ -13,10 +13,9 @@ import {
 import { AuthRequest } from "./src/types.js";
 
 const allowedOrigins = [
-  process.env.CLIENT_URL, // Production frontend URL
-  "http://localhost:5173", // Local development frontend URL
-  "http://localhost:5174", // Backup local port
-  "https://api.pokemontcg.io/v2",
+  process.env.CLIENT_URL_PROD, // Production frontend URL
+  process.env.CLIENT_URL_DEV, // Development frontend URL
+  process.env.POKEMON_API_URL, // Pokémon API URL
 ].filter(Boolean); // Filter out any undefined values
 
 const app = express();
@@ -116,4 +115,6 @@ app.post(
   },
 );
 
-app.listen(process.env.PORT, () => console.log("Server running on port 3001"));
+app.listen(process.env.PORT, () =>
+  console.log(`Server running on port ${process.env.PORT}`),
+);

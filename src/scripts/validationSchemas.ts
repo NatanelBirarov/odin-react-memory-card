@@ -22,7 +22,7 @@ export const formSchema = z
       .regex(
         // At least one uppercase letter, one lowercase letter, one number, and one special character
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
       ),
     confirmPassword: z.string(),
     image: z
@@ -35,7 +35,7 @@ export const formSchema = z
         {
           message: "Max image size is 5MB.",
           path: ["image"],
-        }
+        },
       )
       .refine(
         (files) => {
@@ -45,11 +45,27 @@ export const formSchema = z
         {
           message: "Only .jpg, .jpeg, .png and .webp formats are supported.",
           path: ["image"],
-        }
+        },
       ),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const signInFormSchema = z.object({
+  email: z.email("Invalid email address"),
+});
+
+export const signInOTPFormSchema = z.object({
+  digit1: z.string().regex(/^\d$/, "Please enter a valid 6-digit OTP"),
+  digit2: z.string().regex(/^\d$/, "Please enter a valid 6-digit OTP"),
+  digit3: z.string().regex(/^\d$/, "Please enter a valid 6-digit OTP"),
+  digit4: z.string().regex(/^\d$/, "Please enter a valid 6-digit OTP"),
+  digit5: z.string().regex(/^\d$/, "Please enter a valid 6-digit OTP"),
+  digit6: z.string().regex(/^\d$/, "Please enter a valid 6-digit OTP"),
+});
+
 export type ISignUpFormData = z.infer<typeof formSchema>;
+export type ISignInFormData = z.infer<typeof signInFormSchema>;
+export type ISignInOTPFormData = z.infer<typeof signInOTPFormSchema>;

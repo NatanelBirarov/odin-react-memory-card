@@ -124,7 +124,7 @@ export default class DatabaseService {
    * @returns A promise that resolves to the settings.
    */
   static async getOrCreateSettings(userId: string) {
-    let settings = await prisma.settings.findFirst({
+    let settings = await prisma.settings.findUnique({
       where: { userId },
     });
     if (!settings) {
@@ -151,7 +151,7 @@ export default class DatabaseService {
     musicVolume: number,
     sfxVolume: number,
   ) {
-    const existing = await prisma.settings.findFirst({
+    const existing = await prisma.settings.findUnique({
       where: { userId },
     });
     if (existing) {

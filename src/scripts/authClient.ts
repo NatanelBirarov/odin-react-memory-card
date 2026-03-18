@@ -6,7 +6,11 @@ import {
 
 export const authClient = createAuthClient({
   /** The base URL of the server (optional if you're using the same domain) */
-  baseURL: `${import.meta.env.VITE_API_URL || "http://localhost:3001/"}/auth`,
+  baseURL: `${
+    import.meta.env.VITE_ENV === "production"
+      ? import.meta.env.VITE_API_URL_PROD
+      : import.meta.env.VITE_API_URL_DEV
+  }/auth`,
   plugins: [
     inferAdditionalFields({
       user: {

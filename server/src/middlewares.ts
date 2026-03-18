@@ -9,11 +9,12 @@ import { gameDataSchema, settingsSchema } from "./schemas.js";
 export const authMiddleware = async (
   req: AuthRequest,
   res: express.Response,
-  next: express.NextFunction
+  next: express.NextFunction,
 ): Promise<void> => {
   try {
     const session = await getCurrentSession(req.headers);
-    console.log("Auth middleware session:", session);
+    process.env.NODE_ENV === "development" &&
+      console.log("Auth middleware session:", session);
     if (!session) {
       res.status(401).json({ error: "Unauthorized" });
       return;
@@ -32,7 +33,7 @@ export const authMiddleware = async (
 export const validateSettingsMiddleware = (
   req: AuthRequest,
   res: express.Response,
-  next: express.NextFunction
+  next: express.NextFunction,
 ): void => {
   const { musicVolume, sfxVolume } = req.body;
 
@@ -53,7 +54,7 @@ export const validateSettingsMiddleware = (
 export const validateGameDataMiddleware = (
   req: AuthRequest,
   res: express.Response,
-  next: express.NextFunction
+  next: express.NextFunction,
 ): void => {
   const { setId, completedLevels, levels, highScore, completed } = req.body;
   const validation = gameDataSchema.safeParse({
