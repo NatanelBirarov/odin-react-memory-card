@@ -80,7 +80,9 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url, token }) => {
-      console.log("Sending verification email to:", user.email);
+      if (process.env.NODE_ENV === "development") {
+        console.log("Sending verification email to:", user.email);
+      }
       await sendEmail({
         to: user.email,
         subject: "Verify your email address",
@@ -103,7 +105,9 @@ export const auth = betterAuth({
     },
     afterEmailVerification: async (user, request) => {
       // Additional actions after email verification can be added here
-      console.log(`${user.email} has verified their email.`);
+      if (process.env.NODE_ENV === "development") {
+        console.log(`${user.email} has verified their email.`);
+      }
     },
   },
   hooks: {

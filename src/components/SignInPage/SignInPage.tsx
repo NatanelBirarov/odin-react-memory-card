@@ -41,7 +41,10 @@ export default function SignInPage() {
   const navigate = useNavigate();
 
   const params = new URLSearchParams(window.location.search);
-  const redirectTo = params.get("redirectTo") || "/";
+  const redirectTo = params.get("redirectTo") || "/titlepage";
+  const normalizedRedirect = redirectTo.startsWith("/")
+    ? redirectTo
+    : `/${redirectTo}`;
 
   const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -92,17 +95,17 @@ export default function SignInPage() {
         console.log("OTP verification error:", error);
         const errors = Array.isArray(error.message)
           ? error.message
-          : [error.message || "Sign up failed"];
+          : [error.message || "Sign in failed"];
         setErrorList(errors);
       } else {
         setErrorList([]);
-        navigate(`/${redirectTo}`);
+        navigate(normalizedRedirect);
       }
     } catch (error: any) {
       console.log("OTP verification error:", error);
       const errors = Array.isArray(error.message)
         ? error.message
-        : [error.message || "Sign up failed"];
+        : [error.message || "Sign in failed"];
       setErrorList(errors);
     } finally {
       setIsPending(false);
@@ -125,10 +128,10 @@ export default function SignInPage() {
         setErrorList([]); // Clear any previous errors on success
       }
     } catch (error: any) {
-      console.log("Sign up error:", error);
+      console.log("Sign in error:", error);
       const errors = Array.isArray(error.message)
         ? error.message
-        : [error.message || "Sign up failed"];
+        : [error.message || "Sign in failed"];
       setErrorList(errors);
     } finally {
       setIsPending(false);

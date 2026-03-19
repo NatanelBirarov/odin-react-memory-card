@@ -12,8 +12,7 @@ import Img from "../Img/Img";
 import Button from "../Button/Button";
 
 import styles from "./SetSelectionPage.module.css";
-import ApiClient from "../../scripts/apiClient";
-import { authClient } from "../../scripts/authClient";
+import { useGameDataQuery } from "../../scripts/gameDataHooks";
 
 type SetLogo = {
   id: string;
@@ -35,30 +34,38 @@ export default function SetSelectionPage() {
   const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
   const bgAudioRef = useRef<HTMLAudioElement>(null);
   const gameData = useRef<SetDataType[]>([]);
-  const userSession = authClient.useSession();
+  // Read locally cached progress immediately so the page can render without waiting for a network call.
+  const [localGameData] = useState(
+    () => LocalStorageFactory.get("gameData") as SetDataType[] | null,
+  );
+  // Keep game progress in React Query cache and seed it with localStorage data as initial state.
+  // This lets us show existing progress instantly and still support remote sync/refetch behavior.
+  const { data: persistedGameData = [], isError: isGameDataError } =
+    useGameDataQuery(localGameData || undefined);
   // const pokemonData = useLoaderData();
 
   type SelectionPageData = {
     data: PokemonTCG.ISet[] | undefined;
     isError: boolean;
-    refetch: () => void;
   };
-  const {
-    data: pokemonData,
-    isError: isPokemonError,
-    refetch,
-  } = useQuery(selectionPageQuery()) as SelectionPageData;
+  const { data: pokemonData, isError: isPokemonError } = useQuery(
+    selectionPageQuery(),
+  ) as SelectionPageData;
   const navigate = useNavigate();
+
+  function handleReloadPage() {
+    window.location.reload();
+  }
 
   useEffect(() => {
     if (bgAudioRef.current) bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
 
   useEffect(() => {
-    const fetchGameData = async () => {
-      let newGameData: SetDataType[] = [];
+    const fetchGameData = () => {
       let pokemonSetsData: SetLogo[] = [];
       if (pokemonData) {
+        // Convert API set metadata into UI-friendly cards and derive amount of playable levels.
         pokemonSetsData = pokemonData.map((set: PokemonTCG.ISet) => {
           return {
             id: set.id,
@@ -73,39 +80,35 @@ export default function SetSelectionPage() {
         pokemonSetsData = pokemonSetsData.filter((set: SetLogo) => {
           return set.name !== "Journey Together";
         });
-        newGameData = LocalStorageFactory.get("gameData");
-        if (!newGameData) {
-          newGameData = await ApiClient.getAllGameData(
-            userSession.data?.user.id || "local-user",
-          );
-          if (newGameData.length === 0) {
-            newGameData = [];
-            pokemonSetsData.forEach((set: SetLogo) => {
-              newGameData.push({
-                id: set.id,
-                completedLevels: 0,
-                levels: set.levels,
-                highScore: 0,
-                completed: false,
-              });
-            });
-            LocalStorageFactory.set("gameData", newGameData);
-          }
-        }
       }
+
+      // Prefer persisted progress from the query hook; otherwise bootstrap brand-new progress entries.
+      const newGameData =
+        persistedGameData.length > 0
+          ? persistedGameData
+          : pokemonSetsData.map((set: SetLogo) => ({
+              id: set.id,
+              completedLevels: 0,
+              levels: set.levels,
+              highScore: 0,
+              completed: false,
+            }));
+
+      // Keep localStorage and the in-memory ref aligned so routing/game pages use the same source of truth.
+      LocalStorageFactory.set("gameData", newGameData);
       setPokemonSets(pokemonSetsData);
       gameData.current = newGameData;
     };
 
     fetchGameData();
-  }, [pokemonData]);
+  }, [pokemonData, persistedGameData]);
 
   function handleSelectGame(id: string) {
     selectAudioRef.current.play();
     navigate(`/gamepage/${id}`);
   }
 
-  if (isPokemonError) {
+  if (isPokemonError || isGameDataError || !pokemonSets.length) {
     return (
       <>
         <audio ref={bgAudioRef} src="/audio/selectionBg.mp3" autoPlay loop />
@@ -115,35 +118,11 @@ export default function SetSelectionPage() {
         {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
         <div className={styles.main}>
           <div className={styles.selections}>
-            <Button type="titlePage" onClick={() => refetch()}>
-              Retry loading sets
+            <Button type="titlePage" onClick={handleReloadPage}>
+              Reload
             </Button>
             <Button type="titlePage" onClick={() => navigate("/titlepage")}>
               Back to title
-            </Button>
-          </div>
-          <Menu
-            onShowSettings={() => setShowSettings(true)}
-            onShowHowTo={() => setShowHowTo(true)}
-            onReturnToSelection={() => navigate("/selectionpage")}
-          />
-        </div>
-      </>
-    );
-  }
-
-  if (!pokemonSets.length) {
-    return (
-      <>
-        <audio ref={bgAudioRef} src="/audio/selectionBg.mp3" autoPlay loop />
-        {showSettings && (
-          <SettingsPage onClose={() => setShowSettings(false)} />
-        )}
-        {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
-        <div className={styles.main}>
-          <div className={styles.selections}>
-            <Button type="titlePage" onClick={() => refetch()}>
-              Retry
             </Button>
           </div>
           <Menu

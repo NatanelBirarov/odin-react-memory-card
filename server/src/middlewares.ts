@@ -14,7 +14,7 @@ export const authMiddleware = async (
   try {
     const session = await getCurrentSession(req.headers);
     process.env.NODE_ENV === "development" &&
-      console.log("Auth middleware session:", session);
+        console.log("Auth middleware session user:", session?.user.id);
     if (!session) {
       res.status(401).json({ error: "Unauthorized" });
       return;

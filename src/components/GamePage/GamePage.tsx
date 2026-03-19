@@ -15,10 +15,10 @@ import { CardData, SetDataType, ContextType } from "../../scripts/types";
 import modalStyles from "../Modal/Modal.module.css";
 import Img from "../Img/Img";
 import styles from "./GamePage.module.css";
-import ApiClient from "../../scripts/apiClient";
-import { authClient } from "../../scripts/authClient";
-
-type GameDataType = SetDataType[];
+import {
+  useGameDataQuery,
+  useSaveGameDataMutation,
+} from "../../scripts/gameDataHooks";
 
 export default function GamePage() {
   const {
@@ -29,7 +29,13 @@ export default function GamePage() {
     musicVolume,
   } = useOutletContext<ContextType>();
 
-  const gameData: GameDataType = LocalStorageFactory.get("gameData") || [];
+  const [localGameData] = useState(
+    () => LocalStorageFactory.get("gameData") as SetDataType[] | null,
+  );
+
+  const { data: gameData = [], isError: isGameDataError } = useGameDataQuery(
+    localGameData || undefined,
+  );
 
   // const pokemonData = useLoaderData();
   const params = useParams();
@@ -39,26 +45,29 @@ export default function GamePage() {
     isError: boolean;
     refetch: () => void;
   };
-  const {
-    data: pokemonData,
-    isError: isPokemonError,
-    refetch,
-  } = useQuery(gamePageQuery(params.setId || "")) as GamePageData;
+  const { data: pokemonData, isError: isPokemonError } = useQuery(
+    gamePageQuery(params.setId || ""),
+  ) as GamePageData;
   const navigate = useNavigate();
 
+  function handleReloadPage() {
+    window.location.reload();
+  }
+
+  // Card IDs contain set prefix (for example: "base1-4"); use it to match saved progress for this route.
   const setId = pokemonData?.[0]?.id?.split("-")[0] || params.setId;
   const setData = gameData.find((set) => set.id === setId);
 
   const [currentScore, setCurrentScore] = useState(0);
-  const [highScore, setHighScore] = useState(setData?.highScore || 0);
+  const [highScore, setHighScore] = useState(0);
   const [currentLevelCards, setCurrentLevelCards] = useState<CardData[]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [showModal, setShowModal] = useState(0);
-  const [currentLevel, setCurrentLevel] = useState(
-    setData?.completedLevels ? setData.completedLevels + 1 : 1,
-  );
-  const userSession = authClient.useSession();
+  const [currentLevel, setCurrentLevel] = useState(1);
+  const saveGameDataMutation = useSaveGameDataMutation();
+  const initializedSetRef = useRef<string | undefined>(undefined);
 
+  // Normalize API card data into the card component shape and reset click state each load.
   const pokemonSetCards = useMemo(() => {
     if (!pokemonData) return [];
 
@@ -78,7 +87,22 @@ export default function GamePage() {
 
   const levels = setData?.levels || 1;
 
+  useEffect(() => {
+    if (!setData || !setId) return;
+    if (initializedSetRef.current === setId) return;
+
+    initializedSetRef.current = setId;
+    setHighScore(setData.highScore || 0);
+    setCurrentLevel(setData.completedLevels ? setData.completedLevels + 1 : 1);
+  }, [setData, setId]);
+
+  useEffect(() => {
+    if (!gameData.length) return;
+    LocalStorageFactory.set("gameData", gameData);
+  }, [gameData]);
+
   const updateLevel = useCallback(() => {
+    // Each level uses up to 10 cards, but keeps the final chunk if fewer than 6 cards would remain.
     const start = (currentLevel - 1) * 10;
     const end =
       pokemonSetCards.length - ((currentLevel - 1) * 10 + 10) > 5
@@ -89,16 +113,19 @@ export default function GamePage() {
   }, [currentLevel, pokemonSetCards]);
 
   useEffect(() => {
+    // Keep background music volume in sync with the global settings slider.
     if (bgAudioRef.current) bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
 
   useEffect(() => {
+    // Entering a new level resets visible cards and current run score.
     updateLevel();
     setCurrentScore(0);
     // setHighScore(0);
   }, [updateLevel]);
 
-  if (isPokemonError) {
+  // Dedicated error state with retry to recover transient API failures.
+  if (isPokemonError || isGameDataError || !pokemonData?.length) {
     return (
       <>
         <audio ref={bgAudioRef} src="/audio/gameBg.mp3" autoPlay loop />
@@ -109,36 +136,8 @@ export default function GamePage() {
         <div className={styles.gameState}>
           <span className={styles.level}>Could not load cards.</span>
           <ModalBlockRow>
-            <Button type="modal" onClick={() => refetch()}>
-              <div className={modalStyles.modalText}>Retry</div>
-            </Button>
-            <Button type="modal" onClick={() => navigate("/selectionpage")}>
-              <div className={modalStyles.modalText}>Select set</div>
-            </Button>
-          </ModalBlockRow>
-        </div>
-        <Menu
-          onShowSettings={() => setShowSettings(true)}
-          onShowHowTo={() => setShowHowTo(true)}
-          onReturnToSelection={() => navigate("/selectionpage")}
-        />
-      </>
-    );
-  }
-
-  if (!pokemonData?.length) {
-    return (
-      <>
-        <audio ref={bgAudioRef} src="/audio/gameBg.mp3" autoPlay loop />
-        {showSettings && (
-          <SettingsPage onClose={() => setShowSettings(false)} />
-        )}
-        {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
-        <div className={styles.gameState}>
-          <span className={styles.level}>No cards found for this set.</span>
-          <ModalBlockRow>
-            <Button type="modal" onClick={() => navigate("/selectionpage")}>
-              <div className={modalStyles.modalText}>Back to sets</div>
+            <Button type="modal" onClick={handleReloadPage}>
+              <div className={modalStyles.modalText}>Reload</div>
             </Button>
           </ModalBlockRow>
         </div>
@@ -152,9 +151,11 @@ export default function GamePage() {
   }
 
   function handleEndLevelScreen(state: number, isSuccess: boolean) {
+    // Close modal first, then branch into progress updates and navigation/retry actions.
     setShowModal(0);
     if (isSuccess && setData) {
       setCurrentLevel(currentLevel + 1);
+      // Build the next local progress snapshot by replacing only the active set entry.
       const newGameDataArray = gameData.map((set) => {
         if (set.id === setId) {
           return {
@@ -167,14 +168,17 @@ export default function GamePage() {
           return set;
         }
       });
-      ApiClient.saveGameData(userSession.data?.user.id || "local-user", {
+      // Persist the same set progress to the server so progress survives across devices/sessions.
+      saveGameDataMutation.mutate({
         ...setData,
         completedLevels: currentLevel,
         completed: currentLevel === levels,
         highScore: highScore || 0,
       });
+      // Keep browser cache aligned with the mutation result for immediate UI consistency.
       LocalStorageFactory.set("gameData", newGameDataArray);
     }
+    // state: -1 = leave to set selection, 0 = retry same level, 1 = continue to next level.
     if (state === -1) {
       navigate("/selectionpage");
     } else if (state === 0) {
@@ -194,6 +198,7 @@ export default function GamePage() {
   }
 
   useEffect(() => {
+    // Swap game/result audio when a success/failure modal is shown.
     if (showModal !== 0) {
       if (bgAudioRef.current) {
         bgAudioRef.current.pause();
@@ -210,6 +215,7 @@ export default function GamePage() {
       <audio ref={bgAudioRef} src="/audio/gameBg.mp3" autoPlay loop />
       {showSettings && <SettingsPage onClose={() => setShowSettings(false)} />}
       {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
+      {/* Modal rendering is driven by tri-state showModal: -1 fail, 1 success, 0 hidden. */}
       {showModal === -1 ? (
         <Modal contentType="gamePageModalContent">
           <ModalText>

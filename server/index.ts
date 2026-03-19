@@ -1,4 +1,5 @@
 import express from "express";
+import { rateLimit } from "express-rate-limit";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./src/auth.js";
 import cors from "cors";
@@ -15,18 +16,32 @@ import { AuthRequest } from "./src/types.js";
 const allowedOrigins = [
   process.env.CLIENT_URL_PROD, // Production frontend URL
   process.env.CLIENT_URL_DEV, // Development frontend URL
-  process.env.POKEMON_API_URL, // Pokémon API URL
 ].filter(Boolean); // Filter out any undefined values
 
 const app = express();
+
+if (process.env.NODE_ENV === "production") {
+  // If behind one reverse proxy (Nginx,Render,etc.)
+  app.set("trust proxy", 1);
+}
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: "Too many requests, please try again later.",
+  statusCode: 429, // HTTP status code for "Too Many Requests"
+});
 
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (like mobile apps, Postman, etc.)
-      if (!origin) return callback(null, true);
+      // if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
+      if (origin && allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
@@ -37,6 +52,7 @@ app.use(
   }),
 );
 
+app.use("/api/auth/*splat", limiter); // Apply rate limiting to auth routes
 // Auth Routes
 app.all("/api/auth/*splat", toNodeHandler(auth));
 

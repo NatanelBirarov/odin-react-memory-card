@@ -1,0 +1,66 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import ApiClient from "./apiClient";
+import LocalStorageFactory from "./localStorageFactory";
+import type { SetDataType } from "./types";
+
+// Shared cache key for game data queries and mutations.
+export const GAME_DATA_QUERY_KEY = ["gameData"] as const;
+
+// Inserts a new set or replaces an existing set by id.
+function upsertGameData(
+  current: SetDataType[],
+  next: SetDataType,
+): SetDataType[] {
+  const index = current.findIndex((item) => item.id === next.id);
+  if (index === -1) {
+    return [...current, next];
+  }
+
+  const updated = [...current];
+  updated[index] = next;
+  return updated;
+}
+
+// Reads all game data and optionally hydrates with preloaded data.
+export function useGameDataQuery(initialData?: SetDataType[]) {
+  return useQuery({
+    queryKey: GAME_DATA_QUERY_KEY,
+    queryFn: ApiClient.getGameData,
+    staleTime: 60 * 1000,
+    initialData,
+  });
+}
+
+export function useSaveGameDataMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ApiClient.saveGameData,
+    // Optimistically write to cache/local storage before the request completes.
+    onMutate: async (nextGameData) => {
+      // Avoid race conditions where in-flight queries overwrite optimistic data.
+      await queryClient.cancelQueries({ queryKey: GAME_DATA_QUERY_KEY });
+
+      // Snapshot previous state for rollback if saving fails.
+      const previous =
+        queryClient.getQueryData<SetDataType[]>(GAME_DATA_QUERY_KEY) ?? [];
+      const optimistic = upsertGameData(previous, nextGameData);
+
+      queryClient.setQueryData(GAME_DATA_QUERY_KEY, optimistic);
+      LocalStorageFactory.set("gameData", optimistic);
+
+      return { previous };
+    },
+    // Roll back optimistic updates when the mutation errors.
+    onError: (_error, _nextGameData, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(GAME_DATA_QUERY_KEY, context.previous);
+        LocalStorageFactory.set("gameData", context.previous);
+      }
+    },
+    // Refetch so cache is synchronized with server state.
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GAME_DATA_QUERY_KEY });
+    },
+  });
+}
