@@ -5,20 +5,35 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
-export default [
-  tseslint.configs.recommended,
-  tseslint.configs.strictTypeChecked,
-  { ignores: ["dist"] },
+export default defineConfig(
+  ...tseslint.configs.recommended,
+  ...tseslint.configs.strictTypeChecked,
   {
-    files: ["**/*.{js,jsx}"],
+    ignores: [
+      "dist",
+      "eslint.config.js",
+      "vite.config.js",
+      "prisma.config.ts",
+      "generateFileList.cjs",
+    ],
+  },
+  {
+    files: ["**/*.{js,jsx,cjs,mjs}"],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.eslint.json"],
+      },
+    },
+  },
+  {
+    files: ["src/**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: "latest",
-        ecmaFeatures: { jsx: true },
-        sourceType: "module",
-      },
     },
     plugins: {
       "react-hooks": reactHooks,
@@ -27,11 +42,26 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      "no-unused-vars": ["warning", { varsIgnorePattern: "^[A-Z_]" }],
+      "no-unused-vars": ["warn", { varsIgnorePattern: "^[A-Z_]" }],
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },
       ],
     },
   },
-];
+  {
+    files: ["src/**/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/no-confusing-void-expression": [
+        "error",
+        { ignoreArrowShorthand: true },
+      ],
+    },
+  },
+  {
+    files: ["server/**/*.ts"],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+);

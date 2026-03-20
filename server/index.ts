@@ -10,6 +10,7 @@ import {
   validateGameDataMiddleware,
   validateSettingsMiddleware,
 } from "./src/middlewares.js";
+import { gameDataSchema, settingsSchema } from "./src/schemas.js";
 
 import { AuthRequest } from "./src/types.js";
 
@@ -19,6 +20,11 @@ const allowedOrigins = [
 ].filter(Boolean); // Filter out any undefined values
 
 const app = express();
+const port = process.env.PORT ?? "3000";
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : "Internal server error";
+}
 
 if (process.env.NODE_ENV === "production") {
   // If behind one reverse proxy (Nginx,Render,etc.)
@@ -65,10 +71,9 @@ app.get("/api/settings/", authMiddleware, async (req: AuthRequest, res) => {
     if (!req.userId) {
       throw new Error("User ID is required");
     }
-    const settings = await DatabaseService.getOrCreateSettings(req.userId);
-    res.json(settings);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
+    res.json(await DatabaseService.getOrCreateSettings(req.userId));
+  } catch (error: unknown) {
+    res.status(500).json({ error: getErrorMessage(error) });
   }
 });
 
@@ -81,15 +86,22 @@ app.put(
       if (!req.userId) {
         throw new Error("User ID is required");
       }
-      const { musicVolume, sfxVolume } = req.body;
-      const settings = await DatabaseService.updateSettings(
-        req.userId,
-        musicVolume,
-        sfxVolume,
+      const validation = settingsSchema.safeParse(req.body);
+      if (!validation.success) {
+        res.status(400).json({ error: validation.error });
+        return;
+      }
+
+      const { musicVolume, sfxVolume } = validation.data;
+      res.json(
+        await DatabaseService.updateSettings(
+          req.userId,
+          musicVolume,
+          sfxVolume,
+        ),
       );
-      res.json(settings);
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+    } catch (error: unknown) {
+      res.status(500).json({ error: getErrorMessage(error) });
     }
   },
 );
@@ -102,8 +114,8 @@ app.get("/api/gamedata/", authMiddleware, async (req: AuthRequest, res) => {
     }
     const data = await DatabaseService.getAllGameData(req.userId);
     res.json(data);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ error: getErrorMessage(error) });
   }
 });
 
@@ -116,7 +128,14 @@ app.post(
       if (!req.userId) {
         throw new Error("User ID is required");
       }
-      const { setId, completedLevels, levels, highScore, completed } = req.body;
+      const validation = gameDataSchema.safeParse(req.body);
+      if (!validation.success) {
+        res.status(400).json({ error: validation.error });
+        return;
+      }
+
+      const { setId, completedLevels, levels, highScore, completed } =
+        validation.data;
       await DatabaseService.upsertLevelData(req.userId, {
         id: setId,
         completedLevels,
@@ -125,12 +144,12 @@ app.post(
         completed,
       });
       res.json({ success: true });
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+    } catch (error: unknown) {
+      res.status(500).json({ error: getErrorMessage(error) });
     }
   },
 );
 
-app.listen(process.env.PORT, () =>
-  console.log(`Server running on port ${process.env.PORT}`),
-);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

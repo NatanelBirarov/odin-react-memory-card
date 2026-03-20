@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import LocalStorageFactory from "../../scripts/localStorageFactory";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import SettingsPage from "../SettingsPage/SettingsPage";
 import Menu from "../Menu/Menu";
@@ -12,7 +11,7 @@ import Img from "../Img/Img";
 import Button from "../Button/Button";
 
 import styles from "./SetSelectionPage.module.css";
-import { useGameDataQuery } from "../../scripts/gameDataHooks";
+import { useGameData } from "../../scripts/gameDataHooks";
 
 type SetLogo = {
   id: string;
@@ -34,14 +33,8 @@ export default function SetSelectionPage() {
   const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
   const bgAudioRef = useRef<HTMLAudioElement>(null);
   const gameData = useRef<SetDataType[]>([]);
-  // Read locally cached progress immediately so the page can render without waiting for a network call.
-  const [localGameData] = useState(
-    () => LocalStorageFactory.get("gameData") as SetDataType[] | null,
-  );
-  // Keep game progress in React Query cache and seed it with localStorage data as initial state.
-  // This lets us show existing progress instantly and still support remote sync/refetch behavior.
   const { data: persistedGameData = [], isError: isGameDataError } =
-    useGameDataQuery(localGameData || undefined);
+    useGameData();
   // const pokemonData = useLoaderData();
 
   type SelectionPageData = {
@@ -94,8 +87,6 @@ export default function SetSelectionPage() {
               completed: false,
             }));
 
-      // Keep localStorage and the in-memory ref aligned so routing/game pages use the same source of truth.
-      LocalStorageFactory.set("gameData", newGameData);
       setPokemonSets(pokemonSetsData);
       gameData.current = newGameData;
     };
@@ -149,7 +140,6 @@ export default function SetSelectionPage() {
             const currentSetData = gameData.current[index];
             const unlocked =
               index === 0 || gameData.current[index - 1]?.completed;
-            const isCompleted = currentSetData?.completed ?? false; // Add UX to completed sets
             const completedLevels = currentSetData?.completedLevels ?? 0;
 
             return (

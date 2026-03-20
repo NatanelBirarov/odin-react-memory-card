@@ -3,14 +3,17 @@ import { fromNodeHeaders } from "better-auth/node";
 import { emailOTP } from "better-auth/plugins";
 import { createAuthMiddleware } from "better-auth/api";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import type { PrismaClient } from "@prisma/client";
 import prisma from "./prismaClient.js";
 import { IncomingHttpHeaders } from "http";
 import { sendEmail } from "./emailService.js";
 
+const typedPrisma = prisma as PrismaClient;
+
 // Generate a random 4-digit tag for user identification
-function generateTag() {
-  return String(Math.floor(Math.random() * 10000)).padStart(4, "0");
-}
+// function generateTag() {
+//   return String(Math.floor(Math.random() * 10000)).padStart(4, "0");
+// }
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -68,7 +71,7 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    sendResetPassword: async ({ user, url, token }, request) => {
+    sendResetPassword: async ({ user, url }) => {
       await sendEmail({
         to: user.email,
         subject: "Reset your password",
@@ -79,7 +82,7 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    sendVerificationEmail: async ({ user, url, token }) => {
+    sendVerificationEmail: async ({ user, url }) => {
       if (process.env.NODE_ENV === "development") {
         console.log("Sending verification email to:", user.email);
       }
@@ -103,20 +106,19 @@ export const auth = betterAuth({
       `,
       });
     },
-    afterEmailVerification: async (user, request) => {
-      // Additional actions after email verification can be added here
-      if (process.env.NODE_ENV === "development") {
-        console.log(`${user.email} has verified their email.`);
-      }
-    },
   },
   hooks: {
     before: createAuthMiddleware(async (ctx: HookEndpointContext) => {
       // // Only run on sign-up
       if (ctx.path === "/sign-up/email") {
         //   // Get count of users with this username
-        const username = ctx.body?.name;
-        const count = await prisma.user.count({
+        const bodyRecord =
+          typeof ctx.body === "object" && ctx.body !== null
+            ? (ctx.body as Record<string, unknown>)
+            : undefined;
+        const username =
+          typeof bodyRecord?.name === "string" ? bodyRecord.name : undefined;
+        const count = await typedPrisma.user.count({
           where: { username },
         });
         // // Assign next sequential tag

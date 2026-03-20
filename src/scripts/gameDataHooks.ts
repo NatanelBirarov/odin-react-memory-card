@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ApiClient from "./apiClient";
 import LocalStorageFactory from "./localStorageFactory";
@@ -29,6 +30,23 @@ export function useGameDataQuery(initialData?: SetDataType[]) {
     staleTime: 60 * 1000,
     initialData,
   });
+}
+
+// Reads browser-cached game data once for query hydration.
+export function useGameData() {
+  const [seedData] = useState(
+    () =>
+      (LocalStorageFactory.get("gameData") as SetDataType[] | null) ||
+      undefined,
+  );
+  const query = useGameDataQuery(seedData);
+
+  useEffect(() => {
+    if (!query.data?.length) return;
+    LocalStorageFactory.set("gameData", query.data);
+  }, [query.data]);
+
+  return query;
 }
 
 export function useSaveGameDataMutation() {

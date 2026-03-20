@@ -13,8 +13,9 @@ export const authMiddleware = async (
 ): Promise<void> => {
   try {
     const session = await getCurrentSession(req.headers);
-    process.env.NODE_ENV === "development" &&
-        console.log("Auth middleware session user:", session?.user.id);
+    if (process.env.NODE_ENV === "development") {
+      console.log("Auth middleware session user:", session?.user.id);
+    }
     if (!session) {
       res.status(401).json({ error: "Unauthorized" });
       return;
@@ -35,12 +36,7 @@ export const validateSettingsMiddleware = (
   res: express.Response,
   next: express.NextFunction,
 ): void => {
-  const { musicVolume, sfxVolume } = req.body;
-
-  const validation = settingsSchema.safeParse({
-    musicVolume,
-    sfxVolume,
-  });
+  const validation = settingsSchema.safeParse(req.body as unknown);
 
   if (!validation.success) {
     res.status(400).json({ error: validation.error });
@@ -56,14 +52,7 @@ export const validateGameDataMiddleware = (
   res: express.Response,
   next: express.NextFunction,
 ): void => {
-  const { setId, completedLevels, levels, highScore, completed } = req.body;
-  const validation = gameDataSchema.safeParse({
-    setId,
-    completedLevels,
-    levels,
-    highScore,
-    completed,
-  });
+  const validation = gameDataSchema.safeParse(req.body as unknown);
 
   if (!validation.success) {
     res.status(400).json({ error: validation.error });

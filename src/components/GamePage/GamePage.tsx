@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Card from "../Card/Card";
 import Score from "../Scores/Scores";
 import Modal, { ModalBlockRow, ModalText } from "../Modal/Modal";
-import LocalStorageFactory from "../../scripts/localStorageFactory";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import SettingsPage from "../SettingsPage/SettingsPage";
 import Menu from "../Menu/Menu";
@@ -10,13 +9,13 @@ import HowToPlayPage from "../HowToPlayPage/HowToPlay";
 import Button from "../Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import { gamePageQuery } from "../../scripts/queries";
-import { CardData, SetDataType, ContextType } from "../../scripts/types";
+import { CardData, ContextType } from "../../scripts/types";
 
 import modalStyles from "../Modal/Modal.module.css";
 import Img from "../Img/Img";
 import styles from "./GamePage.module.css";
 import {
-  useGameDataQuery,
+  useGameData,
   useSaveGameDataMutation,
 } from "../../scripts/gameDataHooks";
 
@@ -29,13 +28,7 @@ export default function GamePage() {
     musicVolume,
   } = useOutletContext<ContextType>();
 
-  const [localGameData] = useState(
-    () => LocalStorageFactory.get("gameData") as SetDataType[] | null,
-  );
-
-  const { data: gameData = [], isError: isGameDataError } = useGameDataQuery(
-    localGameData || undefined,
-  );
+  const { data: gameData = [], isError: isGameDataError } = useGameData();
 
   // const pokemonData = useLoaderData();
   const params = useParams();
@@ -96,11 +89,6 @@ export default function GamePage() {
     setCurrentLevel(setData.completedLevels ? setData.completedLevels + 1 : 1);
   }, [setData, setId]);
 
-  useEffect(() => {
-    if (!gameData.length) return;
-    LocalStorageFactory.set("gameData", gameData);
-  }, [gameData]);
-
   const updateLevel = useCallback(() => {
     // Each level uses up to 10 cards, but keeps the final chunk if fewer than 6 cards would remain.
     const start = (currentLevel - 1) * 10;
@@ -155,19 +143,6 @@ export default function GamePage() {
     setShowModal(0);
     if (isSuccess && setData) {
       setCurrentLevel(currentLevel + 1);
-      // Build the next local progress snapshot by replacing only the active set entry.
-      const newGameDataArray = gameData.map((set) => {
-        if (set.id === setId) {
-          return {
-            ...setData,
-            completedLevels: currentLevel,
-            completed: currentLevel === levels,
-            highScore: highScore,
-          };
-        } else {
-          return set;
-        }
-      });
       // Persist the same set progress to the server so progress survives across devices/sessions.
       saveGameDataMutation.mutate({
         ...setData,
@@ -175,8 +150,6 @@ export default function GamePage() {
         completed: currentLevel === levels,
         highScore: highScore || 0,
       });
-      // Keep browser cache aligned with the mutation result for immediate UI consistency.
-      LocalStorageFactory.set("gameData", newGameDataArray);
     }
     // state: -1 = leave to set selection, 0 = retry same level, 1 = continue to next level.
     if (state === -1) {

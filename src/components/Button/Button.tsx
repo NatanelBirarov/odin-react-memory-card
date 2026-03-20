@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 import { ContextType, StateUpdater } from "../../scripts/types";
 import styles from "./Button.module.css";
@@ -29,14 +29,22 @@ export default function Button({
     selectAudioRef.current.volume = sfxVolume;
   }, [sfxVolume]);
 
-  function handleClick() {
-    selectAudioRef.current.play();
-    if (onClick) onClick();
-  }
+  // Keep React event handler sync, then run async audio logic inside an IIFE.
+  const handleClick = () => {
+    // `void` intentionally ignores the promise while still allowing await/catch inside.
+    void (async () => {
+      try {
+        await selectAudioRef.current.play();
+        if (onClick) onClick();
+      } catch (error) {
+        console.error("Error playing audio:", error);
+      }
+    })();
+  };
 
   function toggleButtonHover(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    animationClass?: keyof typeof styles
+    e: React.MouseEvent<HTMLButtonElement>,
+    animationClass?: keyof typeof styles,
   ) {
     if (animationClass) {
       const targetSvg = e.currentTarget.querySelector("svg");
