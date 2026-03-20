@@ -56,6 +56,13 @@ export default defineConfig(
         "error",
         { ignoreArrowShorthand: true },
       ],
+      "@typescript-eslint/restrict-template-expressions": [
+        "error",
+        {
+          allowNumber: true,
+          allowBoolean: true,
+        },
+      ],
     },
   },
   {

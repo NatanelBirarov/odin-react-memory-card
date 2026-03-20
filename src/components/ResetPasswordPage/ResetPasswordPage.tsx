@@ -70,9 +70,9 @@ export default function ResetPasswordPage() {
         token: token,
       });
       setIsSuccess(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Password reset error:", error);
-      setErrorMessage(error.message || "Failed to reset password");
+      setErrorMessage((error as Error).message || "Failed to reset password");
     } finally {
       setIsPending(false);
     }
@@ -118,7 +118,7 @@ export default function ResetPasswordPage() {
 
   return (
     <Modal contentType="modalContent">
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <form className={styles.form} onSubmit={void handleSubmit(onSubmit)}>
         <h2 className={styles.title}>Reset Password</h2>
         <p className={styles.description}>Enter your new password below.</p>
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}

@@ -1,7 +1,7 @@
 import Button from "../Button/Button";
 import Modal, { ModalBlockRow } from "../Modal/Modal";
 
-import { modalText } from "../Modal/Modal.module.css";
+import styles from "../Modal/Modal.module.css";
 
 type HowToPageProps = {
   onClose: () => void;
@@ -25,7 +25,7 @@ export default function HowToPlayPage({ onClose }: HowToPageProps) {
       </p>
       <ModalBlockRow>
         <Button type="modal" onClick={onClose}>
-          <div className={modalText}>Close</div>
+          <div className={styles.modalText}>Close</div>
         </Button>
       </ModalBlockRow>
     </Modal>

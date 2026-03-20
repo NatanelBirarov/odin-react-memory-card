@@ -95,8 +95,14 @@ export default function SetSelectionPage() {
   }, [pokemonData, persistedGameData]);
 
   function handleSelectGame(id: string) {
-    selectAudioRef.current.play();
-    navigate(`/gamepage/${id}`);
+    void (async () => {
+      try {
+        await selectAudioRef.current.play();
+        void navigate(`/gamepage/${id}`);
+      } catch (error) {
+        console.error("Error playing audio:", error);
+      }
+    })();
   }
 
   if (isPokemonError || isGameDataError || !pokemonSets.length) {
@@ -112,14 +118,21 @@ export default function SetSelectionPage() {
             <Button type="titlePage" onClick={handleReloadPage}>
               Reload
             </Button>
-            <Button type="titlePage" onClick={() => navigate("/titlepage")}>
+            <Button
+              type="titlePage"
+              onClick={() => {
+                void navigate("/titlepage");
+              }}
+            >
               Back to title
             </Button>
           </div>
           <Menu
             onShowSettings={() => setShowSettings(true)}
             onShowHowTo={() => setShowHowTo(true)}
-            onReturnToSelection={() => navigate("/selectionpage")}
+            onReturnToSelection={() => {
+              void navigate("/selectionpage");
+            }}
           />
         </div>
       </>
@@ -139,8 +152,8 @@ export default function SetSelectionPage() {
           {pokemonSets.map((set, index) => {
             const currentSetData = gameData.current[index];
             const unlocked =
-              index === 0 || gameData.current[index - 1]?.completed;
-            const completedLevels = currentSetData?.completedLevels ?? 0;
+              index === 0 || gameData.current[index - 1].completed;
+            const completedLevels = currentSetData.completedLevels;
 
             return (
               <React.Fragment key={set.id}>
@@ -182,7 +195,9 @@ export default function SetSelectionPage() {
         <Menu
           onShowSettings={() => setShowSettings(true)}
           onShowHowTo={() => setShowHowTo(true)}
-          onReturnToSelection={() => navigate("/selectionpage")}
+          onReturnToSelection={() => {
+            void navigate("/selectionpage");
+          }}
         />
       </div>
     </>

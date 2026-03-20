@@ -37,9 +37,7 @@ export default function TitlePage() {
   type TitlePageData = {
     data: CardData[] | undefined;
   };
-  const { data: pokemonData } = useQuery(
-    titlePageQuery() as any,
-  ) as TitlePageData;
+  const { data: pokemonData } = useQuery(titlePageQuery()) as TitlePageData;
 
   const backgroundCards = useMemo<CardData[]>(() => {
     if (!pokemonData?.length) return [];
@@ -51,7 +49,7 @@ export default function TitlePage() {
     for (let i = 0; i < cardCount; i += 1) {
       const randomIndex = Math.floor(Math.random() * pool.length);
       const [randomCard] = pool.splice(randomIndex, 1);
-      if (randomCard) selectedCards.push(randomCard);
+      selectedCards.push(randomCard);
     }
 
     return selectedCards;
@@ -63,16 +61,30 @@ export default function TitlePage() {
 
   useEffect(() => {
     async function loadSettings() {
-      let settings: SettingsType = LocalStorageFactory.get("settings");
-      if (!settings) {
-        settings = await ApiClient.getSettings();
+      try {
+        const local = LocalStorageFactory.get(
+          "settings",
+        ) as SettingsType | null;
+        if (local) return;
+
+        const remote = (await ApiClient.getSettings()) as SettingsType;
         LocalStorageFactory.set("settings", {
-          musicVolumeInit: settings.musicVolume,
-          sfxVolumeInit: settings.sfxVolume,
+          musicVolumeInit: remote.musicVolume,
+          sfxVolumeInit: remote.sfxVolume,
+        });
+      } catch (error: unknown) {
+        console.log("Error loading settings:", error);
+        // Non-blocking fallback
+        LocalStorageFactory.set("settings", {
+          musicVolume: 0.5,
+          sfxVolume: 0.5,
         });
       }
     }
-    if (isLogged) loadSettings();
+
+    if (isLogged) {
+      void loadSettings();
+    }
   }, [isLogged]);
 
   async function handleSignOut() {
@@ -122,7 +134,7 @@ export default function TitlePage() {
                   <Button
                     type="titlePage"
                     onClick={() => {
-                      navigate("/selectionpage");
+                      void navigate("/selectionpage");
                     }}
                   >
                     <div className={styles.buttonText}>Play Game</div>
@@ -130,7 +142,9 @@ export default function TitlePage() {
                 ) : (
                   <Button
                     type="titlePage"
-                    onClick={() => navigate("/signin?redirectTo=titlepage")}
+                    onClick={() => {
+                      void navigate("/signin?redirectTo=titlepage");
+                    }}
                   >
                     <div className={styles.buttonText}>Sign In</div>
                   </Button>
@@ -141,16 +155,22 @@ export default function TitlePage() {
                 <Button
                   type="titlePage"
                   onClick={() => {
-                    isLogged
-                      ? navigate("/profile")
-                      : // ? setShowSettings(true)
-                        navigate("/signin?redirectTo=titlepage");
+                    if (isLogged) {
+                      void navigate("/profile");
+                    } else {
+                      void navigate("/signin?redirectTo=titlepage");
+                    }
                   }}
                 >
                   <div className={styles.buttonText}>Settings</div>
                 </Button>
                 {isLogged && (
-                  <Button type="titlePage" onClick={handleSignOut}>
+                  <Button
+                    type="titlePage"
+                    onClick={() => {
+                      void handleSignOut();
+                    }}
+                  >
                     <div className={styles.buttonText}>Sign Out</div>
                   </Button>
                 )}

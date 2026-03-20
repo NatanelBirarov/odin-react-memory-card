@@ -8,6 +8,17 @@ const ACCEPTED_IMAGE_MIME_TYPES = [
   "image/webp",
 ];
 
+function getFirstFile(files: unknown): File | undefined {
+  if (!files) return undefined;
+  if (files instanceof FileList) {
+    return files.item(0) ?? undefined;
+  }
+  if (Array.isArray(files) && files[0] instanceof File) {
+    return files[0];
+  }
+  return undefined;
+}
+
 export const formSchema = z
   .object({
     username: z
@@ -26,11 +37,12 @@ export const formSchema = z
       ),
     confirmPassword: z.string(),
     image: z
-      .any()
+      .unknown()
       .refine(
-        (files) => {
-          if (files?.length === 0) return true;
-          return files?.[0]?.size <= MAX_FILE_SIZE;
+        (files: unknown) => {
+          const firstFile = getFirstFile(files);
+          if (!firstFile) return true;
+          return firstFile.size <= MAX_FILE_SIZE;
         },
         {
           message: "Max image size is 5MB.",
@@ -38,9 +50,10 @@ export const formSchema = z
         },
       )
       .refine(
-        (files) => {
-          if (files?.length === 0) return true;
-          return ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type);
+        (files: unknown) => {
+          const firstFile = getFirstFile(files);
+          if (!firstFile) return true;
+          return ACCEPTED_IMAGE_MIME_TYPES.includes(firstFile.type);
         },
         {
           message: "Only .jpg, .jpeg, .png and .webp formats are supported.",

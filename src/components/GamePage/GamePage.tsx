@@ -47,6 +47,13 @@ export default function GamePage() {
     window.location.reload();
   }
 
+  function playAudioSafe(audio: HTMLAudioElement | null) {
+    if (!audio) return;
+    void audio.play().catch((error: unknown) => {
+      console.error("Error playing audio:", error);
+    });
+  }
+
   // Card IDs contain set prefix (for example: "base1-4"); use it to match saved progress for this route.
   const setId = pokemonData?.[0]?.id?.split("-")[0] || params.setId;
   const setData = gameData.find((set) => set.id === setId);
@@ -55,7 +62,7 @@ export default function GamePage() {
   const [highScore, setHighScore] = useState(0);
   const [currentLevelCards, setCurrentLevelCards] = useState<CardData[]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
-  const [showModal, setShowModal] = useState(0);
+  const [showModal, setShowModal] = useState<-1 | 0 | 1>(0);
   const [currentLevel, setCurrentLevel] = useState(1);
   const saveGameDataMutation = useSaveGameDataMutation();
   const initializedSetRef = useRef<string | undefined>(undefined);
@@ -112,6 +119,19 @@ export default function GamePage() {
     // setHighScore(0);
   }, [updateLevel]);
 
+  useEffect(() => {
+    // Swap game/result audio when a success/failure modal is shown.
+    if (showModal !== 0) {
+      if (bgAudioRef.current) {
+        bgAudioRef.current.pause();
+        bgAudioRef.current.currentTime = 0;
+      }
+      setTimeout(() => {
+        playAudioSafe(resultAudioRef.current);
+      }, 500);
+    }
+  }, [showModal]);
+
   // Dedicated error state with retry to recover transient API failures.
   if (isPokemonError || isGameDataError || !pokemonData?.length) {
     return (
@@ -132,7 +152,9 @@ export default function GamePage() {
         <Menu
           onShowSettings={() => setShowSettings(true)}
           onShowHowTo={() => setShowHowTo(true)}
-          onReturnToSelection={() => navigate("/selectionpage")}
+          onReturnToSelection={() => {
+            void navigate("/selectionpage");
+          }}
         />
       </>
     );
@@ -153,35 +175,22 @@ export default function GamePage() {
     }
     // state: -1 = leave to set selection, 0 = retry same level, 1 = continue to next level.
     if (state === -1) {
-      navigate("/selectionpage");
+      void navigate("/selectionpage");
     } else if (state === 0) {
       resultAudioRef.current.pause();
       resultAudioRef.current.currentTime = 0;
       setTimeout(() => {
-        if (bgAudioRef.current) bgAudioRef.current.play();
+        playAudioSafe(bgAudioRef.current);
       }, 500);
       updateLevel();
     } else if (state === 1) {
       resultAudioRef.current.pause();
       resultAudioRef.current.currentTime = 0;
       setTimeout(() => {
-        if (bgAudioRef.current) bgAudioRef.current.play();
+        playAudioSafe(bgAudioRef.current);
       }, 500);
     }
   }
-
-  useEffect(() => {
-    // Swap game/result audio when a success/failure modal is shown.
-    if (showModal !== 0) {
-      if (bgAudioRef.current) {
-        bgAudioRef.current.pause();
-        bgAudioRef.current.currentTime = 0;
-      }
-      setTimeout(() => {
-        resultAudioRef.current.play();
-      }, 500);
-    }
-  }, [showModal]);
 
   return (
     <>
@@ -286,7 +295,9 @@ export default function GamePage() {
       <Menu
         onShowSettings={() => setShowSettings(true)}
         onShowHowTo={() => setShowHowTo(true)}
-        onReturnToSelection={() => navigate("/selectionpage")}
+        onReturnToSelection={() => {
+          void navigate("/selectionpage");
+        }}
       />
     </>
   );

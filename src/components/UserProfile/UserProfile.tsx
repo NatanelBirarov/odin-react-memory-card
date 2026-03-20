@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./UserProfile.module.css";
 import { authClient } from "../../scripts/authClient";
@@ -48,15 +48,15 @@ export default function UserProfile() {
   });
 
   const currentData = useRef<IUserProfileFormData>({
-    username: userSession.data?.user?.name || "",
-    email: userSession.data?.user?.email || "",
+    username: userSession.data?.user.name || "",
+    email: userSession.data?.user.email || "",
   });
 
   useEffect(() => {
     // Update currentData ref when userSession changes
     currentData.current = {
-      username: userSession.data?.user?.name || "",
-      email: userSession.data?.user?.email || "",
+      username: userSession.data?.user.name || "",
+      email: userSession.data?.user.email || "",
     };
   }, [userSession.data]);
 
@@ -121,9 +121,9 @@ export default function UserProfile() {
         currentData.current.email = trimmedEmail;
         setMessage("Email has been changed! Please verify your new email.");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error updating profile:", error);
-      setMessage(error.message || "Failed to update profile");
+      setMessage((error as Error).message || "Failed to update profile");
     } finally {
       setIsPending(false);
     }
@@ -136,7 +136,7 @@ export default function UserProfile() {
 
     try {
       // Call authClient.changePassword here
-      const { data, error } = await authClient.changePassword({
+      const { error } = await authClient.changePassword({
         newPassword: formData.newPassword, // required
         currentPassword: formData.oldPassword, // required
         revokeOtherSessions: true,
@@ -153,12 +153,14 @@ export default function UserProfile() {
         console.log("Password updated and other sessions logged out.");
         await authClient.signOut();
         setTimeout(() => {
-          navigate("/signin?redirectTo=titlepage");
+          void navigate("/signin?redirectTo=titlepage");
         }, 3000);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error updating password:", error);
-      setPasswordMessage(error.message || "Failed to update password");
+      setPasswordMessage(
+        (error as Error).message || "Failed to update password",
+      );
     } finally {
       setIsPasswordPending(false);
     }
@@ -192,7 +194,7 @@ export default function UserProfile() {
         <div className={styles.notification}>
           <p
             className={
-              passwordMessage.includes("failed") ? styles.error : styles.error
+              passwordMessage.includes("failed") ? styles.error : styles.success
             }
           >
             {passwordMessage}
@@ -201,14 +203,14 @@ export default function UserProfile() {
       )}
 
       <Modal contentType="modalContent">
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.form} onSubmit={void handleSubmit(onSubmit)}>
           <h2 className={styles.title}>User Profile</h2>
 
           <div className={styles.inputGroup}>
             <label className={styles.inputLabel}>Username:</label>
             <input
               type="text"
-              defaultValue={userSession.data?.user?.name || ""}
+              defaultValue={userSession.data?.user.name || ""}
               {...register("username", {
                 minLength: {
                   value: 3,
@@ -229,7 +231,7 @@ export default function UserProfile() {
             <label className={styles.inputLabel}>Email:</label>
             <input
               type="email"
-              defaultValue={userSession.data?.user?.email || ""}
+              defaultValue={userSession.data?.user.email || ""}
               {...register("email", {
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -249,7 +251,7 @@ export default function UserProfile() {
 
         <form
           className={styles.form}
-          onSubmit={handlePasswordSubmit(onPasswordSubmit)}
+          onSubmit={void handlePasswordSubmit(onPasswordSubmit)}
         >
           <h3 className={styles.sectionTitle}></h3>
 
@@ -285,7 +287,8 @@ export default function UserProfile() {
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/,
                   message: "Password is not valid",
                 },
-                onChange: (e) => validatePasswordRequirements(e.target.value),
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                  validatePasswordRequirements(e.target.value),
               })}
               aria-invalid={passwordErrors.newPassword ? "true" : "false"}
               disabled={isPasswordPending}

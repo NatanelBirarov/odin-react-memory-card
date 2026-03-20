@@ -1,6 +1,5 @@
 import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
-
-export type StateUpdater<T> = (param?: T | ((prev: T) => T)) => void;
+import React from "react";
 
 export type CardData = {
   id: string;
@@ -18,7 +17,7 @@ export type SetDataType = {
   completed: boolean;
 };
 
-type UserType = {
+export type UserType = {
   id: string;
   email: string;
   name: string;

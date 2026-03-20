@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React from "react";
 import styles from "./Modal.module.css";
 
 type ModalProps = {
@@ -16,7 +16,7 @@ export default function Modal({ contentType = "modal", children }: ModalProps) {
   // }, []);
 
   return (
-    <div className={`${styles.modal}`}>
+    <div className={styles.modal}>
       <div className={styles[contentType]}>{children}</div>
     </div>
   );

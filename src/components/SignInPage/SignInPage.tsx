@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -87,7 +87,7 @@ export default function SignInPage() {
 
       console.log("OTP code:", otpCode); // Debug log
 
-      const { data, error } = await ApiClient.verifyOTP({
+      const { error } = await ApiClient.verifyOTP({
         email,
         otp: otpCode,
       });
@@ -99,13 +99,13 @@ export default function SignInPage() {
         setErrorList(errors);
       } else {
         setErrorList([]);
-        navigate(normalizedRedirect);
+        void navigate(normalizedRedirect);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log("OTP verification error:", error);
-      const errors = Array.isArray(error.message)
-        ? error.message
-        : [error.message || "Sign in failed"];
+      const errors = Array.isArray((error as { message: [string] }).message)
+        ? (error as { message: [string] }).message
+        : [(error as { message: string }).message || "Sign in failed"];
       setErrorList(errors);
     } finally {
       setIsPending(false);
@@ -116,7 +116,7 @@ export default function SignInPage() {
     // setIsOTPSent(true);
     setIsPending(true);
     try {
-      const { data, error } = await ApiClient.signInWithOTP(formData);
+      const { error } = await ApiClient.signInWithOTP(formData);
       if (error) {
         console.log("Sign in error:", error);
         const errors = Array.isArray(error.message)
@@ -127,11 +127,11 @@ export default function SignInPage() {
         setIsOTPSent(true);
         setErrorList([]); // Clear any previous errors on success
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log("Sign in error:", error);
-      const errors = Array.isArray(error.message)
-        ? error.message
-        : [error.message || "Sign in failed"];
+      const errors = Array.isArray((error as { message: [string] }).message)
+        ? (error as { message: [string] }).message
+        : [(error as { message: string }).message || "Sign in failed"];
       setErrorList(errors);
     } finally {
       setIsPending(false);
@@ -141,7 +141,10 @@ export default function SignInPage() {
   return (
     <Modal contentType="modalContent">
       {isOTPSent ? (
-        <form className={styles.form} onSubmit={handleSubmitOTP(onOTPSubmit)}>
+        <form
+          className={styles.form}
+          onSubmit={void handleSubmitOTP(onOTPSubmit)}
+        >
           <h2 className={styles.title}>Enter OTP</h2>
           {errorList.length > 0 && (
             <div>
@@ -191,7 +194,7 @@ export default function SignInPage() {
       ) : (
         <form
           className={styles.form}
-          onSubmit={handleSubmitSignIn(onSignInSubmit)}
+          onSubmit={void handleSubmitSignIn(onSignInSubmit)}
         >
           <h2 className={styles.title}>Sign In</h2>
           {errorList.length > 0 && (

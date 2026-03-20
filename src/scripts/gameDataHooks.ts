@@ -26,7 +26,7 @@ function upsertGameData(
 export function useGameDataQuery(initialData?: SetDataType[]) {
   return useQuery({
     queryKey: GAME_DATA_QUERY_KEY,
-    queryFn: ApiClient.getGameData,
+    queryFn: () => ApiClient.getGameData(),
     staleTime: 60 * 1000,
     initialData,
   });
@@ -53,9 +53,10 @@ export function useSaveGameDataMutation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ApiClient.saveGameData,
+    mutationFn: (nextGameData: SetDataType) =>
+      ApiClient.saveGameData(nextGameData),
     // Optimistically write to cache/local storage before the request completes.
-    onMutate: async (nextGameData) => {
+    onMutate: async (nextGameData: SetDataType) => {
       // Avoid race conditions where in-flight queries overwrite optimistic data.
       await queryClient.cancelQueries({ queryKey: GAME_DATA_QUERY_KEY });
 
@@ -78,7 +79,7 @@ export function useSaveGameDataMutation() {
     },
     // Refetch so cache is synchronized with server state.
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: GAME_DATA_QUERY_KEY });
+      void queryClient.invalidateQueries({ queryKey: GAME_DATA_QUERY_KEY });
     },
   });
 }

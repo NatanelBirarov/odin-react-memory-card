@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
-import { ContextType, StateUpdater } from "../../scripts/types";
+import { ContextType } from "../../scripts/types";
 import styles from "./Button.module.css";
 
 type ButtonProps = {
   children?: React.ReactNode;
-  onClick?: StateUpdater<null>;
+  onClick?: () => void;
   type?: keyof typeof styles;
   animation?: keyof typeof styles;
   ref?: React.Ref<HTMLButtonElement>;

@@ -26,18 +26,19 @@ export default function ResetPasswordRequestPage() {
     setErrorMessage("");
 
     try {
+      const baseUrl =
+        import.meta.env.VITE_ENV === "production"
+          ? (import.meta.env.VITE_CLIENT_URL as string)
+          : (import.meta.env.VITE_CLIENT_URL_DEV as string);
+
       await authClient.requestPasswordReset({
         email: formData.email,
-        redirectTo: `${
-          import.meta.env.VITE_ENV === "production"
-            ? import.meta.env.VITE_CLIENT_URL
-            : import.meta.env.VITE_CLIENT_URL_DEV
-        }reset-password`, // URL to redirect to after password reset
+        redirectTo: `${baseUrl}reset-password`, // URL to redirect to after password reset
       });
       setIsEmailSent(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Password reset error:", error);
-      setErrorMessage(error.message || "Failed to send reset email");
+      setErrorMessage((error as Error).message || "Failed to send reset email");
     } finally {
       setIsPending(false);
     }
@@ -66,7 +67,7 @@ export default function ResetPasswordRequestPage() {
 
   return (
     <Modal contentType="modalContent">
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <form className={styles.form} onSubmit={void handleSubmit(onSubmit)}>
         <h2 className={styles.title}>Reset Password</h2>
         <p className={styles.description}>
           Enter your email address and we'll send you a link to reset your

@@ -1,13 +1,12 @@
 import Button from "../Button/Button";
-import { StateUpdater } from "../../scripts/types";
 import { BookCopy, CircleQuestionMark, Settings } from "lucide-react";
 import { useRef } from "react";
 import styles from "./Menu.module.css";
 
 type MenuProps = {
-  onShowSettings: StateUpdater<null>;
-  onShowHowTo: StateUpdater<null>;
-  onReturnToSelection: StateUpdater<null>;
+  onShowSettings: () => void;
+  onShowHowTo: () => void;
+  onReturnToSelection: () => void;
 };
 
 export default function Menu({
@@ -25,7 +24,7 @@ export default function Menu({
   }
 
   return (
-    <div className={`${styles.menu}`} ref={menuElement}>
+    <div className={styles.menu} ref={menuElement}>
       <Button type="menuToggle" onClick={handlePinMenu} ref={menuToggleButton}>
         ...
       </Button>

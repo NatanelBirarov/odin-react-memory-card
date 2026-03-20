@@ -8,9 +8,9 @@ export default function StartPage() {
   window.addEventListener(
     "click",
     () => {
-      navigate("/titlepage", { replace: true });
+      void navigate("/titlepage", { replace: true });
     },
-    { once: true }
+    { once: true },
   );
 
   return (

@@ -1,9 +1,8 @@
-import { useForm, FieldError } from "react-hook-form";
-import z, { set } from "zod";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import ApiClient from "../../scripts/apiClient";
 import { formSchema, ISignUpFormData } from "../../scripts/validationSchemas";
@@ -23,7 +22,7 @@ export default function SignUpPage() {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [waitingForVerification, setWaitingForVerification] =
     useState<boolean>(false);
-  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const [passwordRequirements, setPasswordRequirements] = useState({
     hasCorrectLength: false,
@@ -37,16 +36,20 @@ export default function SignUpPage() {
 
   useEffect(() => {
     if (waitingForVerification) {
-      pollIntervalRef.current = setInterval(async () => {
-        const userSession = await authClient.getSession();
-        if (userSession.data?.user?.emailVerified) {
-          // Email verified! Clean up and navigate
-          if (pollIntervalRef.current) {
-            clearInterval(pollIntervalRef.current);
+      pollIntervalRef.current = setInterval(() => {
+        void (async () => {
+          const userSession = await authClient.getSession();
+          if (userSession.data?.user.emailVerified) {
+            // Email verified! Clean up and navigate
+            if (pollIntervalRef.current) {
+              clearInterval(pollIntervalRef.current);
+            }
+            setSuccessMessage("Email verified! Redirecting...");
+            setTimeout(() => {
+              void navigate("/titlepage");
+            }, 1500);
           }
-          setSuccessMessage("Email verified! Redirecting...");
-          setTimeout(() => navigate("/titlepage"), 1500);
-        }
+        })();
       }, 3000); // Check every 3 seconds
 
       // Cleanup on unmount
@@ -68,12 +71,12 @@ export default function SignUpPage() {
       );
       setWaitingForVerification(true);
       setErrorList([]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Handle sign up error (e.g., show error messages)
       console.log("Sign up error:", error);
-      const errors = Array.isArray(error.message)
-        ? error.message
-        : [error.message || "Sign up failed"];
+      const errors = Array.isArray((error as { message: [string] }).message)
+        ? (error as { message: [string] }).message
+        : [(error as { message: string }).message || "Sign up failed"];
       setErrorList(errors);
       setWaitingForVerification(false);
     } finally {
@@ -131,7 +134,12 @@ export default function SignUpPage() {
           )}
         </div>
       ) : (
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className={styles.form}
+          onSubmit={(e) => {
+            void handleSubmit(onSubmit)(e);
+          }}
+        >
           <h2 className={styles.title}>Sign Up</h2>
           {errorList.length > 0 && (
             <div>

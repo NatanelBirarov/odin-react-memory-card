@@ -14,6 +14,6 @@ export default async function pokemonLoader({
   } else if (url.pathname.includes("selectionpage")) {
     return queryClient.ensureQueryData(selectionPageQuery());
   } else if (url.pathname.includes("gamepage")) {
-    return queryClient.ensureQueryData(gamePageQuery(params.setId!));
+    return queryClient.ensureQueryData(gamePageQuery(params.setId as string));
   }
 }

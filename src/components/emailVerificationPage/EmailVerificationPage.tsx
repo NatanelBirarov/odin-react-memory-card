@@ -1,29 +1,40 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import styles from "./EmailVerificationPage.module.css";
 import { authClient } from "../../scripts/authClient";
 
 export default function EmailVerificationPage() {
-  const [countdown, setCountdown] = useState(5);
-  const [searchParams] = useSearchParams();
+  // const [countdown, setCountdown] = useState(5);
   const [verificationStatus, setVerificationStatus] = useState<
     "loading" | "success" | "error"
   >("loading");
 
   useEffect(() => {
-    const verifyEmail = async () => {
-      // Get verification token from URL
-      const userSession = await authClient.getSession();
+    let cancelled = false;
 
-      if (userSession.data?.user?.emailVerified) {
-        setVerificationStatus("success");
-      } else {
-        setVerificationStatus("error");
+    const verifyEmail = async () => {
+      try {
+        const userSession = await authClient.getSession();
+        if (cancelled) return;
+
+        if (userSession.data?.user.emailVerified) {
+          setVerificationStatus("success");
+        } else {
+          setVerificationStatus("error");
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Email verification check failed:", error);
+          setVerificationStatus("error");
+        }
       }
     };
 
-    verifyEmail();
-  }, [searchParams]);
+    void verifyEmail();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // useEffect(() => {
   //   if (verificationStatus === "success") {
@@ -61,11 +72,7 @@ export default function EmailVerificationPage() {
             Your email has been successfully verified. You can now close this
             window.
           </p>
-          <p className={styles.countdown}>
-            {/* This page will automatically close in {countdown} second */}
-            You can now close this window.
-            {countdown !== 1 ? "s" : ""}.
-          </p>
+          <p className={styles.countdown}>You can now close this window.</p>
         </div>
       </div>
     );
