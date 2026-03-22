@@ -29,6 +29,60 @@ type CardMarket = {
 
 type CardWithMarket = PokemonTCG.ICard & CardMarket;
 
+const POKEMON_API_BASE_URL = "https://api.pokemontcg.io/v2";
+const API_TIMEOUT_MS = 1000;
+
+function toSearchParams(params: PokemonTCG.IParameter): URLSearchParams {
+  const searchParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      searchParams.set(key, String(value));
+    }
+  });
+
+  return searchParams;
+}
+
+function buildApiHeaders(): HeadersInit {
+  const apiKey = import.meta.env.VITE_POKEMONTCG_API_KEY as string | undefined;
+
+  return apiKey
+    ? {
+        "Content-Type": "application/json",
+        "X-Api-Key": apiKey,
+      }
+    : {
+        "Content-Type": "application/json",
+      };
+}
+
+async function fetchPokemonApi<T>(
+  resource: "cards" | "sets",
+  params: PokemonTCG.IParameter,
+): Promise<T[]> {
+  const result = await fetchWithRetry(async () => {
+    const response = await fetch(
+      `${POKEMON_API_BASE_URL}/${resource}?${toSearchParams(params).toString()}`,
+      {
+        headers: buildApiHeaders(),
+        signal: AbortSignal.timeout(API_TIMEOUT_MS),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Pokemon TCG API request failed (${response.status} ${response.statusText})`,
+      );
+    }
+
+    return response;
+  }, 3);
+
+  const data = await parseJson<{ data: T[] }>(result);
+  return data.data;
+}
+
 function parseJson<T>(response: Response): Promise<T> {
   return response.json() as Promise<T>;
 }
@@ -38,18 +92,10 @@ export default async function fetchPokemon(
 ): Promise<PokemonTCG.ISet[] | CardWithMarket[] | CardData[]> {
   try {
     if (fetchParams.type === "card") {
-      const result = await fetchWithRetry(
-        () => PokemonTCG.findCardsByQueries(fetchParams.params),
-        { timeoutSecs: 1, tries: 3 },
-      );
-      return result;
+      return await fetchPokemonApi<CardWithMarket>("cards", fetchParams.params);
     }
 
-    const result = await fetchWithRetry(
-      () => PokemonTCG.findSetsByQueries(fetchParams.params),
-      { timeoutSecs: 1, tries: 3 },
-    );
-    return result;
+    return await fetchPokemonApi<PokemonTCG.ISet>("sets", fetchParams.params);
   } catch (error: unknown) {
     console.error("Error fetching Pokémon data from API:", error);
     console.info("Trying to fetch local data...:");
