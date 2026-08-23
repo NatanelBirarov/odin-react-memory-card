@@ -1,7 +1,7 @@
 import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
 import { CardData, QueryOptions } from "./types";
 import { fetchWithRetry } from "./fetchHandler";
-// pokemon.configure({ apiKey: "a087390f-8839-444e-90b6-b09b9ecb6699" });
+import { parseJson } from "./utils";
 
 type CardMarket = {
   cardmarket?: {
@@ -30,7 +30,7 @@ type CardMarket = {
 type CardWithMarket = PokemonTCG.ICard & CardMarket;
 
 const POKEMON_API_BASE_URL = "https://api.pokemontcg.io/v2";
-const API_TIMEOUT_MS = 1000;
+const API_TIMEOUT_MS = 10000;
 
 function toSearchParams(params: PokemonTCG.IParameter): URLSearchParams {
   const searchParams = new URLSearchParams();
@@ -49,12 +49,12 @@ function buildApiHeaders(): HeadersInit {
 
   return apiKey
     ? {
-        "Content-Type": "application/json",
-        "X-Api-Key": apiKey,
-      }
+      "Content-Type": "application/json",
+      "X-Api-Key": apiKey,
+    }
     : {
-        "Content-Type": "application/json",
-      };
+      "Content-Type": "application/json",
+    };
 }
 
 async function fetchPokemonApi<T>(
@@ -81,10 +81,6 @@ async function fetchPokemonApi<T>(
 
   const data = await parseJson<{ data: T[] }>(result);
   return data.data;
-}
-
-function parseJson<T>(response: Response): Promise<T> {
-  return response.json() as Promise<T>;
 }
 
 export default async function fetchPokemon(

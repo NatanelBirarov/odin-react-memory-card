@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SettingsPage from "../SettingsPage/SettingsPage";
 import Menu from "../Menu/Menu";
 import HowToPlayPage from "../HowToPlayPage/HowToPlay";
@@ -12,6 +12,7 @@ import Button from "../Button/Button";
 
 import styles from "./SetSelectionPage.module.css";
 import { useGameData } from "../../scripts/gameDataHooks";
+import { useSettingsContext } from "../../context/SettingsContext";
 
 type SetLogo = {
   id: string;
@@ -27,7 +28,7 @@ export default function SetSelectionPage() {
     showHowTo,
     setShowHowTo,
     musicVolume,
-  } = useOutletContext<ContextType>();
+  } = useSettingsContext();
 
   const [pokemonSets, setPokemonSets] = useState<SetLogo[]>([]);
   const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));

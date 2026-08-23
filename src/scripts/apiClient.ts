@@ -1,6 +1,7 @@
 // src/scripts/apiClient.ts (client-side)
 import { authClient } from "./authClient";
 import type { ISignInWithPasswordFormData, SetDataType } from "./types";
+import { parseJson } from "./utils";
 
 import { ISignInFormData, ISignUpFormData } from "./validationSchemas";
 
@@ -8,11 +9,6 @@ type SettingsResponse = {
   musicVolume: number;
   sfxVolume: number;
 };
-
-// Centralizes typed JSON parsing so each endpoint can declare its expected response shape.
-function parseJson<T>(response: Response): Promise<T> {
-  return response.json() as Promise<T>;
-}
 
 // Resolve API base URL from environment once and reuse for all requests.
 const API_BASE =
@@ -31,11 +27,10 @@ const ApiClient = {
       email: formData.email,
       password: formData.password,
       image: imageName,
-      callbackURL: `${
-        import.meta.env.VITE_ENV === "production"
+      callbackURL: `${import.meta.env.VITE_ENV === "production"
           ? import.meta.env.VITE_CLIENT_URL
           : import.meta.env.VITE_CLIENT_URL_DEV
-      }verify`,
+        }verify`,
     });
   },
 

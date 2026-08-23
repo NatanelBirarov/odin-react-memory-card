@@ -3,7 +3,7 @@ import styles from "./EmailVerificationPage.module.css";
 import { authClient } from "../../scripts/authClient";
 
 export default function EmailVerificationPage() {
-  // const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(10);
   const [verificationStatus, setVerificationStatus] = useState<
     "loading" | "success" | "error"
   >("loading");
@@ -36,21 +36,21 @@ export default function EmailVerificationPage() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (verificationStatus === "success") {
-  //     const timer = setInterval(() => {
-  //       setCountdown((prev) => {
-  //         if (prev <= 1) {
-  //           clearInterval(timer);
-  //           window.close();
-  //           return 0;
-  //         }
-  //         return prev - 1;
-  //       });
-  //     }, 1000);
-  //     return () => clearInterval(timer);
-  //   }
-  // }, [verificationStatus]);
+  useEffect(() => {
+    if (verificationStatus === "success") {
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            window.close();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [verificationStatus]);
 
   if (verificationStatus === "loading") {
     return (
@@ -72,7 +72,7 @@ export default function EmailVerificationPage() {
             Your email has been successfully verified. You can now close this
             window.
           </p>
-          <p className={styles.countdown}>You can now close this window.</p>
+          <p className={styles.countdown}>This window will automatically close in {countdown} seconds.</p>
         </div>
       </div>
     );

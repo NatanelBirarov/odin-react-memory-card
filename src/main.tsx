@@ -11,15 +11,16 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import queryClient from "./scripts/queryClient.js";
 import pokemonLoader from "./scripts/pokemonLoader.js";
 
-import App from "./components/App.tsx";
+import App from "./components/App.js";
 import TitlePage from "./components/TitlePage/TitlePage.js";
 import SetSelectionPage from "./components/SetSelectionPage/SetSelectionPage.js";
 import GamePage from "./components/GamePage/GamePage.js";
 import Loader from "./components/Loader/Loader.js";
+import ErrorPage from "./components/ErrorPage/ErrorPage.js";
 import StartPage from "./components/StartPage/StartPage.js";
 import SignInPage from "./components/SignInPage/SignInPage.js";
 import SignUpPage from "./components/SignUpPage/SignUpPage.js";
-import EmailVerificationPage from "./components/emailVerificationPage/EmailVerificationPage.js";
+import EmailVerificationPage from "./components/EmailVerificationPage/EmailVerificationPage.js";
 import ResetPasswordRequestPage from "./components/ResetPasswordRequestPage/ResetPasswordRequestPage.js";
 import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage.js";
 import UserProfile from "./components/UserProfile/UserProfile.js";
@@ -30,7 +31,7 @@ const router = createBrowserRouter(
       path="/"
       element={<App />}
       hydrateFallbackElement={<Loader />}
-      errorElement={<Loader />}
+      errorElement={<ErrorPage />}
     >
       <Route index element={<StartPage />}></Route>
       <Route path="titlepage" element={<TitlePage />} loader={pokemonLoader} />
@@ -56,7 +57,7 @@ const router = createBrowserRouter(
   )
 );
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useOutletContext } from "react-router-dom";
-import { ContextType } from "../../scripts/types";
+import { useSettingsContext } from "../../context/SettingsContext";
 import styles from "./Button.module.css";
 
 type ButtonProps = {
@@ -22,7 +21,7 @@ export default function Button({
   submit = false,
   disabled = false,
 }: ButtonProps) {
-  const { sfxVolume } = useOutletContext<ContextType>();
+  const { sfxVolume } = useSettingsContext();
   const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
 
   useEffect(() => {

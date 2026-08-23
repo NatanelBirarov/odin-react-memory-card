@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import Tilt from "react-parallax-tilt";
 import SettingsPage from "../SettingsPage/SettingsPage";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HowToPlayPage from "../HowToPlayPage/HowToPlay";
 import Button from "../Button/Button";
 import { useQuery } from "@tanstack/react-query";
@@ -10,6 +10,7 @@ import { CardData, ContextType } from "../../scripts/types";
 
 import styles from "./TitlePage.module.css";
 import Img from "../Img/Img";
+import { useSettingsContext } from "../../context/SettingsContext";
 import { authClient } from "../../scripts/authClient";
 import LocalStorageFactory from "../../scripts/localStorageFactory";
 import ApiClient from "../../scripts/apiClient";
@@ -26,7 +27,7 @@ export default function TitlePage() {
     showHowTo,
     setShowHowTo,
     musicVolume,
-  } = useOutletContext<ContextType>();
+  } = useSettingsContext();
 
   const bgAudioRef = useRef<HTMLAudioElement | null>(null);
   const navigate = useNavigate();
@@ -69,8 +70,8 @@ export default function TitlePage() {
 
         const remote = (await ApiClient.getSettings()) as SettingsType;
         LocalStorageFactory.set("settings", {
-          musicVolumeInit: remote.musicVolume,
-          sfxVolumeInit: remote.sfxVolume,
+          musicVolume: remote.musicVolume,
+          sfxVolume: remote.sfxVolume,
         });
       } catch (error: unknown) {
         console.log("Error loading settings:", error);

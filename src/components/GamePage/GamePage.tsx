@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Card from "../Card/Card";
 import Score from "../Scores/Scores";
 import Modal, { ModalBlockRow, ModalText } from "../Modal/Modal";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SettingsPage from "../SettingsPage/SettingsPage";
 import Menu from "../Menu/Menu";
 import HowToPlayPage from "../HowToPlayPage/HowToPlay";
@@ -18,6 +18,7 @@ import {
   useGameData,
   useSaveGameDataMutation,
 } from "../../scripts/gameDataHooks";
+import { useSettingsContext } from "../../context/SettingsContext";
 
 export default function GamePage() {
   const {
@@ -26,7 +27,7 @@ export default function GamePage() {
     showHowTo,
     setShowHowTo,
     musicVolume,
-  } = useOutletContext<ContextType>();
+  } = useSettingsContext();
 
   const { data: gameData = [], isError: isGameDataError } = useGameData();
 

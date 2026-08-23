@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { authClient } from "../../scripts/authClient";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
+import { PASSWORD_REGEX } from "../../scripts/validationSchemas";
 import styles from "./ResetPasswordPage.module.css";
 
 interface IResetPasswordFormData {
@@ -137,8 +138,7 @@ export default function ResetPasswordPage() {
                 message: "Password must be at between 6 and 12 characters",
               },
               pattern: {
-                value:
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/,
+                value: PASSWORD_REGEX,
                 message:
                   "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
               },

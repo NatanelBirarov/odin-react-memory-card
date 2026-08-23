@@ -86,13 +86,7 @@ app.put(
       if (!req.userId) {
         throw new Error("User ID is required");
       }
-      const validation = settingsSchema.safeParse(req.body);
-      if (!validation.success) {
-        res.status(400).json({ error: validation.error });
-        return;
-      }
-
-      const { musicVolume, sfxVolume } = validation.data;
+      const { musicVolume, sfxVolume } = req.body;
       res.json(
         await DatabaseService.updateSettings(
           req.userId,
@@ -128,14 +122,7 @@ app.post(
       if (!req.userId) {
         throw new Error("User ID is required");
       }
-      const validation = gameDataSchema.safeParse(req.body);
-      if (!validation.success) {
-        res.status(400).json({ error: validation.error });
-        return;
-      }
-
-      const { setId, completedLevels, levels, highScore, completed } =
-        validation.data;
+      const { setId, completedLevels, levels, highScore, completed } = req.body;
       await DatabaseService.upsertLevelData(req.userId, {
         id: setId,
         completedLevels,

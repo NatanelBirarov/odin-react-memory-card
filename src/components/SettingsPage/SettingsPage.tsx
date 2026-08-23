@@ -1,4 +1,3 @@
-import { useOutletContext } from "react-router-dom";
 import Button from "../Button/Button";
 import Modal, {
   ModalBlockColumn,
@@ -6,12 +5,12 @@ import Modal, {
   ModalText,
 } from "../Modal/Modal";
 import LocalStorageFactory from "../../scripts/localStorageFactory";
-import { ContextType } from "../../scripts/types";
-import { ChangeEvent, WheelEvent } from "react";
+import { ChangeEvent, WheelEvent, useRef } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 
 import styles from "./SettingsPage.module.css";
 import modalStyles from "../Modal/Modal.module.css";
+import { useSettingsContext } from "../../context/SettingsContext";
 
 type SettingsPageProps = {
   onClose: () => void;
@@ -19,10 +18,12 @@ type SettingsPageProps = {
 
 export default function SettingsPage({ onClose }: SettingsPageProps) {
   const { musicVolume, setMusicVolume, sfxVolume, setSfxVolume } =
-    useOutletContext<ContextType>();
+    useSettingsContext();
 
   const isMusicMute = musicVolume === 0;
   const isSfxMute = sfxVolume === 0;
+  const prevMusicVolumeRef = useRef(musicVolume > 0 ? musicVolume : 0.5);
+  const prevSfxVolumeRef = useRef(sfxVolume > 0 ? sfxVolume : 0.5);
 
   function setVolume(newValue: number, type: number) {
     if (type === 1) {
@@ -58,6 +59,24 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
     window.location.reload();
   }
 
+  function toggleMute(type: number) {
+    if (type === 1) {
+      if (isMusicMute) {
+        setVolume(prevMusicVolumeRef.current * 100, 1);
+      } else {
+        prevMusicVolumeRef.current = musicVolume;
+        setVolume(0, 1);
+      }
+    } else {
+      if (isSfxMute) {
+        setVolume(prevSfxVolumeRef.current * 100, 2);
+      } else {
+        prevSfxVolumeRef.current = sfxVolume;
+        setVolume(0, 2);
+      }
+    }
+  }
+
   return (
     <Modal contentType="settingsModalContent">
       <ModalBlockColumn>
@@ -81,7 +100,10 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
               handleSliderWheel(e, 1)
             }
           />
-          <Button type="mute" onClick={() => setMusicVolume(0)}>
+          <Button
+            type="mute"
+            onClick={() => toggleMute(1)}
+          >
             {isMusicMute ? (
               <VolumeX color="black" size={24} />
             ) : (
@@ -111,7 +133,10 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
               handleSliderWheel(e, 2)
             }
           />
-          <Button type="mute" onClick={() => setSfxVolume(0)}>
+          <Button
+            type="mute"
+            onClick={() => toggleMute(2)}
+          >
             {isSfxMute ? (
               <VolumeX color="black" size={24} />
             ) : (
@@ -121,7 +146,7 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
         </ModalBlockRow>
       </ModalBlockColumn>
       <Button type="modal" onClick={() => handleClearData()}>
-        <div className={modalStyles.modalText}>Clear game date</div>
+        <div className={modalStyles.modalText}>Clear game data</div>
       </Button>
       <Button type="modal" onClick={onClose}>
         <div className={modalStyles.modalText}>Close</div>

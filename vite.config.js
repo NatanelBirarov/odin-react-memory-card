@@ -6,9 +6,4 @@ dotenv.config();
 
 export default defineConfig({
   plugins: [react()],
-  define: {
-    "process.env.POKEMONTCG_API_KEY": JSON.stringify(
-      process.env.POKEMONTCG_API_KEY
-    ),
-  },
 });

@@ -85,8 +85,6 @@ export default function SignInPage() {
         (formData.digit5 || "") +
         (formData.digit6 || "");
 
-      console.log("OTP code:", otpCode); // Debug log
-
       const { error } = await ApiClient.verifyOTP({
         email,
         otp: otpCode,

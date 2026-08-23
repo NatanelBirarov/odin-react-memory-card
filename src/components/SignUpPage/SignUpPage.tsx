@@ -9,6 +9,7 @@ import { formSchema, ISignUpFormData } from "../../scripts/validationSchemas";
 
 import styles from "./SignUpPage.module.css";
 import { authClient } from "../../scripts/authClient";
+import PasswordRequirements from "../PasswordRequirements/PasswordRequirements";
 
 export default function SignUpPage() {
   const {
@@ -62,7 +63,6 @@ export default function SignUpPage() {
   }, [waitingForVerification, navigate]);
 
   async function onSubmit(formData: ISignUpFormData) {
-    console.log("Submitting form data:", formData);
     setIsPending(true);
     try {
       await ApiClient.signUp(formData);
@@ -192,53 +192,7 @@ export default function SignUpPage() {
               </span>
             )}
 
-            <div className={styles.requirementsContainer}>
-              <div
-                className={styles.requirement}
-                data-met={passwordRequirements.hasCorrectLength}
-              >
-                <div className={styles.indicator}>
-                  <span>&times;</span>
-                </div>
-                <span>Between 6 and 12 characters</span>
-              </div>
-              <div
-                className={styles.requirement}
-                data-met={passwordRequirements.hasUpperCase}
-              >
-                <div className={styles.indicator}>
-                  <span>&times;</span>
-                </div>
-                <span>One uppercase letter</span>
-              </div>
-              <div
-                className={styles.requirement}
-                data-met={passwordRequirements.hasLowerCase}
-              >
-                <div className={styles.indicator}>
-                  <span>&times;</span>
-                </div>
-                <span>One lowercase letter</span>
-              </div>
-              <div
-                className={styles.requirement}
-                data-met={passwordRequirements.hasNumber}
-              >
-                <div className={styles.indicator}>
-                  <span>&times;</span>
-                </div>
-                <span>One number</span>
-              </div>
-              <div
-                className={styles.requirement}
-                data-met={passwordRequirements.hasSpecialChar}
-              >
-                <div className={styles.indicator}>
-                  <span>&times;</span>
-                </div>
-                <span>One special character</span>
-              </div>
-            </div>
+            <PasswordRequirements requirements={passwordRequirements} />
           </div>
           <div className={styles.inputGroup}>
             <label>Confirm Password:</label>
@@ -258,10 +212,10 @@ export default function SignUpPage() {
             <input type="file" {...register("image")} disabled={isPending} />
             {errors.image && (
               <span>
-                {"message" in errors.image
-                  ? (errors.image.message as string)
-                  : "image" in errors.image
-                    ? (errors.image.image?.message as string)
+                {"message" in (errors.image as any)
+                  ? ((errors.image as any).message as string)
+                  : "image" in (errors.image as any)
+                    ? ((errors.image as any).image?.message as string)
                     : "Invalid file"}
               </span>
             )}

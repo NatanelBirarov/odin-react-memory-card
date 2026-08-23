@@ -5,6 +5,8 @@ import { authClient } from "../../scripts/authClient";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router";
+import { PASSWORD_REGEX } from "../../scripts/validationSchemas";
+import PasswordRequirements from "../PasswordRequirements/PasswordRequirements";
 
 interface IUserProfileFormData {
   username: string;
@@ -78,19 +80,6 @@ export default function UserProfile() {
     }
   }, [passwordMessage]);
 
-  // useEffect(() => {
-  //   // Pre-fill form with current user data
-  //   if (userSession.data?.user) {
-  //     const user = userSession.data.user;
-  //     // Set default values in the form
-  //     register("username").onChange({
-  //       target: { value: user.name || "" },
-  //     } as any);
-  //     register("email").onChange({
-  //       target: { value: user.email || "" },
-  //     } as any);
-  //   }
-  // }, [userSession.data, register]);
 
   const onSubmit = async (formData: IUserProfileFormData) => {
     setIsPending(true);
@@ -112,11 +101,10 @@ export default function UserProfile() {
       if (trimmedEmail && trimmedEmail !== currentData.current.email) {
         await authClient.changeEmail({
           newEmail: trimmedEmail,
-          callbackURL: `${
-            import.meta.env.VITE_ENV === "production"
-              ? import.meta.env.VITE_CLIENT_URL_PROD
-              : import.meta.env.VITE_CLIENT_URL_DEV
-          }verify`, // to redirect after verification
+          callbackURL: `${import.meta.env.VITE_ENV === "production"
+            ? import.meta.env.VITE_CLIENT_URL_PROD
+            : import.meta.env.VITE_CLIENT_URL_DEV
+            }verify`, // to redirect after verification
         });
         currentData.current.email = trimmedEmail;
         setMessage("Email has been changed! Please verify your new email.");
@@ -131,7 +119,6 @@ export default function UserProfile() {
 
   const onPasswordSubmit = async (formData: IPasswordFormData) => {
     setIsPasswordPending(true);
-    setPasswordMessage("");
     setPasswordMessage("");
 
     try {
@@ -253,7 +240,7 @@ export default function UserProfile() {
           className={styles.form}
           onSubmit={void handlePasswordSubmit(onPasswordSubmit)}
         >
-          <h3 className={styles.sectionTitle}></h3>
+          <h3 className={styles.sectionTitle}>Change Password</h3>
 
           <div className={styles.inputGroup}>
             <label className={styles.inputLabel}>Current Password:</label>
@@ -283,8 +270,7 @@ export default function UserProfile() {
                   message: "Password is not valid",
                 },
                 pattern: {
-                  value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/,
+                  value: PASSWORD_REGEX,
                   message: "Password is not valid",
                 },
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -294,53 +280,7 @@ export default function UserProfile() {
               disabled={isPasswordPending}
             />
 
-            <div className={styles.requirementsContainer}>
-              <div
-                className={styles.requirement}
-                data-met={passwordRequirements.hasCorrectLength}
-              >
-                <div className={styles.indicator}>
-                  <span>&times;</span>
-                </div>
-                <span>Between 6 and 12 characters</span>
-              </div>
-              <div
-                className={styles.requirement}
-                data-met={passwordRequirements.hasUpperCase}
-              >
-                <div className={styles.indicator}>
-                  <span>&times;</span>
-                </div>
-                <span>One uppercase letter</span>
-              </div>
-              <div
-                className={styles.requirement}
-                data-met={passwordRequirements.hasLowerCase}
-              >
-                <div className={styles.indicator}>
-                  <span>&times;</span>
-                </div>
-                <span>One lowercase letter</span>
-              </div>
-              <div
-                className={styles.requirement}
-                data-met={passwordRequirements.hasNumber}
-              >
-                <div className={styles.indicator}>
-                  <span>&times;</span>
-                </div>
-                <span>One number</span>
-              </div>
-              <div
-                className={styles.requirement}
-                data-met={passwordRequirements.hasSpecialChar}
-              >
-                <div className={styles.indicator}>
-                  <span>&times;</span>
-                </div>
-                <span>One special character</span>
-              </div>
-            </div>
+            <PasswordRequirements requirements={passwordRequirements} />
 
             <span>{passwordErrors.newPassword?.message}</span>
           </div>

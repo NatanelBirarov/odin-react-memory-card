@@ -1,5 +1,8 @@
 import z from "zod";
 
+export const PASSWORD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/;
+
 const MAX_FILE_SIZE = 1024 * 1024 * 5;
 const ACCEPTED_IMAGE_MIME_TYPES = [
   "image/jpeg",
@@ -32,7 +35,7 @@ export const formSchema = z
       .max(12, "Password must be between 6 and 12 characters")
       .regex(
         // At least one uppercase letter, one lowercase letter, one number, and one special character
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/,
+        PASSWORD_REGEX,
         "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
       ),
     confirmPassword: z.string(),

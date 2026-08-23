@@ -4,7 +4,8 @@
     "allowJs": true,
     "checkJs": false,
     "jsx": "react-jsx",
-    "moduleResolution": "node",
+    "target": "es2022",
+    "moduleResolution": "bundler",
     "module": "es2022",
     "noEmit": true,
     "esModuleInterop": true,
@@ -13,8 +14,6 @@
     "types": ["node", "vite/client"]
   },
   "include": [
-    "src",
-    ".vscode/server/src/databaseService.ts",
-    "server/src/prisma"
+    "src"
   ]
 }
