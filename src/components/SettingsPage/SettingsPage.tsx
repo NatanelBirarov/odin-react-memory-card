@@ -81,7 +81,7 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
     <Modal contentType="settingsModalContent">
       <ModalBlockColumn>
         <ModalText>
-          <label htmlFor="music-volume">
+          <label htmlFor="music-volume" className={modalStyles.modalText}>
             <p>Music volume</p>
           </label>
         </ModalText>
@@ -114,7 +114,7 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
       </ModalBlockColumn>
       <ModalBlockColumn>
         <ModalText>
-          <label htmlFor="music-volume" className={modalStyles.modalText}>
+          <label htmlFor="sfx-volume" className={modalStyles.modalText}>
             <p>SFX volume</p>
           </label>
         </ModalText>

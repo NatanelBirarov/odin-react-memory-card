@@ -10,6 +10,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import queryClient from "./scripts/queryClient.js";
 import pokemonLoader from "./scripts/pokemonLoader.js";
+import { SettingsProvider } from "./context/SettingsContext.js";
 
 import App from "./components/App.js";
 import TitlePage from "./components/TitlePage/TitlePage.js";
@@ -61,7 +62,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <RouterProvider router={router} />
+      <SettingsProvider>
+        <RouterProvider router={router} />
+      </SettingsProvider>
     </QueryClientProvider>
   </StrictMode>
 );

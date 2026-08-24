@@ -35,6 +35,7 @@ export default function ResetPasswordRequestPage() {
         email: formData.email,
         redirectTo: `${baseUrl}reset-password`, // URL to redirect to after password reset
       });
+      setEmail(formData.email);
       setIsEmailSent(true);
     } catch (error: unknown) {
       console.error("Password reset error:", error);
@@ -67,7 +68,7 @@ export default function ResetPasswordRequestPage() {
 
   return (
     <Modal contentType="modalContent">
-      <form className={styles.form} onSubmit={void handleSubmit(onSubmit)}>
+      <form className={styles.form} onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
         <h2 className={styles.title}>Reset Password</h2>
         <p className={styles.description}>
           Enter your email address and we'll send you a link to reset your
@@ -80,8 +81,6 @@ export default function ResetPasswordRequestPage() {
             type="email"
             {...register("email", { required: "Email is required" })}
             aria-invalid={errors.email ? "true" : "false"}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             disabled={isPending}
           />
           {errors.email && (

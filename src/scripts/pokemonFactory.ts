@@ -110,32 +110,31 @@ export default async function fetchPokemon(
             .flat()
             .filter(
               (card: CardWithMarket) =>
-                card.set.name === "Prismatic Evolutions" &&
-                card.supertype === PokemonTCG.Supertype.Pokemon,
+                card?.set?.name === "Prismatic Evolutions" &&
+                card?.supertype === PokemonTCG.Supertype.Pokemon,
             )
             .sort(
               (a: CardWithMarket, b: CardWithMarket) =>
-                (a.cardmarket?.prices.averageSellPrice ?? 0) -
-                (b.cardmarket?.prices.averageSellPrice ?? 0),
+                (a?.cardmarket?.prices?.averageSellPrice ?? 0) -
+                (b?.cardmarket?.prices?.averageSellPrice ?? 0),
             )
             .map((card: CardWithMarket) => {
               return { id: card.id, images: card.images } as CardData;
             });
         } else {
           // Otherwise, filter by set ID
-          const results: CardWithMarket[][] = await fetchCardsFromFiles(files);
-          const sortedRetults = results
+          const setId = fetchParams.queryKey[1];
+          const results = await fetchCardsFromFiles([`${setId}.json`]);
+          const sortedResults = results
             .flat()
-            .filter(
-              (card: CardWithMarket) => card.set.id === fetchParams.queryKey[1],
-            )
+            .filter(Boolean) // filters out any empty/falsy items
             .sort(
               (a: CardWithMarket, b: CardWithMarket) =>
-                (a.cardmarket?.prices.averageSellPrice ?? 0) -
-                (b.cardmarket?.prices.averageSellPrice ?? 0),
+                (a?.cardmarket?.prices?.averageSellPrice ?? 0) -
+                (b?.cardmarket?.prices?.averageSellPrice ?? 0),
             );
 
-          return sortedRetults.map((card: PokemonTCG.ICard) => {
+          return sortedResults.map((card: PokemonTCG.ICard) => {
             return {
               id: card.id,
               name: card.name,

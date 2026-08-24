@@ -190,7 +190,7 @@ export default function UserProfile() {
       )}
 
       <Modal contentType="modalContent">
-        <form className={styles.form} onSubmit={void handleSubmit(onSubmit)}>
+        <form className={styles.form} onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
           <h2 className={styles.title}>User Profile</h2>
 
           <div className={styles.inputGroup}>
@@ -238,7 +238,7 @@ export default function UserProfile() {
 
         <form
           className={styles.form}
-          onSubmit={void handlePasswordSubmit(onPasswordSubmit)}
+          onSubmit={(e) => void handlePasswordSubmit(onPasswordSubmit)(e)}
         >
           <h3 className={styles.sectionTitle}>Change Password</h3>
 

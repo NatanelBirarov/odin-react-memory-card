@@ -28,8 +28,8 @@ const ApiClient = {
       password: formData.password,
       image: imageName,
       callbackURL: `${import.meta.env.VITE_ENV === "production"
-          ? import.meta.env.VITE_CLIENT_URL
-          : import.meta.env.VITE_CLIENT_URL_DEV
+        ? import.meta.env.VITE_CLIENT_URL
+        : import.meta.env.VITE_CLIENT_URL_DEV
         }verify`,
     });
   },
@@ -58,7 +58,7 @@ const ApiClient = {
   },
 
   async getSettings(): Promise<SettingsResponse> {
-    const response = await fetch(`${API_BASE}/api/settings/`, {
+    const response = await fetch(`${API_BASE}/settings/`, {
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
@@ -71,7 +71,7 @@ const ApiClient = {
     musicVolume: number,
     sfxVolume: number,
   ): Promise<SettingsResponse> {
-    const response = await fetch(`${API_BASE}/api/settings/`, {
+    const response = await fetch(`${API_BASE}/settings/`, {
       method: "PUT",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -82,7 +82,7 @@ const ApiClient = {
   },
 
   async getGameData(): Promise<SetDataType[]> {
-    const response = await fetch(`${API_BASE}/api/gamedata/`, {
+    const response = await fetch(`${API_BASE}/gamedata/`, {
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
@@ -91,7 +91,7 @@ const ApiClient = {
   },
 
   async saveGameData(gameData: SetDataType): Promise<{ success: boolean }> {
-    const response = await fetch(`${API_BASE}/api/gamedata`, {
+    const response = await fetch(`${API_BASE}/gamedata`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...gameData }),

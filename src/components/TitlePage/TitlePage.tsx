@@ -6,7 +6,7 @@ import HowToPlayPage from "../HowToPlayPage/HowToPlay";
 import Button from "../Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import { titlePageQuery } from "../../scripts/queries";
-import { CardData, ContextType } from "../../scripts/types";
+import { CardData } from "../../scripts/types";
 
 import styles from "./TitlePage.module.css";
 import Img from "../Img/Img";
@@ -99,9 +99,6 @@ export default function TitlePage() {
       {showSettings && <SettingsPage onClose={() => setShowSettings(false)} />}
       {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
       <div className={styles.main}>
-        {/* <div className="title-screen-border border-left">
-        <div className="title-screen-border-inner"></div>
-      </div> */}
         <div className={styles.background}>
           {backgroundCards.map((card: CardData) => (
             <Tilt
@@ -117,7 +114,6 @@ export default function TitlePage() {
               glareBorderRadius="20px"
             >
               <Img
-                // key={card.image}
                 src={card.images ? card.images.large : ""}
                 alt="Background Card"
                 type="backgroundCard"

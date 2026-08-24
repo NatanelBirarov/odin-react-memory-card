@@ -21,8 +21,8 @@ export default function ResetPasswordPage() {
   } = useForm<IResetPasswordFormData>();
 
   const [searchParams] = useSearchParams();
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  // const [password, setPassword] = useState<string>("");
+  // const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -119,7 +119,7 @@ export default function ResetPasswordPage() {
 
   return (
     <Modal contentType="modalContent">
-      <form className={styles.form} onSubmit={void handleSubmit(onSubmit)}>
+      <form className={styles.form} onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
         <h2 className={styles.title}>Reset Password</h2>
         <p className={styles.description}>Enter your new password below.</p>
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
@@ -143,8 +143,8 @@ export default function ResetPasswordPage() {
                   "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
               },
             })}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            // value={password}
+            // onChange={(e) => setPassword(e.target.value)}
             disabled={isPending}
           />
           {errors.password && (
@@ -160,8 +160,8 @@ export default function ResetPasswordPage() {
               validate: (value) =>
                 value === watch("password") || "Passwords do not match",
             })}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            // value={confirmPassword}
+            // onChange={(e) => setConfirmPassword(e.target.value)}
             disabled={isPending}
           />
           {errors.confirmPassword && (

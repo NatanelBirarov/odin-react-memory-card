@@ -1,6 +1,5 @@
 import Loader from "./Loader/Loader";
 import { Outlet, useNavigation } from "react-router-dom";
-import { SettingsProvider } from "../context/SettingsContext";
 
 import "../styles/global.css";
 
@@ -9,11 +8,7 @@ function App() {
 
   if (navigation.state === "loading") return <Loader />;
 
-  return (
-    <SettingsProvider>
-      <Outlet />
-    </SettingsProvider>
-  );
+  return <Outlet />;
 }
 
 export default App;

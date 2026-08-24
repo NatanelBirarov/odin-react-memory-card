@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import SettingsPage from "../SettingsPage/SettingsPage";
 import Menu from "../Menu/Menu";
 import HowToPlayPage from "../HowToPlayPage/HowToPlay";
+import Loader from "../Loader/Loader";
 import { selectionPageQuery } from "../../scripts/queries";
 import { useQuery } from "@tanstack/react-query";
-import { ContextType, SetDataType } from "../../scripts/types";
 import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
 import Img from "../Img/Img";
 import Button from "../Button/Button";
@@ -30,21 +30,16 @@ export default function SetSelectionPage() {
     musicVolume,
   } = useSettingsContext();
 
-  const [pokemonSets, setPokemonSets] = useState<SetLogo[]>([]);
   const selectAudioRef = useRef(new Audio("/audio/selectClick.mp3"));
   const bgAudioRef = useRef<HTMLAudioElement>(null);
-  const gameData = useRef<SetDataType[]>([]);
   const { data: persistedGameData = [], isError: isGameDataError } =
     useGameData();
-  // const pokemonData = useLoaderData();
 
-  type SelectionPageData = {
-    data: PokemonTCG.ISet[] | undefined;
-    isError: boolean;
-  };
-  const { data: pokemonData, isError: isPokemonError } = useQuery(
-    selectionPageQuery(),
-  ) as SelectionPageData;
+  const {
+    data: pokemonData,
+    isError: isPokemonError,
+    isLoading: isPokemonLoading,
+  } = useQuery(selectionPageQuery());
   const navigate = useNavigate();
 
   function handleReloadPage() {
@@ -55,45 +50,31 @@ export default function SetSelectionPage() {
     if (bgAudioRef.current) bgAudioRef.current.volume = musicVolume;
   }, [musicVolume]);
 
-  useEffect(() => {
-    const fetchGameData = () => {
-      let pokemonSetsData: SetLogo[] = [];
-      if (pokemonData) {
-        // Convert API set metadata into UI-friendly cards and derive amount of playable levels.
-        pokemonSetsData = pokemonData.map((set: PokemonTCG.ISet) => {
-          return {
-            id: set.id,
-            name: set.name,
-            image: set.images.logo,
-            levels:
-              set.total % 10 > 5
-                ? Math.floor(set.total / 10 + 1)
-                : Math.floor(set.total / 10),
-          };
-        });
-        pokemonSetsData = pokemonSetsData.filter((set: SetLogo) => {
-          return set.name !== "Journey Together";
-        });
-      }
+  const pokemonSets: SetLogo[] = useMemo(() => {
+    if (!pokemonData) return [];
+    return (pokemonData as PokemonTCG.ISet[])
+      .filter((set) => set.name !== "Journey Together")
+      .map((set) => ({
+        id: set.id,
+        name: set.name,
+        image: set.images.logo,
+        levels:
+          set.total % 10 > 5
+            ? Math.floor(set.total / 10 + 1)
+            : Math.floor(set.total / 10),
+      }));
+  }, [pokemonData]);
 
-      // Prefer persisted progress from the query hook; otherwise bootstrap brand-new progress entries.
-      const newGameData =
-        persistedGameData.length > 0
-          ? persistedGameData
-          : pokemonSetsData.map((set: SetLogo) => ({
-              id: set.id,
-              completedLevels: 0,
-              levels: set.levels,
-              highScore: 0,
-              completed: false,
-            }));
-
-      setPokemonSets(pokemonSetsData);
-      gameData.current = newGameData;
-    };
-
-    fetchGameData();
-  }, [pokemonData, persistedGameData]);
+  const gameData = useMemo(() => {
+    if (persistedGameData.length > 0) return persistedGameData;
+    return pokemonSets.map((set) => ({
+      id: set.id,
+      completedLevels: 0,
+      levels: set.levels,
+      highScore: 0,
+      completed: false,
+    }));
+  }, [persistedGameData, pokemonSets]);
 
   function handleSelectGame(id: string) {
     void (async () => {
@@ -104,6 +85,10 @@ export default function SetSelectionPage() {
         console.error("Error playing audio:", error);
       }
     })();
+  }
+
+  if (isPokemonLoading) {
+    return <Loader />;
   }
 
   if (isPokemonError || isGameDataError || !pokemonSets.length) {
@@ -146,14 +131,17 @@ export default function SetSelectionPage() {
       {showSettings && <SettingsPage onClose={() => setShowSettings(false)} />}
       {showHowTo && <HowToPlayPage onClose={() => setShowHowTo(false)} />}
       <div className={styles.main}>
-        {/* <div className="pokeball-border border-left">
-        <div className="pokeball-border-inner"></div>
-      </div> */}
         <div className={styles.selections}>
           {pokemonSets.map((set, index) => {
-            const currentSetData = gameData.current[index];
+            const currentSetData = gameData[index] || {
+              completedLevels: 0,
+              completed: false,
+              levels: set.levels,
+              id: set.id,
+              highScore: 0,
+            };
             const unlocked =
-              index === 0 || gameData.current[index - 1].completed;
+              index === 0 || !!gameData[index - 1]?.completed;
             const completedLevels = currentSetData.completedLevels;
 
             return (
@@ -173,21 +161,11 @@ export default function SetSelectionPage() {
                     {completedLevels} / {set.levels}
                   </span>
                   <div
-                    className={`${styles.overlay} ${
-                      unlocked ? styles.hidden : ""
-                    }`}
+                    className={`${styles.overlay} ${unlocked ? styles.hidden : ""
+                      }`}
                   >
                     <span>Complete the previous set to unlock this one!</span>
                   </div>
-                  {/* <div
-                    className={`selection-overlay ${
-                      gameData.current[index].completed && !locked
-                        ? ""
-                        : "hidden"
-                    }`}
-                  >
-                    <span>Set complete!</span>
-                  </div> */}
                 </div>
               </React.Fragment>
             );

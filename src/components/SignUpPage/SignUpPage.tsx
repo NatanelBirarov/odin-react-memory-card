@@ -104,9 +104,8 @@ export default function SignUpPage() {
             color: waitingForVerification ? "#856404" : "#155724",
             borderRadius: "4px",
             marginBottom: "16px",
-            border: `1px solid ${
-              waitingForVerification ? "#ffeaa7" : "#c3e6cb"
-            }`,
+            border: `1px solid ${waitingForVerification ? "#ffeaa7" : "#c3e6cb"
+              }`,
           }}
         >
           <p style={{ margin: 0, fontWeight: "bold" }}>{successMessage}</p>
@@ -182,9 +181,11 @@ export default function SignUpPage() {
             <label>Password:</label>
             <input
               type="password"
-              {...register("password")}
+              {...register("password", {
+                onChange: (e) =>
+                  validatePasswordRequirements(e.target.value),
+              })}
               disabled={isPending}
-              onChange={(e) => validatePasswordRequirements(e.target.value)}
             />
             {errors.password && (
               <span className={styles.errorMessage}>

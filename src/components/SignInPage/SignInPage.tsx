@@ -16,7 +16,6 @@ import {
 } from "../../scripts/validationSchemas";
 
 import styles from "./SignInPage.module.css";
-// import { set } from "zod";
 
 export default function SignInPage() {
   const {
@@ -68,7 +67,6 @@ export default function SignInPage() {
     e: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     // Move to previous input on backspace if current input is empty
-    // setValue(`digit${index + 1}` as keyof ISignInOTPFormData, "");
     if (e.key === "Backspace" && !e.currentTarget.value && index > 0) {
       otpInputRefs.current[index - 1]?.focus();
     }
@@ -111,7 +109,6 @@ export default function SignInPage() {
   }
 
   async function onSignInSubmit(formData: ISignInFormData) {
-    // setIsOTPSent(true);
     setIsPending(true);
     try {
       const { error } = await ApiClient.signInWithOTP(formData);
@@ -122,6 +119,7 @@ export default function SignInPage() {
           : [error.message || "Sign in failed"];
         setErrorList(errors);
       } else {
+        setEmail(formData.email);
         setIsOTPSent(true);
         setErrorList([]); // Clear any previous errors on success
       }
@@ -141,7 +139,9 @@ export default function SignInPage() {
       {isOTPSent ? (
         <form
           className={styles.form}
-          onSubmit={void handleSubmitOTP(onOTPSubmit)}
+          onSubmit={(e) => {
+            void handleSubmitOTP(onOTPSubmit)(e)
+          }}
         >
           <h2 className={styles.title}>Enter OTP</h2>
           {errorList.length > 0 && (
@@ -179,10 +179,10 @@ export default function SignInPage() {
               otpErrors.digit4 ||
               otpErrors.digit5 ||
               otpErrors.digit6) && (
-              <span>
-                {otpErrors.digit1?.message || "Please enter a valid OTP"}
-              </span>
-            )}
+                <span>
+                  {otpErrors.digit1?.message || "Please enter a valid OTP"}
+                </span>
+              )}
           </div>
 
           <Button type="modal" submit disabled={isPending}>
@@ -192,7 +192,9 @@ export default function SignInPage() {
       ) : (
         <form
           className={styles.form}
-          onSubmit={void handleSubmitSignIn(onSignInSubmit)}
+          onSubmit={(e) => {
+            void handleSubmitSignIn(onSignInSubmit)(e);
+          }}
         >
           <h2 className={styles.title}>Sign In</h2>
           {errorList.length > 0 && (
@@ -210,8 +212,6 @@ export default function SignInPage() {
               type="email"
               {...registerSignIn("email")}
               aria-invalid={errors.email ? "true" : "false"}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               disabled={isPending}
             />
             {errors.email && <span>{errors.email.message}</span>}

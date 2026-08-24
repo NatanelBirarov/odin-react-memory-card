@@ -9,7 +9,7 @@ import HowToPlayPage from "../HowToPlayPage/HowToPlay";
 import Button from "../Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import { gamePageQuery } from "../../scripts/queries";
-import { CardData, ContextType } from "../../scripts/types";
+import { CardData } from "../../scripts/types";
 
 import modalStyles from "../Modal/Modal.module.css";
 import Img from "../Img/Img";
@@ -31,7 +31,6 @@ export default function GamePage() {
 
   const { data: gameData = [], isError: isGameDataError } = useGameData();
 
-  // const pokemonData = useLoaderData();
   const params = useParams();
 
   type GamePageData = {
@@ -117,7 +116,6 @@ export default function GamePage() {
     // Entering a new level resets visible cards and current run score.
     updateLevel();
     setCurrentScore(0);
-    // setHighScore(0);
   }, [updateLevel]);
 
   useEffect(() => {
