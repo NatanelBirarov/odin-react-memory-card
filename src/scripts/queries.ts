@@ -1,6 +1,5 @@
-import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
 import fetchPokemon from "./pokemonFactory";
-import { QueryOptions } from "./types";
+import { PokemonParameter, QueryOptions } from "./types";
 
 const pokemonQuery = (fetchParams: QueryOptions) => ({
   queryKey: fetchParams.queryKey,
@@ -9,7 +8,7 @@ const pokemonQuery = (fetchParams: QueryOptions) => ({
 });
 
 export const titlePageQuery = () => {
-  const params: PokemonTCG.IParameter = {
+  const params: PokemonParameter = {
     q: "set.name:Prismatic supertype:Pokémon",
     orderBy: "-tcgplayer.prices.holofoil.mid",
     select: "id,images",
@@ -19,7 +18,7 @@ export const titlePageQuery = () => {
 };
 
 export const selectionPageQuery = () => {
-  const params: PokemonTCG.IParameter = {
+  const params: PokemonParameter = {
     orderBy: "releaseDate",
   };
 
@@ -27,7 +26,7 @@ export const selectionPageQuery = () => {
 };
 
 export const gamePageQuery = (setId: string) => {
-  const params: PokemonTCG.IParameter = {
+  const params: PokemonParameter = {
     q: `set.id:${setId}`, // supertype:Pokémon
     orderBy: "tcgplayer.prices.holofoil.mid",
     select: "id,name,images",

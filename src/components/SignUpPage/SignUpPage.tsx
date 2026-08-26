@@ -10,6 +10,7 @@ import { formSchema, ISignUpFormData } from "../../scripts/validationSchemas";
 import styles from "./SignUpPage.module.css";
 import { authClient } from "../../scripts/authClient";
 import PasswordRequirements from "../PasswordRequirements/PasswordRequirements";
+import { handleApiError } from "../../scripts/errorUtils";
 
 export default function SignUpPage() {
   const {
@@ -72,12 +73,8 @@ export default function SignUpPage() {
       setWaitingForVerification(true);
       setErrorList([]);
     } catch (error: unknown) {
-      // Handle sign up error (e.g., show error messages)
-      console.log("Sign up error:", error);
-      const errors = Array.isArray((error as { message: [string] }).message)
-        ? (error as { message: [string] }).message
-        : [(error as { message: string }).message || "Sign up failed"];
-      setErrorList(errors);
+      console.error("Sign up error:", error);
+      setErrorList(handleApiError(error, "Sign up failed"));
       setWaitingForVerification(false);
     } finally {
       setIsPending(false);

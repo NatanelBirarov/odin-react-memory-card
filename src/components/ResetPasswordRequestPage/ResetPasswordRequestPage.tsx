@@ -4,6 +4,7 @@ import { authClient } from "../../scripts/authClient";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
 import styles from "./ResetPasswordRequestPage.module.css";
+import { handleApiError } from "../../scripts/errorUtils";
 
 interface IResetPasswordFormData {
   email: string;
@@ -39,7 +40,8 @@ export default function ResetPasswordRequestPage() {
       setIsEmailSent(true);
     } catch (error: unknown) {
       console.error("Password reset error:", error);
-      setErrorMessage((error as Error).message || "Failed to send reset email");
+      const errors = handleApiError(error, "Failed to send reset email");
+      setErrorMessage(errors[0] || "Failed to send reset email");
     } finally {
       setIsPending(false);
     }

@@ -2,26 +2,85 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  gap: 25px;
+  gap: 20px;
 }
 
 .title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 }
 
 .inputGroup input[type="email"],
 .inputGroup input[type="password"] {
-  padding: 8px;
+  padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
+}
+
+.emailInfo {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 18px 20px;
+  color: #495057;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.emailInfoLabel {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.emailHighlight {
+  font-weight: 600;
+  font-size: 16px;
+  color: #212529;
+  word-break: break-all;
+  margin-top: 2px;
+}
+
+.changeEmailBtn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 4px;
+  text-decoration: underline;
+  align-self: center;
+}
+
+.changeEmailBtn:hover:not(:disabled) {
+  color: #0056b3;
+}
+
+.changeEmailBtn:disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+.errorList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.errorText {
+  color: #dc3545;
+  font-size: 14px;
+  text-align: center;
+  margin: 0;
 }
 
 .forgotPassword {
@@ -37,7 +96,7 @@
 }
 
 .form button[type="submit"] {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px;
   font-size: 18px;
   border: 2px solid #000;
@@ -46,46 +105,36 @@
 }
 
 .redirectText {
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
-.otpInputs {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+.resendSection {
+  text-align: center;
+  margin-top: 4px;
 }
 
-.otpInputs input {
-  width: 50px;
-  height: 60px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 600;
-  border: 2px solid #ccc;
-  border-radius: 8px;
+.resendCooldown {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.resendBtn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 14px;
+  cursor: pointer;
   padding: 0;
+  text-decoration: underline;
 }
 
-.otpInputs input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+.resendBtn:hover:not(:disabled) {
+  color: #0056b3;
 }
 
-.otpInputs input:disabled {
-  background-color: #f5f5f5;
+.resendBtn:disabled {
+  color: #999;
   cursor: not-allowed;
-}
-
-/* Hide number input arrows/spinners */
-.otpInputs input::-webkit-outer-spin-button,
-.otpInputs input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.otpInputs input[type="number"] {
-  -moz-appearance: textfield;
 }

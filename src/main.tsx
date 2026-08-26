@@ -25,6 +25,7 @@ import EmailVerificationPage from "./components/EmailVerificationPage/EmailVerif
 import ResetPasswordRequestPage from "./components/ResetPasswordRequestPage/ResetPasswordRequestPage.js";
 import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage.js";
 import UserProfile from "./components/UserProfile/UserProfile.js";
+import NotFoundPage from "./components/NotFoundPage/NotFoundPage.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,7 +54,7 @@ const router = createBrowserRouter(
         element={<GamePage />}
         loader={pokemonLoader}
       />
-      <Route path="*" element={<div>404</div>} />
+      <Route path="*" element={<NotFoundPage />} />
     </Route>
   )
 );

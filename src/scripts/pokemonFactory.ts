@@ -1,38 +1,37 @@
-import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
-import { CardData, QueryOptions } from "./types";
+import { CardData, PokemonCard, PokemonParameter, PokemonSet, QueryOptions } from "./types";
 import { fetchWithRetry } from "./fetchHandler";
 import { parseJson } from "./utils";
 
 type CardMarket = {
   cardmarket?: {
-    url: string;
-    updatedAt: string;
-    prices: {
-      averageSellPrice: number;
-      lowPrice: number;
-      trendPrice: number;
-      germanProLow: number;
-      suggestedPrice: number;
-      reverseHoloSell: number;
-      reverseHoloLow: number;
-      reverseHoloTrend: number;
-      lowPriceExPlus: number;
-      avg1: number;
-      avg7: number;
-      avg30: number;
-      reverseHoloAvg1: number;
-      reverseHoloAvg7: number;
-      reverseHoloAvg30: number;
+    url?: string;
+    updatedAt?: string;
+    prices?: {
+      averageSellPrice?: number;
+      lowPrice?: number;
+      trendPrice?: number;
+      germanProLow?: number;
+      suggestedPrice?: number;
+      reverseHoloSell?: number;
+      reverseHoloLow?: number;
+      reverseHoloTrend?: number;
+      lowPriceExPlus?: number;
+      avg1?: number;
+      avg7?: number;
+      avg30?: number;
+      reverseHoloAvg1?: number;
+      reverseHoloAvg7?: number;
+      reverseHoloAvg30?: number;
     };
   };
 };
 
-type CardWithMarket = PokemonTCG.ICard & CardMarket;
+type CardWithMarket = PokemonCard & CardMarket;
 
 const POKEMON_API_BASE_URL = "https://api.pokemontcg.io/v2";
 const API_TIMEOUT_MS = 10000;
 
-function toSearchParams(params: PokemonTCG.IParameter): URLSearchParams {
+function toSearchParams(params: PokemonParameter): URLSearchParams {
   const searchParams = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {
@@ -59,7 +58,7 @@ function buildApiHeaders(): HeadersInit {
 
 async function fetchPokemonApi<T>(
   resource: "cards" | "sets",
-  params: PokemonTCG.IParameter,
+  params: PokemonParameter,
 ): Promise<T[]> {
   const result = await fetchWithRetry(async () => {
     const response = await fetch(
@@ -85,13 +84,13 @@ async function fetchPokemonApi<T>(
 
 export default async function fetchPokemon(
   fetchParams: QueryOptions,
-): Promise<PokemonTCG.ISet[] | CardWithMarket[] | CardData[]> {
+): Promise<PokemonSet[] | CardWithMarket[] | CardData[]> {
   try {
     if (fetchParams.type === "card") {
       return await fetchPokemonApi<CardWithMarket>("cards", fetchParams.params);
     }
 
-    return await fetchPokemonApi<PokemonTCG.ISet>("sets", fetchParams.params);
+    return await fetchPokemonApi<PokemonSet>("sets", fetchParams.params);
   } catch (error: unknown) {
     console.error("Error fetching Pokémon data from API:", error);
     console.info("Trying to fetch local data...:");
@@ -111,7 +110,7 @@ export default async function fetchPokemon(
             .filter(
               (card: CardWithMarket) =>
                 card?.set?.name === "Prismatic Evolutions" &&
-                card?.supertype === PokemonTCG.Supertype.Pokemon,
+                card?.supertype === "Pokémon",
             )
             .sort(
               (a: CardWithMarket, b: CardWithMarket) =>
@@ -134,7 +133,7 @@ export default async function fetchPokemon(
                 (b?.cardmarket?.prices?.averageSellPrice ?? 0),
             );
 
-          return sortedResults.map((card: PokemonTCG.ICard) => {
+          return sortedResults.map((card: PokemonCard) => {
             return {
               id: card.id,
               name: card.name,
@@ -151,7 +150,7 @@ export default async function fetchPokemon(
         const setsData = await fetchWithRetry(() =>
           fetch(`/data/set/.set.json`),
         );
-        const setsDataJson = await parseJson<PokemonTCG.ISet[]>(setsData);
+        const setsDataJson = await parseJson<PokemonSet[]>(setsData);
         console.info("Successfully fetched local sets data: ", setsDataJson);
         return setsDataJson;
       } catch (fetchError) {

@@ -7,6 +7,7 @@ import Button from "../Button/Button";
 import { useNavigate } from "react-router";
 import { PASSWORD_REGEX } from "../../scripts/validationSchemas";
 import PasswordRequirements from "../PasswordRequirements/PasswordRequirements";
+import { handleApiError } from "../../scripts/errorUtils";
 
 interface IUserProfileFormData {
   username: string;
@@ -18,6 +19,11 @@ interface IPasswordFormData {
   newPassword: string;
   confirmPassword: string;
 }
+
+type StatusMessage = {
+  type: "success" | "error";
+  text: string;
+} | null;
 
 export default function UserProfile() {
   const {
@@ -35,9 +41,9 @@ export default function UserProfile() {
   } = useForm<IPasswordFormData>();
 
   const [isPending, setIsPending] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<StatusMessage>(null);
   const [isPasswordPending, setIsPasswordPending] = useState(false);
-  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState<StatusMessage>(null);
   const userSession = authClient.useSession();
   const navigate = useNavigate();
 
@@ -65,7 +71,7 @@ export default function UserProfile() {
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => {
-        setMessage("");
+        setMessage(null);
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -74,16 +80,15 @@ export default function UserProfile() {
   useEffect(() => {
     if (passwordMessage) {
       const timer = setTimeout(() => {
-        setPasswordMessage("");
+        setPasswordMessage(null);
       }, 3000);
       return () => clearTimeout(timer);
     }
   }, [passwordMessage]);
 
-
   const onSubmit = async (formData: IUserProfileFormData) => {
     setIsPending(true);
-    setMessage("");
+    setMessage(null);
 
     try {
       // Update username
@@ -93,7 +98,7 @@ export default function UserProfile() {
           name: trimmedUsername,
         });
         currentData.current.username = trimmedUsername;
-        setMessage("Username updated successfully!");
+        setMessage({ type: "success", text: "Username updated successfully!" });
       }
 
       // Update email (if your API supports it)
@@ -107,11 +112,15 @@ export default function UserProfile() {
             }verify`, // to redirect after verification
         });
         currentData.current.email = trimmedEmail;
-        setMessage("Email has been changed! Please verify your new email.");
+        setMessage({
+          type: "success",
+          text: "Email has been changed! Please verify your new email.",
+        });
       }
     } catch (error: unknown) {
       console.error("Error updating profile:", error);
-      setMessage((error as Error).message || "Failed to update profile");
+      const errors = handleApiError(error, "Failed to update profile");
+      setMessage({ type: "error", text: errors[0] });
     } finally {
       setIsPending(false);
     }
@@ -119,23 +128,24 @@ export default function UserProfile() {
 
   const onPasswordSubmit = async (formData: IPasswordFormData) => {
     setIsPasswordPending(true);
-    setPasswordMessage("");
+    setPasswordMessage(null);
 
     try {
-      // Call authClient.changePassword here
       const { error } = await authClient.changePassword({
-        newPassword: formData.newPassword, // required
-        currentPassword: formData.oldPassword, // required
+        newPassword: formData.newPassword,
+        currentPassword: formData.oldPassword,
         revokeOtherSessions: true,
       });
 
       if (error) {
-        // Handle error (e.g., show an error message)
         console.error(error);
+        const errors = handleApiError(error, "Failed to update password");
+        setPasswordMessage({ type: "error", text: errors[0] });
       } else {
-        // Password changed successfully. The current session remains active,
-        // but all other sessions on different devices are revoked.
-        setPasswordMessage("Password updated successfully!");
+        setPasswordMessage({
+          type: "success",
+          text: "Password updated successfully!",
+        });
         resetPasswordForm();
         console.log("Password updated and other sessions logged out.");
         await authClient.signOut();
@@ -145,9 +155,8 @@ export default function UserProfile() {
       }
     } catch (error: unknown) {
       console.error("Error updating password:", error);
-      setPasswordMessage(
-        (error as Error).message || "Failed to update password",
-      );
+      const errors = handleApiError(error, "Failed to update password");
+      setPasswordMessage({ type: "error", text: errors[0] });
     } finally {
       setIsPasswordPending(false);
     }
@@ -169,10 +178,10 @@ export default function UserProfile() {
         <div className={styles.notification}>
           <p
             className={
-              message.includes("failed") ? styles.error : styles.success
+              message.type === "error" ? styles.error : styles.success
             }
           >
-            {message}
+            {message.text}
           </p>
         </div>
       )}
@@ -181,10 +190,10 @@ export default function UserProfile() {
         <div className={styles.notification}>
           <p
             className={
-              passwordMessage.includes("failed") ? styles.error : styles.success
+              passwordMessage.type === "error" ? styles.error : styles.success
             }
           >
-            {passwordMessage}
+            {passwordMessage.text}
           </p>
         </div>
       )}

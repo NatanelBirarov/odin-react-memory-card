@@ -23,6 +23,11 @@
   transform: rotateY(180deg);
 }
 
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
 @media screen and (max-width: 650px) {
   .card {
     width: 120px;

@@ -1,5 +1,50 @@
-import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
 import React from "react";
+
+export type PokemonCard = {
+  id: string;
+  name: string;
+  supertype?: string;
+  subtypes?: string[];
+  types?: string[];
+  set?: {
+    id: string;
+    name: string;
+    series?: string;
+    total?: number;
+    images?: { symbol: string; logo: string };
+  };
+  images?: { small: string; large: string };
+  cardmarket?: {
+    url?: string;
+    updatedAt?: string;
+    prices?: {
+      averageSellPrice?: number;
+      lowPrice?: number;
+      trendPrice?: number;
+      [key: string]: number | undefined;
+    };
+  };
+  [key: string]: unknown;
+};
+
+export type PokemonSet = {
+  id: string;
+  name: string;
+  series?: string;
+  total: number;
+  releaseDate?: string;
+  images: { symbol: string; logo: string };
+  [key: string]: unknown;
+};
+
+export type PokemonParameter = {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+  orderBy?: string;
+  select?: string;
+  [key: string]: unknown;
+};
 
 export type CardData = {
   id: string;
@@ -38,7 +83,7 @@ export type ContextType = {
 export type QueryOptions = {
   queryKey: [string] | [string, string];
   type: "card" | "set";
-  params: PokemonTCG.IParameter;
+  params: PokemonParameter;
 };
 
 export type ISignInWithPasswordFormData = {

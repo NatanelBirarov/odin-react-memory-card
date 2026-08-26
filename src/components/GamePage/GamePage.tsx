@@ -27,6 +27,7 @@ export default function GamePage() {
     showHowTo,
     setShowHowTo,
     musicVolume,
+    sfxVolume,
   } = useSettingsContext();
 
   const { data: gameData = [], isError: isGameDataError } = useGameData();
@@ -52,6 +53,24 @@ export default function GamePage() {
     void audio.play().catch((error: unknown) => {
       console.error("Error playing audio:", error);
     });
+  }
+
+  // Durstenfeld shuffle algorithm
+  function shuffle(array: CardData[]) {
+    const shuffledArray = [...array];
+    let currentIndex = shuffledArray.length;
+
+    while (currentIndex !== 0) {
+      const randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [shuffledArray[currentIndex], shuffledArray[randomIndex]] = [
+        shuffledArray[randomIndex],
+        shuffledArray[currentIndex],
+      ];
+    }
+
+    return shuffledArray;
   }
 
   // Card IDs contain set prefix (for example: "base1-4"); use it to match saved progress for this route.
@@ -83,6 +102,9 @@ export default function GamePage() {
   const bgAudioRef = useRef<HTMLAudioElement>(null);
   const resultAudioRef = useRef<HTMLAudioElement>(
     new Audio("/audio/result.mp3"),
+  );
+  const cardFlipAudioRef = useRef<HTMLAudioElement>(
+    new Audio("/audio/cardFlip.mp3"),
   );
 
   const levels = setData?.levels || 1;
@@ -130,6 +152,54 @@ export default function GamePage() {
       }, 500);
     }
   }, [showModal]);
+
+  function handleCardClick(cardName: string) {
+    if (isShuffling) return;
+
+    void (async () => {
+      try {
+        if (cardFlipAudioRef.current) {
+          cardFlipAudioRef.current.volume = sfxVolume;
+          await cardFlipAudioRef.current.play();
+        }
+      } catch (error) {
+        console.error("Error playing audio:", error);
+      }
+    })();
+
+    const clickedCard = currentLevelCards.find((card) => card.name === cardName);
+    if (!clickedCard) return;
+
+    if (clickedCard.clicked) {
+      setCurrentScore(0);
+      if (currentScore > highScore) {
+        setHighScore(currentScore);
+      }
+      setShowModal(-1);
+    } else {
+      const nextScore = currentScore + 1;
+      setCurrentScore(nextScore);
+      if (nextScore >= currentLevelCards.length) {
+        setShowModal(1);
+      } else {
+        setIsShuffling(true);
+        setTimeout(() => {
+          const shuffledCards = shuffle(
+            currentLevelCards.map((card: CardData) => {
+              if (card.name === clickedCard.name) {
+                return { ...card, clicked: true };
+              }
+              return card;
+            }),
+          );
+          setCurrentLevelCards(shuffledCards);
+        }, 400);
+        setTimeout(() => {
+          setIsShuffling(false);
+        }, 800);
+      }
+    }
+  }
 
   // Dedicated error state with retry to recover transient API failures.
   if (isPokemonError || isGameDataError || !pokemonData?.length) {
@@ -277,14 +347,7 @@ export default function GamePage() {
                 name={card.name}
                 image={card.image || ""}
                 isShuffling={isShuffling}
-                setIsShuffling={setIsShuffling}
-                currentScore={currentScore}
-                setCurrentScore={setCurrentScore}
-                highScore={highScore || 0}
-                setHighScore={setHighScore}
-                currentLevelCards={currentLevelCards}
-                setCurrentLevelCards={setCurrentLevelCards}
-                setShowModal={setShowModal}
+                onClick={() => handleCardClick(card.name)}
               />
             ))}
           </div>

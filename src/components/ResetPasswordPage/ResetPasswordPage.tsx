@@ -6,6 +6,7 @@ import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
 import { PASSWORD_REGEX } from "../../scripts/validationSchemas";
 import styles from "./ResetPasswordPage.module.css";
+import { handleApiError } from "../../scripts/errorUtils";
 
 interface IResetPasswordFormData {
   password: string;
@@ -21,8 +22,6 @@ export default function ResetPasswordPage() {
   } = useForm<IResetPasswordFormData>();
 
   const [searchParams] = useSearchParams();
-  // const [password, setPassword] = useState<string>("");
-  // const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -73,7 +72,8 @@ export default function ResetPasswordPage() {
       setIsSuccess(true);
     } catch (error: unknown) {
       console.error("Password reset error:", error);
-      setErrorMessage((error as Error).message || "Failed to reset password");
+      const errors = handleApiError(error, "Failed to reset password");
+      setErrorMessage(errors[0] || "Failed to reset password");
     } finally {
       setIsPending(false);
     }

@@ -1,21 +1,20 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
 import ApiClient from "../../scripts/apiClient";
 import Modal from "../Modal/Modal";
-import { useNavigate } from "react-router-dom";
+import Button from "../Button/Button";
+import OTPInput, { OTPInputHandle } from "../OTPInput/OTPInput";
 import {
   ISignInFormData,
-  ISignInOTPFormData,
-} from "../../scripts/validationSchemas";
-import Button from "../Button/Button";
-import {
   signInFormSchema,
-  signInOTPFormSchema,
 } from "../../scripts/validationSchemas";
-
+import { handleApiError } from "../../scripts/errorUtils";
 import styles from "./SignInPage.module.css";
+
+const RESEND_COOLDOWN_SECONDS = 30;
 
 export default function SignInPage() {
   const {
@@ -24,114 +23,109 @@ export default function SignInPage() {
     handleSubmit: handleSubmitSignIn,
   } = useForm<ISignInFormData>({ resolver: zodResolver(signInFormSchema) });
 
-  const {
-    register: registerOTP,
-    formState: { errors: otpErrors },
-    handleSubmit: handleSubmitOTP,
-    setValue,
-  } = useForm<ISignInOTPFormData>({
-    resolver: zodResolver(signInOTPFormSchema),
-  });
-
   const [email, setEmail] = useState<string>("");
+  const [otp, setOtp] = useState<string>("");
   const [isOTPSent, setIsOTPSent] = useState<boolean>(false);
   const [errorList, setErrorList] = useState<string[]>([]);
   const [isPending, setIsPending] = useState<boolean>(false);
+  const [resendCooldown, setResendCooldown] = useState<number>(0);
   const navigate = useNavigate();
 
-  const params = new URLSearchParams(window.location.search);
-  const redirectTo = params.get("redirectTo") || "/titlepage";
-  const normalizedRedirect = redirectTo.startsWith("/")
-    ? redirectTo
-    : `/${redirectTo}`;
+  const otpInputRef = useRef<OTPInputHandle>(null);
 
-  const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  // Countdown timer for the resend cooldown
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
 
-  const handleOTPChange = (index: number, target: HTMLInputElement) => {
-    // Only allow single digit
-    if (target.value.length > target.maxLength) {
-      target.value = target.value.slice(0, target.maxLength);
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
+  const handleOtpChange = (newOtp: string) => {
+    setOtp(newOtp);
+    if (errorList.length > 0) {
+      setErrorList([]);
+    }
+  };
+
+  async function onOTPSubmit(codeToVerify?: string) {
+    // Strip space placeholders used by OTPInput for positional gaps
+    const finalCode = (codeToVerify ?? otp).replace(/\s/g, "");
+
+    if (finalCode.length < 6) {
+      setErrorList(["Please enter the full 6-digit code"]);
       return;
     }
 
-    setValue(`digit${index + 1}` as keyof ISignInOTPFormData, target.value);
+    if (isPending) return;
 
-    // Move to next input if value is entered
-    if (target.value && index < 5) {
-      otpInputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleOTPKeyDown = (
-    index: number,
-    e: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
-    // Move to previous input on backspace if current input is empty
-    if (e.key === "Backspace" && !e.currentTarget.value && index > 0) {
-      otpInputRefs.current[index - 1]?.focus();
-    }
-  };
-
-  async function onOTPSubmit(formData: ISignInOTPFormData) {
     setIsPending(true);
     try {
-      const otpCode =
-        (formData.digit1 || "") +
-        (formData.digit2 || "") +
-        (formData.digit3 || "") +
-        (formData.digit4 || "") +
-        (formData.digit5 || "") +
-        (formData.digit6 || "");
-
       const { error } = await ApiClient.verifyOTP({
         email,
-        otp: otpCode,
+        otp: finalCode,
       });
+
       if (error) {
-        console.log("OTP verification error:", error);
-        const errors = Array.isArray(error.message)
-          ? error.message
-          : [error.message || "Sign in failed"];
-        setErrorList(errors);
+        console.error("OTP verification error:", error);
+        setErrorList(handleApiError(error, "Sign in failed"));
+        // Focus the last input box on failure
+        otpInputRef.current?.focusLast();
       } else {
         setErrorList([]);
-        void navigate(normalizedRedirect);
+        void navigate("/titlepage");
       }
     } catch (error: unknown) {
-      console.log("OTP verification error:", error);
-      const errors = Array.isArray((error as { message: [string] }).message)
-        ? (error as { message: [string] }).message
-        : [(error as { message: string }).message || "Sign in failed"];
-      setErrorList(errors);
+      console.error("OTP verification error:", error);
+      setErrorList(handleApiError(error, "Sign in failed"));
+      // Focus the last input box on failure
+      otpInputRef.current?.focusLast();
+    } finally {
+      setIsPending(false);
+    }
+  }
+
+  async function requestOTP(targetEmail: string) {
+    if (isPending || !targetEmail) return;
+
+    setIsPending(true);
+    try {
+      const { error } = await ApiClient.signInWithOTP({ email: targetEmail });
+      if (error) {
+        console.error("Sign in error:", error);
+        setErrorList(handleApiError(error, "Failed to send code"));
+      } else {
+        setEmail(targetEmail);
+        setOtp("");
+        setIsOTPSent(true);
+        setErrorList([]);
+        setResendCooldown(RESEND_COOLDOWN_SECONDS);
+        otpInputRef.current?.clear();
+      }
+    } catch (error: unknown) {
+      console.error("Sign in error:", error);
+      setErrorList(handleApiError(error, "Failed to send code"));
     } finally {
       setIsPending(false);
     }
   }
 
   async function onSignInSubmit(formData: ISignInFormData) {
-    setIsPending(true);
-    try {
-      const { error } = await ApiClient.signInWithOTP(formData);
-      if (error) {
-        console.log("Sign in error:", error);
-        const errors = Array.isArray(error.message)
-          ? error.message
-          : [error.message || "Sign in failed"];
-        setErrorList(errors);
-      } else {
-        setEmail(formData.email);
-        setIsOTPSent(true);
-        setErrorList([]); // Clear any previous errors on success
-      }
-    } catch (error: unknown) {
-      console.log("Sign in error:", error);
-      const errors = Array.isArray((error as { message: [string] }).message)
-        ? (error as { message: [string] }).message
-        : [(error as { message: string }).message || "Sign in failed"];
-      setErrorList(errors);
-    } finally {
-      setIsPending(false);
-    }
+    await requestOTP(formData.email);
+  }
+
+  async function handleResendOTP() {
+    if (resendCooldown > 0) return;
+    await requestOTP(email);
   }
 
   return (
@@ -140,54 +134,77 @@ export default function SignInPage() {
         <form
           className={styles.form}
           onSubmit={(e) => {
-            void handleSubmitOTP(onOTPSubmit)(e)
+            e.preventDefault();
+            void onOTPSubmit();
           }}
         >
-          <h2 className={styles.title}>Enter OTP</h2>
+          <h2 className={styles.title}>Enter Verification Code</h2>
+
+          <div className={styles.emailInfo}>
+            <span className={styles.emailInfoLabel}>
+              We sent a 6-digit code to:
+            </span>
+            <span className={styles.emailHighlight}>{email}</span>
+            <button
+              type="button"
+              className={styles.changeEmailBtn}
+              onClick={() => {
+                setIsOTPSent(false);
+                setOtp("");
+                setErrorList([]);
+                setResendCooldown(0);
+              }}
+              disabled={isPending}
+            >
+              Wrong email? Change it
+            </button>
+          </div>
+
           {errorList.length > 0 && (
-            <div>
+            <div className={styles.errorList}>
               {errorList.map((error, index) => (
-                <p key={index} style={{ color: "red" }}>
+                <p key={index} className={styles.errorText}>
                   {error}
                 </p>
               ))}
             </div>
           )}
+
           <div className={styles.inputGroup}>
-            <label>One-Time Password:</label>
-            <div className={styles.otpInputs}>
-              {[0, 1, 2, 3, 4, 5].map((_, index) => (
-                <input
-                  key={index}
-                  type="number"
-                  maxLength={1}
-                  {...registerOTP(
-                    `digit${index + 1}` as keyof ISignInOTPFormData,
-                  )}
-                  ref={(el) => {
-                    otpInputRefs.current[index] = el;
-                  }}
-                  onChange={(e) => handleOTPChange(index, e.target)}
-                  onKeyDown={(e) => handleOTPKeyDown(index, e)}
-                  disabled={isPending}
-                />
-              ))}
-            </div>
-            {(otpErrors.digit1 ||
-              otpErrors.digit2 ||
-              otpErrors.digit3 ||
-              otpErrors.digit4 ||
-              otpErrors.digit5 ||
-              otpErrors.digit6) && (
-                <span>
-                  {otpErrors.digit1?.message || "Please enter a valid OTP"}
-                </span>
-              )}
+            <OTPInput
+              ref={otpInputRef}
+              length={6}
+              value={otp}
+              onChange={handleOtpChange}
+              onComplete={(completedOtp) => {
+                void onOTPSubmit(completedOtp);
+              }}
+              hasError={errorList.length > 0}
+              disabled={isPending}
+              autoFocus
+            />
           </div>
 
           <Button type="modal" submit disabled={isPending}>
-            Verify OTP
+            {isPending ? "Verifying..." : "Verify OTP"}
           </Button>
+
+          <div className={styles.resendSection}>
+            {resendCooldown > 0 ? (
+              <span className={styles.resendCooldown}>
+                Resend code in {resendCooldown}s
+              </span>
+            ) : (
+              <button
+                type="button"
+                className={styles.resendBtn}
+                onClick={() => void handleResendOTP()}
+                disabled={isPending}
+              >
+                Didn&apos;t receive a code? Resend
+              </button>
+            )}
+          </div>
         </form>
       ) : (
         <form
@@ -198,9 +215,9 @@ export default function SignInPage() {
         >
           <h2 className={styles.title}>Sign In</h2>
           {errorList.length > 0 && (
-            <div>
+            <div className={styles.errorList}>
               {errorList.map((error, index) => (
-                <p key={index} style={{ color: "red" }}>
+                <p key={index} className={styles.errorText}>
                   {error}
                 </p>
               ))}
@@ -218,11 +235,11 @@ export default function SignInPage() {
           </div>
 
           <Button type="modal" submit disabled={isPending}>
-            Sign In
+            {isPending ? "Sending Code..." : "Sign In"}
           </Button>
           <span className={styles.redirectText}>
             Don't have an account?{" "}
-            <a href={`/signup?redirectTo=${redirectTo}`}>Sign up</a>
+            <a href="/signup">Sign up</a>
           </span>
         </form>
       )}

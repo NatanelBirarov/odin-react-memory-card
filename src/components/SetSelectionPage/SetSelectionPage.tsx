@@ -6,7 +6,7 @@ import HowToPlayPage from "../HowToPlayPage/HowToPlay";
 import Loader from "../Loader/Loader";
 import { selectionPageQuery } from "../../scripts/queries";
 import { useQuery } from "@tanstack/react-query";
-import { PokemonTCG } from "@devdrc/pokemon-tcg-sdk-ts";
+import { PokemonSet } from "../../scripts/types";
 import Img from "../Img/Img";
 import Button from "../Button/Button";
 
@@ -52,7 +52,7 @@ export default function SetSelectionPage() {
 
   const pokemonSets: SetLogo[] = useMemo(() => {
     if (!pokemonData) return [];
-    return (pokemonData as PokemonTCG.ISet[])
+    return (pokemonData as PokemonSet[])
       .filter((set) => set.name !== "Journey Together")
       .map((set) => ({
         id: set.id,
