@@ -16,6 +16,10 @@ const API_BASE =
     ? (import.meta.env.VITE_API_URL_PROD as string)
     : (import.meta.env.VITE_API_URL_DEV as string);
 
+/**
+ * API Client wrapper for backend communication.
+ * Handles authentication via better-auth and standard REST endpoints for user settings and game data.
+ */
 const ApiClient = {
   async signUp(formData: ISignUpFormData) {
     // The image field can come from different form adapters; normalize before reading file name.

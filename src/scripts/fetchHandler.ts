@@ -11,6 +11,15 @@
 //   return Promise.race([promise, timeoutPromise]);
 // }
 
+/**
+ * Wraps a promise-returning function with retry logic.
+ * Retries the given function if it rejects, up to the specified number of times.
+ * 
+ * @param fetchFunction - A function that returns a Promise to be executed and retried.
+ * @param tries - The maximum number of attempts (default is 3).
+ * @returns A promise resolving to the result of the `fetchFunction`.
+ * @throws An error if all retry attempts fail.
+ */
 export async function fetchWithRetry<T>(
   fetchFunction: () => Promise<T>,
   tries: number = 3,

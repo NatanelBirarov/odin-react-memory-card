@@ -5,7 +5,11 @@ import { gameDataSchema, settingsSchema } from "./schemas.js";
 
 // Data Validation Middleware
 
-// Auth Middleware
+/**
+ * Authentication middleware that verifies the user's session using better-auth.
+ * If a valid session is found, it attaches the session and userId to the request object.
+ * Otherwise, it responds with a 401 Unauthorized error.
+ */
 export const authMiddleware = async (
   req: AuthRequest,
   res: express.Response,
@@ -30,7 +34,11 @@ export const authMiddleware = async (
   }
 };
 
-// Settings Validation Middleware
+/**
+ * Validation middleware for settings updates.
+ * Parses the request body using a Zod schema to ensure valid music and SFX volume values.
+ * Responds with a 400 Bad Request error if validation fails.
+ */
 export const validateSettingsMiddleware = (
   req: AuthRequest,
   res: express.Response,

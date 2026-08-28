@@ -19,6 +19,11 @@ function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "Internal server error";
 }
 
+/**
+ * Creates and configures the Express application.
+ * Sets up CORS, rate limiting, authentication routes via better-auth, and API endpoints.
+ * @returns The configured Express application instance.
+ */
 export function createApp() {
   const allowedOrigins = [
     process.env.CLIENT_URL_PROD, // Production frontend URL

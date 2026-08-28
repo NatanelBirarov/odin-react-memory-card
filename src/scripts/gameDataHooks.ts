@@ -7,7 +7,13 @@ import type { SetDataType } from "./types";
 // Shared cache key for game data queries and mutations.
 export const GAME_DATA_QUERY_KEY = ["gameData"] as const;
 
-// Inserts a new set or replaces an existing set by id.
+/**
+ * Inserts a new set or replaces an existing set by id.
+ * 
+ * @param current - The current array of set data.
+ * @param next - The new set data to insert or update.
+ * @returns A new array with the updated or appended set data.
+ */
 export function upsertGameData(
   current: SetDataType[],
   next: SetDataType,
@@ -22,7 +28,12 @@ export function upsertGameData(
   return updated;
 }
 
-// Reads all game data and optionally hydrates with preloaded data.
+/**
+ * Reads all game data and optionally hydrates with preloaded data.
+ * 
+ * @param initialData - Optional initial data to seed the query.
+ * @returns A TanStack Query result object for the game data.
+ */
 export function useGameDataQuery(initialData?: SetDataType[]) {
   return useQuery({
     queryKey: GAME_DATA_QUERY_KEY,
@@ -32,7 +43,12 @@ export function useGameDataQuery(initialData?: SetDataType[]) {
   });
 }
 
-// Reads browser-cached game data once for query hydration.
+/**
+ * Reads browser-cached game data once for query hydration and manages caching.
+ * Uses local storage to persist the queried data for faster initial loads.
+ * 
+ * @returns A TanStack Query result object for the game data.
+ */
 export function useGameData() {
   const [seedData] = useState(
     () =>
@@ -49,6 +65,13 @@ export function useGameData() {
   return query;
 }
 
+/**
+ * Mutation hook for saving game data to the server.
+ * Optimistically updates the React Query cache and local storage before the network request completes,
+ * and rolls back the changes if the request fails.
+ * 
+ * @returns A TanStack Query mutation result object.
+ */
 export function useSaveGameDataMutation() {
   const queryClient = useQueryClient();
 

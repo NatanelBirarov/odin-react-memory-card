@@ -88,6 +88,13 @@ async function fetchPokemonApi<T>(
   return data.data;
 }
 
+/**
+ * Fetches Pokémon sets or cards from the Pokémon TCG API.
+ * Falls back to local JSON files if the API request fails or times out.
+ * 
+ * @param fetchParams - Query options defining whether to fetch sets or cards, and associated API parameters.
+ * @returns A promise resolving to an array of Pokémon sets, cards with market data, or simplified card data.
+ */
 export default async function fetchPokemon(
   fetchParams: QueryOptions,
 ): Promise<PokemonSet[] | CardWithMarket[] | CardData[]> {
