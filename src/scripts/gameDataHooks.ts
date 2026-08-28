@@ -8,7 +8,7 @@ import type { SetDataType } from "./types";
 export const GAME_DATA_QUERY_KEY = ["gameData"] as const;
 
 // Inserts a new set or replaces an existing set by id.
-function upsertGameData(
+export function upsertGameData(
   current: SetDataType[],
   next: SetDataType,
 ): SetDataType[] {

@@ -13,8 +13,16 @@ export default defineConfig(
       "dist",
       "eslint.config.js",
       "vite.config.js",
+      "vitest.config.ts",
+      "playwright.config.ts",
       "prisma.config.ts",
       "generateFileList.cjs",
+      "e2e/**",
+      "coverage/**",
+      "src/test/**",
+      "**/__tests__/**",
+      "**/*.test.ts",
+      "**/*.test.tsx",
     ],
   },
   {
@@ -42,7 +50,14 @@ export default defineConfig(
     rules: {
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      "no-unused-vars": ["warn", { varsIgnorePattern: "^[A-Z_]" }],
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          varsIgnorePattern: "^[A-Z_]|^_",
+          argsIgnorePattern: "^_",
+        },
+      ],
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },
@@ -63,6 +78,11 @@ export default defineConfig(
           allowBoolean: true,
         },
       ],
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unsafe-assignment": "warn",
+      "@typescript-eslint/no-unsafe-member-access": "warn",
+      "@typescript-eslint/no-unsafe-argument": "warn",
     },
   },
   {

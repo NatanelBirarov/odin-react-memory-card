@@ -1,7 +1,6 @@
 .env
 server/.env
 .claude
-.github
 
 # Logs
 logs
@@ -29,3 +28,8 @@ public/data/card-original/
 *.sw?
 
 server/src/generated/prisma
+
+# Test artifacts
+coverage/
+playwright-report/
+test-results/

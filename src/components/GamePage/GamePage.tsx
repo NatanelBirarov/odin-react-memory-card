@@ -158,10 +158,8 @@ export default function GamePage() {
 
     void (async () => {
       try {
-        if (cardFlipAudioRef.current) {
-          cardFlipAudioRef.current.volume = sfxVolume;
-          await cardFlipAudioRef.current.play();
-        }
+        cardFlipAudioRef.current.volume = sfxVolume;
+        await cardFlipAudioRef.current.play();
       } catch (error) {
         console.error("Error playing audio:", error);
       }

@@ -1,0 +1,40 @@
+export const cardsFixture = {
+  data: [
+    {
+      id: "base1-1",
+      name: "Alakazam",
+      supertype: "Pokémon",
+      images: {
+        small: "https://images.pokemontcg.io/base1/1.png",
+        large: "https://images.pokemontcg.io/base1/1_hires.png",
+      },
+    },
+    {
+      id: "base1-2",
+      name: "Blastoise",
+      supertype: "Pokémon",
+      images: {
+        small: "https://images.pokemontcg.io/base1/2.png",
+        large: "https://images.pokemontcg.io/base1/2_hires.png",
+      },
+    },
+    {
+      id: "base1-3",
+      name: "Chansey",
+      supertype: "Pokémon",
+      images: {
+        small: "https://images.pokemontcg.io/base1/3.png",
+        large: "https://images.pokemontcg.io/base1/3_hires.png",
+      },
+    },
+    {
+      id: "base1-4",
+      name: "Charizard",
+      supertype: "Pokémon",
+      images: {
+        small: "https://images.pokemontcg.io/base1/4.png",
+        large: "https://images.pokemontcg.io/base1/4_hires.png",
+      },
+    },
+  ],
+};

@@ -1,0 +1,175 @@
+# ==============================================================================
+# GitHub Actions Continuous Integration (CI) Pipeline
+# ==============================================================================
+# This workflow runs automated checks on every push to 'main' and all pull
+# requests targeting 'main'.
+#
+# Pipeline Architecture:
+# ┌────────────────────────────────────────────────────────┐
+# │                   GitHub Actions CI                    │
+# ├──────────────┬──────────────┬──────────────┬───────────┤
+# │ Quality Job  │   Test Job   │   E2E Job    │ Build Job │
+# │ • ESLint     │ • 154 Tests  │ • 9 E2E      │ • Vite    │
+# │ • TS Frontend│ • Coverage V8│   Tests      │   Prod    │
+# │ • TS Server  │ • Artifacts  │ • Playwright │   Bundle  │
+# └──────────────┴──────────────┴──────────────┴───────────┘
+# ==============================================================================
+
+name: CI
+
+# Triggers: Run on code pushed or PRs submitted to the main branch
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ============================================================================
+  # Job 1: Code Quality & Type Check
+  # ============================================================================
+  # Verifies that:
+  # 1. ESLint passes with zero syntax or style rule violations.
+  # 2. Frontend TypeScript types in `src/` are sound (`tsc --noEmit`).
+  # 3. Backend server TypeScript types in `server/` are sound (`tsconfig.server.json`).
+  # ============================================================================
+  quality:
+    name: Code Quality & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js 20 with npm dependency caching for fast runs
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      # Step 3: Clean install exact dependencies from package-lock.json
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Run ESLint across codebase
+      - name: Run ESLint
+        run: npm run lint
+
+      # Step 5: Type check frontend code (src/)
+      - name: Type check frontend (src/)
+        run: npm run type-check
+
+      # Step 6: Type check server code (server/)
+      - name: Type check server (server/)
+        run: npm run type-check:server
+
+  # ============================================================================
+  # Job 2: Unit & Integration Tests
+  # ============================================================================
+  # Executes all Vitest unit and integration test suites:
+  # - Frontend unit tests (utilities, hooks, schemas, factories)
+  # - Component tests with React Testing Library (jsdom environment)
+  # - Backend route & middleware tests with Supertest (node environment)
+  # - Generates V8 code coverage and uploads it as a workflow artifact.
+  # ============================================================================
+  test:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Run all unit/component/server test files with verbose test reporting
+      - name: Run unit & server tests
+        run: npm run test -- --reporter=verbose
+
+      # Collect V8 test coverage metrics
+      - name: Generate coverage report
+        run: npm run test:coverage
+
+      # Upload coverage reports (HTML / LCOV / text) as downloadable artifacts
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+
+  # ============================================================================
+  # Job 3: End-to-End (E2E) Browser Tests
+  # ============================================================================
+  # Runs Playwright browser tests in headless Chromium.
+  # Note: External APIs and backend endpoints are intercepted and mocked via
+  # `e2e/helpers.ts` so tests execute deterministically and quickly without
+  # needing external database connections in CI.
+  # ============================================================================
+  e2e:
+    name: End-to-End Tests (Playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Install Chromium browser binary required for Playwright tests
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Run Playwright test suite (Vite dev server is started automatically)
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      # If any E2E test fails, upload HTML test report, traces, and screenshots
+      - name: Upload Playwright report on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  # ============================================================================
+  # Job 4: Production Build
+  # ============================================================================
+  # Validates that Vite can bundle the application for production without errors.
+  # Runs only after the `quality` and `test` jobs pass to avoid wasting resources.
+  # ============================================================================
+  build:
+    name: Production Build
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Build optimized production bundle in dist/
+      - name: Build frontend bundle
+        run: npm run build

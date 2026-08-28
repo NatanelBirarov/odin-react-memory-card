@@ -141,7 +141,7 @@ export default function SetSelectionPage() {
               highScore: 0,
             };
             const unlocked =
-              index === 0 || !!gameData[index - 1]?.completed;
+              index === 0 || (gameData[index - 1]?.completed ?? false);
             const completedLevels = currentSetData.completedLevels;
 
             return (

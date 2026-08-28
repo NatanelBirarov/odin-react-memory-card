@@ -132,6 +132,7 @@ export default function SignUpPage() {
       ) : (
         <form
           className={styles.form}
+          noValidate
           onSubmit={(e) => {
             void handleSubmit(onSubmit)(e);
           }}

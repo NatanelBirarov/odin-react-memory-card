@@ -186,7 +186,7 @@ export default function SignInPage() {
           </div>
 
           <Button type="modal" submit disabled={isPending}>
-            {isPending ? "Verifying..." : "Verify OTP"}
+            Verify OTP
           </Button>
 
           <div className={styles.resendSection}>
@@ -209,6 +209,7 @@ export default function SignInPage() {
       ) : (
         <form
           className={styles.form}
+          noValidate
           onSubmit={(e) => {
             void handleSubmitSignIn(onSignInSubmit)(e);
           }}

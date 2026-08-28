@@ -36,7 +36,13 @@ function toSearchParams(params: PokemonParameter): URLSearchParams {
 
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
-      searchParams.set(key, String(value));
+      if (typeof value === "string") {
+        searchParams.set(key, value);
+      } else if (typeof value === "number" || typeof value === "boolean") {
+        searchParams.set(key, String(value));
+      } else {
+        searchParams.set(key, JSON.stringify(value));
+      }
     }
   });
 
@@ -97,25 +103,23 @@ export default async function fetchPokemon(
 
     if (fetchParams.type === "card") {
       try {
-        const res = await fetchWithRetry(() => fetch("/data/card/.card.json"));
-        const files = await parseJson<string[]>(res);
-        console.info("Successfully fetched local cards data.");
         if (fetchParams.queryKey[1] === "-1") {
           // If the queryKey is -1, filter for cards from the "Prismatic" set
           const results: CardWithMarket[][] = await fetchCardsFromFiles([
             "sv8pt5.json",
           ]);
+          console.info("Successfully fetched local cards data.");
           return results
             .flat()
             .filter(
               (card: CardWithMarket) =>
-                card?.set?.name === "Prismatic Evolutions" &&
-                card?.supertype === "Pokémon",
+                card.set?.name === "Prismatic Evolutions" &&
+                card.supertype === "Pokémon",
             )
             .sort(
               (a: CardWithMarket, b: CardWithMarket) =>
-                (a?.cardmarket?.prices?.averageSellPrice ?? 0) -
-                (b?.cardmarket?.prices?.averageSellPrice ?? 0),
+                (a.cardmarket?.prices?.averageSellPrice ?? 0) -
+                (b.cardmarket?.prices?.averageSellPrice ?? 0),
             )
             .map((card: CardWithMarket) => {
               return { id: card.id, images: card.images } as CardData;
@@ -124,13 +128,14 @@ export default async function fetchPokemon(
           // Otherwise, filter by set ID
           const setId = fetchParams.queryKey[1];
           const results = await fetchCardsFromFiles([`${setId}.json`]);
+          console.info("Successfully fetched local cards data.");
           const sortedResults = results
             .flat()
             .filter(Boolean) // filters out any empty/falsy items
             .sort(
               (a: CardWithMarket, b: CardWithMarket) =>
-                (a?.cardmarket?.prices?.averageSellPrice ?? 0) -
-                (b?.cardmarket?.prices?.averageSellPrice ?? 0),
+                (a.cardmarket?.prices?.averageSellPrice ?? 0) -
+                (b.cardmarket?.prices?.averageSellPrice ?? 0),
             );
 
           return sortedResults.map((card: PokemonCard) => {
